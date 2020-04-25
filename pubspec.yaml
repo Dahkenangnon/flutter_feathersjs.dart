@@ -2,7 +2,8 @@ name: feathersjs
 description: Feathers Js client for flutter app.
 version: 0.0.1
 author:
-homepage:
+homepage: https://github.com/Dahkenangnon/feathersjs.dart
+repository: https://github.com/Dahkenangnon/feathersjs.dart
 
 environment:
   sdk: ">=2.1.0 <3.0.0"

@@ -56,15 +56,6 @@ class RestClient extends FeathersJsClient {
     return response;
   }
 
-  /* /// POST /serviceName
-  /// Create multiple ressources simultaneously.
-  /// NOT TESTED
-  Future<Response<dynamic>> createBulk(
-      {String serviceName, List<Map<String, dynamic>> data}) async {
-    var response = await this.dio.post("/$serviceName", data: data);
-    return response;
-  } */
-
   /// PUT /serviceName/_id
   /// Completely replace a single resource.
   Future<Response<dynamic>> update(
@@ -84,20 +75,6 @@ class RestClient extends FeathersJsClient {
     return response;
   }
 
-  /* /// PATCH /serviceName/_id
-  /// Merge the existing data of multiple resources with the new data.
-  /// Note: Multi options requred on server
-  /// NOT TESTED
-  Future<Response<dynamic>> patchBulk(
-      {String serviceName,
-      Map<String, dynamic> data,
-      Map<String, dynamic> query}) async {
-    var response = await this
-        .dio
-        .patch("/$serviceName", data: data, queryParameters: query);
-    return response;
-  } */
-
   /// DELETE /serviceName/_id
   /// Remove a single  resources:
   Future<Response<dynamic>> remove({String serviceName, objectId}) async {
@@ -106,14 +83,4 @@ class RestClient extends FeathersJsClient {
         );
     return response;
   }
-/* 
-  /// DELETE /serviceName
-  /// Remove  multiple resources:
-  /// NOT TESTED
-  Future<Response<dynamic>> removeBulk(
-      {String serviceName, Map<String, dynamic> query}) async {
-    var response =
-        await this.dio.delete("/$serviceName", queryParameters: query);
-    return response;
-  } */
 }
