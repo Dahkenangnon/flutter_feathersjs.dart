@@ -2,7 +2,7 @@
 
 Communicate with you feathers js server from flutter.
 
-## THIS IS UNDER DEV, DON'T USE IT AT THIS MOMENT IN PROD
+## :warning: THIS IS UNDER DEV, DON'T USE IT AT THIS MOMENT IN PROD
 
 ## TODO
 
