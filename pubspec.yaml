@@ -1,6 +1,6 @@
 name: flutter_feathersjs
-description: Feathers Js client for flutter app.
-version: 0.0.1
+description: Communicate with you feathers js server from flutter.
+version: 0.0.1-dev
 author: Justin Dah-kenangnon
 homepage: https://github.com/Dahkenangnon/flutter_feathersjs.dart
 repository: https://github.com/Dahkenangnon/flutter_feathersjs.dart
