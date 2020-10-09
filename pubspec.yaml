@@ -1,12 +1,12 @@
-name: feathersjs
+name: flutter_feathersjs
 description: Feathers Js client for flutter app.
 version: 0.0.1
-author:
-homepage: https://github.com/Dahkenangnon/feathersjs.dart
-repository: https://github.com/Dahkenangnon/feathersjs.dart
+author: Justin Dah-kenangnon
+homepage: https://github.com/Dahkenangnon/flutter_feathersjs.dart
+repository: https://github.com/Dahkenangnon/flutter_feathersjs.dart
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.2 <3.0.0"
 
 dependencies:
   flutter:
@@ -16,7 +16,8 @@ dependencies:
   # Http client
   dio: ^3.0.9
   # For storing the acces token
-  shared_preferences: ^0.5.7
+  sembast: ^2.4.7+7
+  event_bus: ^1.1.1
 
 dev_dependencies:
   flutter_test:

@@ -1,3 +1,7 @@
 //Base classe for both rest and socketio
 
-class FeathersJsClient {}
+import './utils.dart';
+
+class FlutterFeathersjs {
+  Utils utils = new Utils();
+}

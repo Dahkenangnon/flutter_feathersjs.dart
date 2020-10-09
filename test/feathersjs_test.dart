@@ -1,181 +1,89 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:feathersjs/feathersjs.dart';
+import 'package:flutter_feathersjs/flutter_feathersjs.dart';
 
-void main() {
-  ///Fixtures
-  Map<String, String> fixtures = {
-    "strategy": "local",
-    "email": "hi@marro.com",
-    "password": "supersecret"
-  };
+//Fixtures contains sample data for processing test with a feathers js client
+import 'fixtures.dart';
 
-  const BASE_URL = "http://localhost:3030/";
+void main() async {
+  ////////////////////////////////////////////////////
+  ///
+  ///             Create single FlutterFeatherJs instance
+  ///
+  ////////////////////////////////////////////////////
+  //Global FlutterFeatherJs client
+  FlutterFeathersjs flutterFeathersjs = FlutterFeathersjs();
+  flutterFeathersjs.config(baseUrl: BASE_URL);
 
   ////////////////////////////////////////////////////
   ///
-  ///             Feathers Js class test
+  ///          Auth or reAuth
+  ///
+  ////////////////////////////////////////////////////
+  //Authenticate user  and comment this line
+  var rep = await flutterFeathersjs.rest
+      .authenticate(email: user["email"], password: user["password"]);
+  //Then use this one to reuse access token as it still valide
+  var reAuthResp = await flutterFeathersjs.rest.reAuthenticate();
+
+  ////////////////////////////////////////////////////
+  ///
+  ///          Singleton testing
+  ///
   ////////////////////////////////////////////////////
 
-  //Singleton pattern if the FeathersJs class
-  /* 
+  //Singleton pattern if the flutterFeathersjs class
   test('Testing singleton ', () {
-    FeathersJs feathersJs1 = FeathersJs();
-    FeathersJs feathersJs2 = FeathersJs();
-    expect(identical(feathersJs1, feathersJs2), true);
+    FlutterFeathersjs flutterFeathersjs1 = FlutterFeathersjs();
+    expect(identical(flutterFeathersjs1, flutterFeathersjs), true);
   });
- 
-
-  //Testing the authentication method
-  test('Authentication method', () async {
-    FeathersJs feathersJs = FeathersJs();
-    feathersJs.init(baseUrl: BASE_URL);
-    var rep = await feathersJs.authenticate(
-        strategy: fixtures['strategy'],
-        email: fixtures['email'],
-        password: fixtures['password']);
-    print(rep["msg"]);
-    expect(rep["error"], false);
-  });
-  */
 
   ////////////////////////////////////////////////////
   ///
-  ///             Rest client test
+  ///             reAuth
   ////////////////////////////////////////////////////
 
-/*
   //Testing the authentication method
-  test('FIn all method', () async {
-    FeathersJs feathersJs = FeathersJs();
-    feathersJs.init(baseUrl: BASE_URL);
-    var rep = await feathersJs.authenticate(
-        strategy: fixtures['strategy'],
-        email: fixtures['email'],
-        password: fixtures['password']);
-    var rep2 = await feathersJs.restClient.find(serviceName: "news");
-    print("\n  ____________ data ____________ \n");
-    print(rep2.data);
-    print("\n ____________ data ____________ \n");
-  });
-
-
-  test('FIn with with query params', () async {
-    FeathersJs feathersJs = FeathersJs();
-    feathersJs.init(baseUrl: BASE_URL);
-    var rep = await feathersJs.authenticate(
-        strategy: fixtures['strategy'],
-        email: fixtures['email'],
-        password: fixtures['password']);
-
-    var rep2 = await feathersJs.restClient
-        .find(serviceName: "news", query: {"_id": "YlrVkFWo0oYoH3A3"});
-    print("\n  ____________ data ____________ \n");
-    print(rep2.data);
-    print("\n ____________ data ____________ \n");
-  });
-
-
-
-  test('Rest get method', () async {
-    FeathersJs feathersJs = FeathersJs();
-    feathersJs.init(baseUrl: BASE_URL);
-    var rep = await feathersJs.authenticate(
-        strategy: fixtures['strategy'],
-        email: fixtures['email'],
-        password: fixtures['password']);
-
-    var rep2 = await feathersJs.restClient
-        .get(serviceName: "news", objectId: "YlrVkFWo0oYoH3A3");
-    print("\n  ____________ data ____________ \n");
-    print(rep2.data);
-    print("\n ____________ data ____________ \n");
-  });
-*/
-
-/*
-  test('Create method', () async {
-    FeathersJs feathersJs = FeathersJs();
-    feathersJs.init(baseUrl: BASE_URL);
-    var rep = await feathersJs.authenticate(
-        strategy: fixtures['strategy'],
-        email: fixtures['email'],
-        password: fixtures['password']);
-
-    var rep2 = await feathersJs.restClient.create(
-        serviceName: "news",
-        data: {"title": "Bieen sur tout ira bien", "content": "LE meilleur que tu cherche est très proche"});
-   print("\n  ____________ data ____________ \n");
-    print(rep2.data);
-    print("\n ____________ data ____________ \n");
-  });
-*/
-/*
-  test('update method', () async {
-    FeathersJs feathersJs = FeathersJs();
-    feathersJs.init(baseUrl: BASE_URL);
-    var rep = await feathersJs.authenticate(
-        strategy: fixtures['strategy'],
-        email: fixtures['email'],
-        password: fixtures['password']);
-
-    var rep2 = await feathersJs.restClient.update(
-        serviceName: "news",
-        objectId: "K9YU85bWki6isp0N",
-        data: {"title": "Un nouveau titre", "content": "Un nouveau contenu"});
-    print("\n  ____________ data ____________ \n");
-    print(rep2.data);
-    print("\n ____________ data ____________ \n");
-  });
-*/
-/* 
-  test('findd method', () async {
-    FeathersJs feathersJs = FeathersJs();
-    feathersJs.init(baseUrl: BASE_URL);
-    var auth = await feathersJs.authenticate(
-        email: fixtures['email'],
-        password: fixtures['password'],
-        client: 'all');
-    if (auth) {
-      var rep2 = await feathersJs.socketioClient.emitFind(
-        serviceName: "users",
-      );
-      print("\n  ____________ data ____________ \n");
-      print(rep2);
-      print("\n ____________ data ____________ \n");
+  test('rest reAuthentication method', () async {
+    var reps = await flutterFeathersjs.rest.reAuthenticate();
+    if (!reps["error"]) {
+      print('client is authed');
     } else {
-      print("Auth error");
+      print(reps["message"]);
+      print(reps["error_zone"]);
     }
-  }); */
+  });
 
   ////////////////////////////////////////////////////
   ///
-  ///             Socketio client test
-  ////////////////////////////////////////////////////
+  ///            Rest client methods
+  ///
+  ///////////////////////////////////////////////////
 
-  /*  test('___Testing all authentication___', () async {
-    var i = 1;
-    var n = 10000000;
-    displ(data) {
-      print("____ \n");
-      print(data);
-      print("___\n");
-    }
+  test(' \n rest Find all method  \n', () async {
+    var rep2 = await flutterFeathersjs.rest.find(serviceName: "v1/news");
+    print("\n  Founds news are: \n");
+    print(rep2.data);
+  });
 
-    while (i <= n) {
-      i++;
-      print("In the loop");
-      var feathersJs = FeathersJs();
-      await feathersJs.init(baseUrl: BASE_URL);
-      var isAuthSocket = await feathersJs.authenticate(
-          email: fixtures['email'],
-          password: fixtures['password'],
-          client: 'all');
-      if (isAuthSocket) {
-        feathersJs.socketioClient
-            .onRemoved(serviceName: "users", callback: displ);
-      } else {
-        print('Auth failed');
-      }
-    }
-  }); */
+  test(' \n rest find with with query params \n ', () async {
+    var rep2 = await flutterFeathersjs.rest.find(
+        serviceName: "v1/news", query: {"_id": "5f7643f0462f4348970cd32e"});
+    print("\n The news _id: 5f7643f0462f4348970cd32e is: \n");
+    print(rep2.data);
+  });
+
+  test(' \n Rest get method  \n', () async {
+    var rep2 = await flutterFeathersjs.rest
+        .get(serviceName: "v1/news", objectId: "5f7643f0462f4348970cd32e");
+    print("\n The news _id: 5f7643f0462f4348970cd32e is: \n");
+    print(rep2.data);
+  });
+
+  test(' \n Rest Create method with user service \n ', () async {
+    var rep2 = await flutterFeathersjs.rest.create(
+        serviceName: "users",
+        data: {"email": "user@email.com", "password": "password"});
+    print("\n  The newly created user is: \n");
+    print(rep2.data);
+  });
 }
