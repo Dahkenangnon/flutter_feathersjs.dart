@@ -2,14 +2,25 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_feathersjs/src/featherjs_client_base.dart';
+import 'package:flutter_feathersjs/src/utils.dart';
 import 'package:meta/meta.dart';
 
-/// Feathers Js rest client
+/// Feathers Js rest client for rest api call
 class RestClient extends FlutterFeathersjs {
   ///Dio as http client
   Dio dio;
+  Utils utils;
 
-  RestClient({@required String baseUrl, Map<String, dynamic> extraHeaders}) {
+  //Using singleton to ensure we the same instance of it
+  static final RestClient _restClient = RestClient._internal();
+  factory RestClient() {
+    return _restClient;
+  }
+  RestClient._internal();
+
+  init({@required String baseUrl, Map<String, dynamic> extraHeaders}) {
+    utils = new Utils();
+
     //Setup Http client
     dio = Dio(BaseOptions(
       baseUrl: baseUrl,
@@ -20,7 +31,7 @@ class RestClient extends FlutterFeathersjs {
         .add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
       // Do something before request is sent
       //Adding stored token early with sembast
-      var oldToken = await this.utils.getRestAccessToken();
+      var oldToken = await utils.getAccessToken();
       dio.options.headers["Authorization"] = "Bearer $oldToken";
       return options; //continue
       // If you want to resolve the request with some custom data，
@@ -38,17 +49,20 @@ class RestClient extends FlutterFeathersjs {
         // print(e.response.headers);
         // print(e.response.request);
         //Only send the error message from feathers js server not for Dio
+        print(e.response.data);
         return e.response.data; //continue
       } else {
         // Something happened in setting up or sending the request that triggered an Error
         // print(e.request);
         // print(e.message);
         //By returning null, it means that error is from client
-        return null;
+        //return null;
+        return e;
       }
     }));
   }
 
+  //Authenticate with jwt
   Future<dynamic> reAuthenticate({String serviceName = "users"}) async {
     //AsyncTask manager
     Completer asyncTask = Completer<dynamic>();
@@ -59,31 +73,43 @@ class RestClient extends FlutterFeathersjs {
     };
 
     //Getting the early sotored rest access token and send the request by using it
-    var oldToken = await this.utils.getRestAccessToken();
+    var oldToken = await utils.getAccessToken();
 
-    //If an oldToken exist really
+    ///If an oldToken exist really, try to chect it is still valided
     if (oldToken != null) {
       dio.options.headers["Authorization"] = "Bearer $oldToken";
-      var response =
-          await find(serviceName: "$serviceName", query: {"\$limit": 1});
+      try {
+        var response = await this
+            .dio
+            .get("/$serviceName", queryParameters: {"\$limit": 1});
+        print(response);
 
-      if (response.statusCode == 401) {
-        print("jwt expired or jwt malformed");
+        if (response.statusCode == 401) {
+          print("jwt expired or jwt malformed");
+          authResponse["error"] = true;
+          authResponse["message"] = "jwt expired";
+          authResponse["error_zone"] = "JWT_EXPIRED_ERROR";
+        } else if (response.statusCode == 200) {
+          print("Jwt still validated");
+          authResponse["error"] = false;
+          authResponse["message"] = "Jwt still validated";
+          authResponse["error_zone"] = "NO_ERROR";
+        } else {
+          print("Unknown error");
+          authResponse["error"] = true;
+          authResponse["message"] = "Unknown error";
+          authResponse["error_zone"] = "UNKNOWN_ERROR";
+        }
+      } catch (e) {
+        print("Unable to connect to the server");
         authResponse["error"] = true;
-        authResponse["message"] = "jwt expired";
-        authResponse["error_zone"] = "JWT_EXPIRED_ERROR";
-      } else if (response.statusCode == 200) {
-        print("Jwt still validated");
-        authResponse["error"] = false;
-        authResponse["message"] = "Jwt still validated";
-        authResponse["error_zone"] = "NO_ERROR";
-      } else {
-        print("Unknown error");
-        authResponse["error"] = true;
-        authResponse["message"] = "Unknown error";
-        authResponse["error_zone"] = "UNKNOWN_ERROR";
+        authResponse["message"] = e;
+        authResponse["error_zone"] = "JWT_ERROR";
       }
-    } else {
+    }
+
+    ///No token is found
+    else {
       print("No old token found. Must reAuth user");
       authResponse["error"] = true;
       authResponse["message"] = "No old token found. Must reAuth user";
@@ -93,6 +119,7 @@ class RestClient extends FlutterFeathersjs {
     return asyncTask.future;
   }
 
+  //Authenticate with email & password
   Future<dynamic> authenticate(
       {strategy = "local", String email, String password}) async {
     Completer asyncTask = Completer<dynamic>();
@@ -123,14 +150,8 @@ class RestClient extends FlutterFeathersjs {
         authResponse["message"] = response.data["user"];
         authResponse["error_zone"] = "NO_ERROR";
 
-        //Store the authenticated user
-        await this
-            .utils
-            .setAuthenticatedFeathersUser(user: response.data['user']);
         //Storing the token
-        await this
-            .utils
-            .setRestAccessToken(token: response.data['accessToken']);
+        utils.setAccessToken(token: response.data['accessToken']);
       } else {
         //Unknown error
         authResponse["error"] = true;
@@ -151,14 +172,26 @@ class RestClient extends FlutterFeathersjs {
   /// Retrieves a list of all matching resources from the service
   Future<Response<dynamic>> find(
       {String serviceName, Map<String, dynamic> query}) async {
-    var response = await this.dio.get("/$serviceName", queryParameters: query);
+    var response;
+    try {
+      response = await this.dio.get("/$serviceName", queryParameters: query);
+    } catch (e) {
+      print("Error in rest::find");
+      print(e);
+    }
     return response;
   }
 
   /// GET /serviceName/_id
   /// Retrieve a single resource from the service.
   Future<Response<dynamic>> get({String serviceName, objectId}) async {
-    var response = await this.dio.get("/$serviceName/$objectId");
+    var response;
+    try {
+      response = response = await this.dio.get("/$serviceName/$objectId");
+    } catch (e) {
+      print("Error in rest::get");
+      print(e);
+    }
     return response;
   }
 
@@ -166,7 +199,13 @@ class RestClient extends FlutterFeathersjs {
   /// Create a new resource with data.
   Future<Response<dynamic>> create(
       {String serviceName, Map<String, dynamic> data}) async {
-    var response = await this.dio.post("/$serviceName", data: data);
+    var response;
+    try {
+      response = response = await this.dio.post("/$serviceName", data: data);
+    } catch (e) {
+      print("Error in rest::create");
+      print(e);
+    }
     return response;
   }
 
@@ -174,8 +213,13 @@ class RestClient extends FlutterFeathersjs {
   /// Completely replace a single resource.
   Future<Response<dynamic>> update(
       {String serviceName, objectId, Map<String, dynamic> data}) async {
-    var response =
-        await this.dio.put("/$serviceName" + "/$objectId", data: data);
+    var response;
+    try {
+      response = await this.dio.put("/$serviceName" + "/$objectId", data: data);
+    } catch (e) {
+      print("Error in rest::update");
+      print(e);
+    }
     return response;
   }
 
@@ -184,17 +228,29 @@ class RestClient extends FlutterFeathersjs {
   /// NOT TESTED
   Future<Response<dynamic>> patch(
       {String serviceName, objectId, Map<String, dynamic> data}) async {
-    var response =
-        await this.dio.patch("/$serviceName" + "/$objectId", data: data);
+    var response;
+    try {
+      response =
+          await this.dio.patch("/$serviceName" + "/$objectId", data: data);
+    } catch (e) {
+      print("Error in rest::patch");
+      print(e);
+    }
     return response;
   }
 
   /// DELETE /serviceName/_id
   /// Remove a single  resources:
   Future<Response<dynamic>> remove({String serviceName, objectId}) async {
-    var response = await this.dio.delete(
-          "/$serviceName/$objectId",
-        );
+    var response;
+    try {
+      response = await this.dio.delete(
+            "/$serviceName/$objectId",
+          );
+    } catch (e) {
+      print("Error in rest::remove");
+      print(e);
+    }
     return response;
   }
 }

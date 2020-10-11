@@ -1,3 +1,5 @@
+import 'package:flutter_feathersjs/src/rest_client.dart';
+import 'package:flutter_feathersjs/src/scketio_client.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_feathersjs/flutter_feathersjs.dart';
 
@@ -11,25 +13,25 @@ void main() async {
   ///
   ////////////////////////////////////////////////////
   //Global FlutterFeatherJs client
-  FlutterFeathersjs flutterFeathersjs = FlutterFeathersjs();
-  flutterFeathersjs.config(baseUrl: BASE_URL);
+  FlutterFeathersjs flutterFeathersjs = FlutterFeathersjs()
+    ..init(baseUrl: BASE_URL);
 
   ////////////////////////////////////////////////////
   ///
   ///          Auth or reAuth
   ///
   ////////////////////////////////////////////////////
-  //Authenticate user  and comment this line
+  // Authenticate user  and comment this line
   var rep = await flutterFeathersjs.rest
       .authenticate(email: user["email"], password: user["password"]);
   //Then use this one to reuse access token as it still valide
-  var reAuthResp = await flutterFeathersjs.rest.reAuthenticate();
+  //var reAuthResp = await flutterFeathersjs.rest.reAuthenticate();
 
-  ////////////////////////////////////////////////////
-  ///
-  ///          Singleton testing
-  ///
-  ////////////////////////////////////////////////////
+  // //////////////////////////////////////////////////
+  // /
+  // /          Singleton testing
+  // /
+  // //////////////////////////////////////////////////
 
   //Singleton pattern if the flutterFeathersjs class
   test('Testing singleton ', () {
@@ -43,13 +45,20 @@ void main() async {
   ////////////////////////////////////////////////////
 
   //Testing the authentication method
-  test('rest reAuthentication method', () async {
-    var reps = await flutterFeathersjs.rest.reAuthenticate();
+  test(' reAuthentication method', () async {
+    var reps = await flutterFeathersjs.reAuthenticate();
     if (!reps["error"]) {
       print('client is authed');
-    } else {
+      print("----------Authed user :------");
       print(reps["message"]);
+      print("----------Authed user :------");
+    } else {
       print(reps["error_zone"]);
+      print(reps["message"]);
+      print("frm secktio");
+      print(reps["scketResponse"]);
+      print("frm rest");
+      print(reps["restResponse"]);
     }
   });
 
@@ -58,6 +67,15 @@ void main() async {
   ///            Rest client methods
   ///
   ///////////////////////////////////////////////////
+
+  test('Testing singleton on Rest client', () {
+    RestClient so1 = RestClient()..init(baseUrl: BASE_URL);
+    RestClient so2 = RestClient()..init(baseUrl: BASE_URL);
+    if (so1 == so2) {
+      print("so1 ==  so2");
+    }
+    expect(identical(so1, so2), true);
+  });
 
   test(' \n rest Find all method  \n', () async {
     var rep2 = await flutterFeathersjs.rest.find(serviceName: "v1/news");
@@ -85,5 +103,48 @@ void main() async {
         data: {"email": "user@email.com", "password": "password"});
     print("\n  The newly created user is: \n");
     print(rep2.data);
+  });
+
+  //////////////////////////////////////////////////
+  //
+  //            Scketio client methods
+  //
+  /////////////////////////////////////////////////
+
+  test('Testing singleton on socketioClient', () {
+    SocketioClient so1 = SocketioClient()..init(baseUrl: BASE_URL);
+    SocketioClient so2 = SocketioClient()..init(baseUrl: BASE_URL);
+    if (so1 == so2) {
+      print("so1 ==  so2");
+    }
+    expect(identical(so1, so2), true);
+  });
+
+  //Testing the authentication with jwt method
+  test('socketio reAuthentication method', () async {
+    //SocketioClient socketioClient = new SocketioClient(baseUrl: BASE_URL);
+
+    // var reps = await flutterFeathersjs.scketio
+    //     .authenticate(email: user['email'], password: user["password"]);
+    var repss = await flutterFeathersjs.scketio.authWithJWT();
+
+    //print(reps);
+
+    if (!repss["error"]) {
+      print('client is authed');
+      print(repss["message"]);
+      print(repss["error_zone"]);
+    } else {
+      print(repss["message"]);
+      print(repss["error_zone"]);
+    }
+  });
+
+  test('find method', () async {
+    var rep2 = await flutterFeathersjs.scketio.find(
+      serviceName: "v1/news",
+    );
+    print("Printing news:");
+    print(rep2);
   });
 }

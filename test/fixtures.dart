@@ -1,11 +1,9 @@
 //User credentials used for auth purpose
 Map<String, String> user = {
   "strategy": "local",
-  "email": "email@user.com",
-  "password": "password"
+  "email": "user@dah.com",
+  "password": "user"
 };
 
 //your use api
 const BASE_URL = "https://api.domain.com";
-
-// adhara_socket_io

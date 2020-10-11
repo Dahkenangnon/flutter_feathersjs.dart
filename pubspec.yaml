@@ -16,7 +16,6 @@ dependencies:
   dio: ^3.0.9
   # For storing the acces token
   sembast: ^2.4.7+7
-  event_bus: ^1.1.1
   meta: ^1.1.8
 
 dev_dependencies:

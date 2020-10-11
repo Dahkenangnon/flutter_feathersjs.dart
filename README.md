@@ -2,7 +2,7 @@
 
 Communicate with you feathers js server from flutter.
 
-## :warning: THIS IS UNDER DEV, DON'T USE IT AT THIS MOMENT IN PROD
+## :warning: UNDER ACTIVE DEV
 
 ## TODO
 
@@ -11,9 +11,9 @@ Communicate with you feathers js server from flutter.
 - [x] Write rest client method (feathers js service methods)
 - [ ] Handle formData on rest
 
-- [ ] Write auth for  socket
-- [ ] Write reAuth for socket
-- [ ] Write socket client method (feathers js service methods)
+- [X] Write auth for  socket
+- [X] Write reAuth for socket
+- [X] Write socket client method (feathers js service methods)
 - [ ] Handle formData on socket
 - [ ] Write an unique flutter_feathersjs plugin which won't mater if you calling service via rest or sock
 - [ ] Write doc
