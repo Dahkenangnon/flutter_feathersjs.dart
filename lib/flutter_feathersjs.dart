@@ -11,7 +11,6 @@ class FlutterFeathersjs {
   RestClient rest;
   //SocketioClient
   SocketioClient scketio;
-  Constants isCode;
 
   ///Using singleton
   static final FlutterFeathersjs _flutterFeathersjs =
@@ -60,7 +59,7 @@ class FlutterFeathersjs {
     //Hold global auth infos
     Map<String, dynamic> authResponse = {
       "error": true,
-      "error_zone": isCode.UNKNOWN_ERROR,
+      "error_zone": Constants.UNKNOWN_ERROR,
       "message": "An error occured either on rest or socketio auth",
       "restResponse": {},
       "scketResponse": {}
@@ -74,11 +73,11 @@ class FlutterFeathersjs {
     //Finally send response
     if (!restAuthResponse["error"] && !socketioAuthResponse["error"]) {
       authResponse["error"] = false;
-      authResponse["error_zone"] = isCode.BOTH_CLIENT_AUTHED;
+      authResponse["error_zone"] = Constants.BOTH_CLIENT_AUTHED;
       authResponse["message"] = socketioAuthResponse;
     } else {
       authResponse["error"] = true;
-      authResponse["error_zone"] = isCode.ONE_OR_BOTH_CLIENT_NOT_AUTHED;
+      authResponse["error_zone"] = Constants.ONE_OR_BOTH_CLIENT_NOT_AUTHED;
       authResponse["message"] =
           "One or both client is(are) not authed. Please checkout restResponse field or scketResponse field for more infos.";
       authResponse["restResponse"] = restAuthResponse;

@@ -1,18 +1,16 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_feathersjs/src/constants.dart';
 import 'package:flutter_feathersjs/src/featherjs_client_base.dart';
 import 'package:flutter_feathersjs/src/utils.dart';
 import 'package:meta/meta.dart';
-
-import 'constants.dart';
 
 /// Feathers Js rest client for rest api call
 class RestClient extends FlutterFeathersjs {
   ///Dio as http client
   Dio dio;
   Utils utils;
-  Constants isCode;
 
   //Using singleton to ensure we the same instance of it
   static final RestClient _restClient = RestClient._internal();
@@ -53,7 +51,8 @@ class RestClient extends FlutterFeathersjs {
         // print(e.response.request);
         //Only send the error message from feathers js server not for Dio
         print(e.response.data);
-        return e.response.data; //continue
+        return dio.resolve(e.response.data);
+        //return e.response.data; //continue
       } else {
         // Something happened in setting up or sending the request that triggered an Error
         // print(e.request);
@@ -91,23 +90,23 @@ class RestClient extends FlutterFeathersjs {
           print("jwt expired or jwt malformed");
           authResponse["error"] = true;
           authResponse["message"] = "jwt expired";
-          authResponse["error_zone"] = isCode..JWT_EXPIRED_ERROR;
+          authResponse["error_zone"] = Constants.JWT_EXPIRED_ERROR;
         } else if (response.statusCode == 200) {
           print("Jwt still validated");
           authResponse["error"] = false;
           authResponse["message"] = "Jwt still validated";
-          authResponse["error_zone"] = isCode.NO_ERROR;
+          authResponse["error_zone"] = Constants.NO_ERROR;
         } else {
           print("Unknown error");
           authResponse["error"] = true;
           authResponse["message"] = "Unknown error";
-          authResponse["error_zone"] = isCode.UNKNOWN_ERROR;
+          authResponse["error_zone"] = Constants.UNKNOWN_ERROR;
         }
       } catch (e) {
         print("Unable to connect to the server");
         authResponse["error"] = true;
         authResponse["message"] = e;
-        authResponse["error_zone"] = isCode.JWT_ERROR;
+        authResponse["error_zone"] = Constants.JWT_ERROR;
       }
     }
 
@@ -116,7 +115,7 @@ class RestClient extends FlutterFeathersjs {
       print("No old token found. Must reAuth user");
       authResponse["error"] = true;
       authResponse["message"] = "No old token found. Must reAuth user";
-      authResponse["error_zone"] = isCode.JWT_NOT_FOUND;
+      authResponse["error_zone"] = Constants.JWT_NOT_FOUND;
     }
     asyncTask.complete(authResponse);
     return asyncTask.future;
@@ -142,16 +141,16 @@ class RestClient extends FlutterFeathersjs {
         //This is useful to display to end user why auth failed
         //With 401: it will be either Invalid credentials or strategy error
         if (response.data["message"] == "Invalid login") {
-          authResponse["error_zone"] = isCode.INVALID_CREDENTIALS;
+          authResponse["error_zone"] = Constants.INVALID_CREDENTIALS;
         } else {
-          authResponse["error_zone"] = isCode.INVALID_STRATEGY;
+          authResponse["error_zone"] = Constants.INVALID_STRATEGY;
         }
         authResponse["error"] = true;
         authResponse["message"] = response.data["message"];
       } else if (response.data['accessToken'] != null) {
         authResponse["error"] = false;
         authResponse["message"] = response.data["user"];
-        authResponse["error_zone"] = isCode.NO_ERROR;
+        authResponse["error_zone"] = Constants.NO_ERROR;
 
         //Storing the token
         utils.setAccessToken(token: response.data['accessToken']);
@@ -164,7 +163,7 @@ class RestClient extends FlutterFeathersjs {
       //Error caught by Dio
       authResponse["error"] = true;
       authResponse["message"] = e;
-      authResponse["error_zone"] = isCode.DIO_ERROR;
+      authResponse["error_zone"] = Constants.DIO_ERROR;
     }
     //Send response
     asyncTask.complete(authResponse);
