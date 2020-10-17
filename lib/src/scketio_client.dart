@@ -11,7 +11,6 @@ class SocketioClient extends FlutterFeathersjs {
   IO.Socket _socket;
   bool dev = true;
   Utils utils;
-  Constants Constants;
 
   //Using singleton
   static final SocketioClient _socketioClient = SocketioClient._internal();
@@ -88,8 +87,9 @@ class SocketioClient extends FlutterFeathersjs {
       if (dataResponse is List) {
         if (dev) print("Is array");
         //Auth is ok
+        var resp = dataResponse[1];
         authResponse["error"] = false;
-        authResponse["message"] = dataResponse[1];
+        authResponse["message"] = resp["user"]; // This contains the user data
         authResponse["error_zone"] = Constants.AUTH_WITH_JWT_SUCCEED;
 
         //Every emit or on will be authed

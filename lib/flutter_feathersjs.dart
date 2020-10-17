@@ -74,7 +74,7 @@ class FlutterFeathersjs {
     if (!restAuthResponse["error"] && !socketioAuthResponse["error"]) {
       authResponse["error"] = false;
       authResponse["error_zone"] = Constants.BOTH_CLIENT_AUTHED;
-      authResponse["message"] = socketioAuthResponse;
+      authResponse["message"] = socketioAuthResponse["message"];
     } else {
       authResponse["error"] = true;
       authResponse["error_zone"] = Constants.ONE_OR_BOTH_CLIENT_NOT_AUTHED;

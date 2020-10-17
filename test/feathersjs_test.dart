@@ -1,3 +1,4 @@
+import 'package:flutter_feathersjs/src/constants.dart';
 import 'package:flutter_feathersjs/src/rest_client.dart';
 import 'package:flutter_feathersjs/src/scketio_client.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -52,8 +53,7 @@ void main() async {
       print("----------Authed user :------");
       print(reps["message"]);
       print("----------Authed user :------");
-    } else if (reps["error_zone"] ==
-        flutterFeathersjs.Constants.BOTH_CLIENT_AUTHED)
+    } else if (reps["error_zone"] == Constants.BOTH_CLIENT_AUTHED)
       print("Blabal");
     else {
       print(reps["error_zone"]);
