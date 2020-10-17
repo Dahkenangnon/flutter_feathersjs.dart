@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_feathersjs/src/constants.dart';
 import 'package:flutter_feathersjs/src/featherjs_client_base.dart';
 import 'package:flutter_feathersjs/src/utils.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -10,6 +11,7 @@ class SocketioClient extends FlutterFeathersjs {
   IO.Socket _socket;
   bool dev = true;
   Utils utils;
+  Constants isCode;
 
   //Using singleton
   static final SocketioClient _socketioClient = SocketioClient._internal();
@@ -67,7 +69,7 @@ class SocketioClient extends FlutterFeathersjs {
 
     Map<String, dynamic> authResponse = {
       "error": true,
-      "error_zone": "UNKNOWN",
+      "error_zone": isCode.UNKNOWN_ERROR,
       "message": "An error occured"
     };
     Completer asyncTask = Completer<dynamic>();
@@ -88,7 +90,7 @@ class SocketioClient extends FlutterFeathersjs {
         //Auth is ok
         authResponse["error"] = false;
         authResponse["message"] = dataResponse[1];
-        authResponse["error_zone"] = "AUTH_WITH_JWT_SUCCEED";
+        authResponse["error_zone"] = isCode.AUTH_WITH_JWT_SUCCEED;
 
         //Every emit or on will be authed
         this._socket.io.options['extraHeaders'] = {
@@ -99,7 +101,7 @@ class SocketioClient extends FlutterFeathersjs {
         //Auth is not ok
         authResponse["error"] = true;
         authResponse["message"] = dataResponse;
-        authResponse["error_zone"] = "AUTH_WITH_JWT_FAILED";
+        authResponse["error_zone"] = isCode.AUTH_WITH_JWT_FAILED;
       }
       asyncTask.complete(authResponse);
     });

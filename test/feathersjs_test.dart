@@ -52,7 +52,10 @@ void main() async {
       print("----------Authed user :------");
       print(reps["message"]);
       print("----------Authed user :------");
-    } else {
+    } else if (reps["error_zone"] ==
+        flutterFeathersjs.isCode.BOTH_CLIENT_AUTHED)
+      print("Blabal");
+    else {
       print(reps["error_zone"]);
       print(reps["message"]);
       print("frm secktio");

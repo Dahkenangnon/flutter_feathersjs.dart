@@ -5,7 +5,11 @@
 
 ## 0.0.2-dev
 
-    - Add auth and reAuth for both rest and socketio client
-    - Add socketio methods
-    - Test socketio emit methods
-    - Add global auth and reAuth which don't matter whatever you're calling via socketio or rest
+- Add auth and reAuth for both rest and socketio client
+- Add socketio methods
+- Test socketio emit methods
+- Add global auth and reAuth which don't matter whatever you're calling via socketio or rest
+
+## 0.0.3-dev
+
+- Change sembast dependencies to shared_preferences as sembast cause "OS Error: Read-only file system, errno = 30 in flutter"

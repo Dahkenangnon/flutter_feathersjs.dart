@@ -1,5 +1,6 @@
 library flutter_feathersjs;
 
+import 'package:flutter_feathersjs/src/constants.dart';
 import 'package:flutter_feathersjs/src/rest_client.dart';
 import 'package:flutter_feathersjs/src/scketio_client.dart';
 import 'package:meta/meta.dart';
@@ -10,6 +11,7 @@ class FlutterFeathersjs {
   RestClient rest;
   //SocketioClient
   SocketioClient scketio;
+  Constants isCode;
 
   ///Using singleton
   static final FlutterFeathersjs _flutterFeathersjs =
@@ -44,7 +46,7 @@ class FlutterFeathersjs {
     Map<String, dynamic> socketioAuthResponse = await scketio.authWithJWT();
 
     //Finally send response
-    if (!restAuthResponse["error"] && socketioAuthResponse["error"]) {
+    if (!restAuthResponse["error"] && !socketioAuthResponse["error"]) {
       authResponse = restAuthResponse;
     } else {
       authResponse["restResponse"] = restAuthResponse;
@@ -58,7 +60,7 @@ class FlutterFeathersjs {
     //Hold global auth infos
     Map<String, dynamic> authResponse = {
       "error": true,
-      "error_zone": "UNKNOWN",
+      "error_zone": isCode.UNKNOWN_ERROR,
       "message": "An error occured either on rest or socketio auth",
       "restResponse": {},
       "scketResponse": {}
@@ -72,11 +74,11 @@ class FlutterFeathersjs {
     //Finally send response
     if (!restAuthResponse["error"] && !socketioAuthResponse["error"]) {
       authResponse["error"] = false;
-      authResponse["error_zone"] = "BOTH_CLIENT_AUTHED";
+      authResponse["error_zone"] = isCode.BOTH_CLIENT_AUTHED;
       authResponse["message"] = socketioAuthResponse;
     } else {
       authResponse["error"] = true;
-      authResponse["error_zone"] = "ONE_OR_BOTH_CLIENT_NOT_AUTHED";
+      authResponse["error_zone"] = isCode.ONE_OR_BOTH_CLIENT_NOT_AUTHED;
       authResponse["message"] =
           "One or both client is(are) not authed. Please checkout restResponse field or scketResponse field for more infos.";
       authResponse["restResponse"] = restAuthResponse;

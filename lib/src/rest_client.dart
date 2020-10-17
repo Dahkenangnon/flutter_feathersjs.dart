@@ -5,11 +5,14 @@ import 'package:flutter_feathersjs/src/featherjs_client_base.dart';
 import 'package:flutter_feathersjs/src/utils.dart';
 import 'package:meta/meta.dart';
 
+import 'constants.dart';
+
 /// Feathers Js rest client for rest api call
 class RestClient extends FlutterFeathersjs {
   ///Dio as http client
   Dio dio;
   Utils utils;
+  Constants isCode;
 
   //Using singleton to ensure we the same instance of it
   static final RestClient _restClient = RestClient._internal();
@@ -88,23 +91,23 @@ class RestClient extends FlutterFeathersjs {
           print("jwt expired or jwt malformed");
           authResponse["error"] = true;
           authResponse["message"] = "jwt expired";
-          authResponse["error_zone"] = "JWT_EXPIRED_ERROR";
+          authResponse["error_zone"] = isCode..JWT_EXPIRED_ERROR;
         } else if (response.statusCode == 200) {
           print("Jwt still validated");
           authResponse["error"] = false;
           authResponse["message"] = "Jwt still validated";
-          authResponse["error_zone"] = "NO_ERROR";
+          authResponse["error_zone"] = isCode.NO_ERROR;
         } else {
           print("Unknown error");
           authResponse["error"] = true;
           authResponse["message"] = "Unknown error";
-          authResponse["error_zone"] = "UNKNOWN_ERROR";
+          authResponse["error_zone"] = isCode.UNKNOWN_ERROR;
         }
       } catch (e) {
         print("Unable to connect to the server");
         authResponse["error"] = true;
         authResponse["message"] = e;
-        authResponse["error_zone"] = "JWT_ERROR";
+        authResponse["error_zone"] = isCode.JWT_ERROR;
       }
     }
 
@@ -113,7 +116,7 @@ class RestClient extends FlutterFeathersjs {
       print("No old token found. Must reAuth user");
       authResponse["error"] = true;
       authResponse["message"] = "No old token found. Must reAuth user";
-      authResponse["error_zone"] = "JWT_NOT_FOUND";
+      authResponse["error_zone"] = isCode.JWT_NOT_FOUND;
     }
     asyncTask.complete(authResponse);
     return asyncTask.future;
@@ -139,16 +142,16 @@ class RestClient extends FlutterFeathersjs {
         //This is useful to display to end user why auth failed
         //With 401: it will be either Invalid credentials or strategy error
         if (response.data["message"] == "Invalid login") {
-          authResponse["error_zone"] = "INVALID_CREDENTIALS";
+          authResponse["error_zone"] = isCode.INVALID_CREDENTIALS;
         } else {
-          authResponse["error_zone"] = "INVALID_STRATEGY";
+          authResponse["error_zone"] = isCode.INVALID_STRATEGY;
         }
         authResponse["error"] = true;
         authResponse["message"] = response.data["message"];
       } else if (response.data['accessToken'] != null) {
         authResponse["error"] = false;
         authResponse["message"] = response.data["user"];
-        authResponse["error_zone"] = "NO_ERROR";
+        authResponse["error_zone"] = isCode.NO_ERROR;
 
         //Storing the token
         utils.setAccessToken(token: response.data['accessToken']);
@@ -161,7 +164,7 @@ class RestClient extends FlutterFeathersjs {
       //Error caught by Dio
       authResponse["error"] = true;
       authResponse["message"] = e;
-      authResponse["error_zone"] = "DIO_ERROR";
+      authResponse["error_zone"] = isCode.DIO_ERROR;
     }
     //Send response
     asyncTask.complete(authResponse);
