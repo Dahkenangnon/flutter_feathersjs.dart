@@ -27,14 +27,13 @@ void main() async {
       .authenticate(email: user["email"], password: user["password"]);
   //Then use this one to reuse access token as it still valide
   //var reAuthResp = await flutterFeathersjs.rest.reAuthenticate();
-
   // //////////////////////////////////////////////////
   // /
   // /          Singleton testing
   // /
   // //////////////////////////////////////////////////
 
-  //Singleton pattern if the flutterFeathersjs class
+  // Singleton pattern if the flutterFeathersjs class
   test('Testing singleton ', () {
     FlutterFeathersjs flutterFeathersjs1 = FlutterFeathersjs();
     expect(identical(flutterFeathersjs1, flutterFeathersjs), true);
@@ -108,6 +107,30 @@ void main() async {
     print(rep2.data);
   });
 
+  test(' \n Rest create news with image (FormData support testing) \n ',
+      () async {
+    var data2Send = {
+      "title": "formdata testing",
+      "content": "yo",
+      "by": "5f9aceba20bc3d3a74b7bf8b",
+      "enterprise": "5f9acf4f20bc3d3a74b7bf91"
+    };
+
+    var files = [
+      {"filePath": "spin.PNG", "fileName": "spin.PNG"}
+    ];
+
+    var rep2 = await flutterFeathersjs.rest.create(
+        serviceName: "v1/news",
+        data: data2Send,
+        containsFile: true,
+        hasSingleFile: true,
+        fileFieldName: "file",
+        files: files);
+    print("\n  The new news menu created  is: \n");
+    print(rep2.data);
+  });
+
   //////////////////////////////////////////////////
   //
   //            Scketio client methods
@@ -123,12 +146,8 @@ void main() async {
     expect(identical(so1, so2), true);
   });
 
-  //Testing the authentication with jwt method
+  // //Testing the authentication with jwt method
   test('socketio reAuthentication method', () async {
-    //SocketioClient socketioClient = new SocketioClient(baseUrl: BASE_URL);
-
-    // var reps = await flutterFeathersjs.scketio
-    //     .authenticate(email: user['email'], password: user["password"]);
     var repss = await flutterFeathersjs.scketio.authWithJWT();
 
     //print(reps);

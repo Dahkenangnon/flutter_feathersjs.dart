@@ -12,7 +12,7 @@ class RestClient extends FlutterFeathersjs {
   Dio dio;
   Utils utils;
 
-  //Using singleton to ensure we the same instance of it
+  //Using singleton to ensure we use the same instance of it
   static final RestClient _restClient = RestClient._internal();
   factory RestClient() {
     return _restClient;
@@ -200,13 +200,33 @@ class RestClient extends FlutterFeathersjs {
   /// POST /serviceName
   /// Create a new resource with data.
   Future<Response<dynamic>> create(
-      {String serviceName, Map<String, dynamic> data}) async {
-    var response;
-    try {
-      response = response = await this.dio.post("/$serviceName", data: data);
-    } catch (e) {
-      print("Error in rest::create");
-      print(e);
+      {String serviceName,
+      Map<String, dynamic> data,
+      containsFile = false,
+      hasSingleFile = true,
+      fileFieldName = "file",
+      List<Map<String, String>> files}) async {
+    Response<dynamic> response;
+
+    if (!containsFile) {
+      try {
+        response = await this.dio.post("/$serviceName", data: data);
+      } catch (e) {
+        print("Error in rest::create");
+        print(e);
+      }
+    } else {
+      FormData formData = await this.makeFormData(
+          hasSingleFile: hasSingleFile,
+          nonFilesFieldsMap: data,
+          fileFieldName: fileFieldName,
+          files: files);
+      try {
+        response = await this.dio.post("/$serviceName", data: formData);
+      } catch (e) {
+        print("Error in rest::create::with:file");
+        print(e);
+      }
     }
     return response;
   }
@@ -214,13 +234,37 @@ class RestClient extends FlutterFeathersjs {
   /// PUT /serviceName/_id
   /// Completely replace a single resource.
   Future<Response<dynamic>> update(
-      {String serviceName, objectId, Map<String, dynamic> data}) async {
-    var response;
-    try {
-      response = await this.dio.put("/$serviceName" + "/$objectId", data: data);
-    } catch (e) {
-      print("Error in rest::update");
-      print(e);
+      {String serviceName,
+      objectId,
+      Map<String, dynamic> data,
+      containsFile = false,
+      hasSingleFile = true,
+      fileFieldName = "file",
+      List<Map<String, String>> files}) async {
+    Response<dynamic> response;
+
+    if (!containsFile) {
+      try {
+        response =
+            await this.dio.put("/$serviceName" + "/$objectId", data: data);
+      } catch (e) {
+        print("Error in rest::update");
+        print(e);
+      }
+    } else {
+      FormData formData = await this.makeFormData(
+          hasSingleFile: hasSingleFile,
+          nonFilesFieldsMap: data,
+          fileFieldName: fileFieldName,
+          files: files);
+      try {
+        response = await this
+            .dio
+            .patch("/$serviceName" + "/$objectId", data: formData);
+      } catch (e) {
+        print("Error in rest::update::with:file");
+        print(e);
+      }
     }
     return response;
   }
@@ -229,15 +273,39 @@ class RestClient extends FlutterFeathersjs {
   /// Merge the existing data of a single resources with the new data.
   /// NOT TESTED
   Future<Response<dynamic>> patch(
-      {String serviceName, objectId, Map<String, dynamic> data}) async {
-    var response;
-    try {
-      response =
-          await this.dio.patch("/$serviceName" + "/$objectId", data: data);
-    } catch (e) {
-      print("Error in rest::patch");
-      print(e);
+      {String serviceName,
+      objectId,
+      Map<String, dynamic> data,
+      containsFile = false,
+      hasSingleFile = true,
+      fileFieldName = "file",
+      List<Map<String, String>> files}) async {
+    Response<dynamic> response;
+
+    if (!containsFile) {
+      try {
+        response =
+            await this.dio.patch("/$serviceName" + "/$objectId", data: data);
+      } catch (e) {
+        print("Error in rest::patch");
+        print(e);
+      }
+    } else {
+      FormData formData = await this.makeFormData(
+          hasSingleFile: hasSingleFile,
+          nonFilesFieldsMap: data,
+          fileFieldName: fileFieldName,
+          files: files);
+      try {
+        response = await this
+            .dio
+            .patch("/$serviceName" + "/$objectId", data: formData);
+      } catch (e) {
+        print("Error in rest::patch::with:file");
+        print(e);
+      }
     }
+
     return response;
   }
 
@@ -254,5 +322,46 @@ class RestClient extends FlutterFeathersjs {
       print(e);
     }
     return response;
+  }
+
+  ///@var fieldsMap: other field non file
+  ///@var hasSingleFile: true for signle file , false otherwise
+  ///@ fileFieldName: the file | files field which must be send to the server
+  ///@var files: a List map of {"filePath": the file path, "fileName": the file ame}
+  ///if hasSingleFile is true, just the file first entry of the list otherwise looping through the
+  ///list
+  Future<FormData> makeFormData(
+      {Map<String, dynamic> nonFilesFieldsMap,
+      hasSingleFile = true,
+      fileFieldName = "file",
+      List<Map<String, String>> files}) async {
+    var formData = FormData();
+
+    // Non file
+    if (nonFilesFieldsMap != null) {
+      nonFilesFieldsMap.forEach((key, value) {
+        formData.fields..add(MapEntry(key, value));
+      });
+    }
+
+    if (hasSingleFile) {
+      //File
+      var fileData = files[0];
+      formData.files.add(MapEntry(
+        fileFieldName,
+        await MultipartFile.fromFile(fileData["filePath"],
+            filename: fileData["fileName"]),
+      ));
+    } else {
+      // Non file
+      for (var fileData in files) {
+        formData.files.add(MapEntry(
+          fileFieldName,
+          await MultipartFile.fromFile(fileData["filePath"],
+              filename: fileData["fileName"]),
+        ));
+      }
+    }
+    return formData;
   }
 }

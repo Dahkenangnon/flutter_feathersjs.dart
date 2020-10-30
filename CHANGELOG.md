@@ -1,4 +1,13 @@
-# 0.0.5-dev
+## 0.0.1
+
+    - Add formData handling 
+    - Update readme
+  
+## 0.0.6-dev
+
+    - Fix
+
+## 0.0.5-dev
 
 - Fix const error
 
