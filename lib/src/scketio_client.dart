@@ -5,12 +5,14 @@ import 'package:flutter_feathersjs/src/featherjs_client_base.dart';
 import 'package:flutter_feathersjs/src/utils.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:meta/meta.dart';
+import 'package:event_bus/event_bus.dart';
 
 ///Socketio client for the realtime communication
 class SocketioClient extends FlutterFeathersjs {
   IO.Socket _socket;
   bool dev = true;
   Utils utils;
+  EventBus eventBus = EventBus();
 
   //Using singleton
   static final SocketioClient _socketioClient = SocketioClient._internal();
@@ -32,11 +34,12 @@ class SocketioClient extends FlutterFeathersjs {
 
     utils = new Utils();
 
-    if (dev) {
+    if (true) {
       print("-----Dev printing start----");
 
       _socket.on('connect', (_) {
         print("Socket connection established");
+        eventBus.fire(Connected());
       });
 
       _socket.on('connect_error', (e) {
@@ -48,7 +51,9 @@ class SocketioClient extends FlutterFeathersjs {
         print(data);
       });
       _socket.on('connecting', (_) => print("Connecting..."));
-      _socket.on('disconnect', (_) => print("Disconnected..."));
+      _socket.on('disconnect', (_) {
+        eventBus.fire(DisConnected());
+      });
       _socket.on('error', (_) => print("An error occured"));
       _socket.on('reconnect', (_) => print("Reconnected"));
       _socket.on('reconnect_error', (_) => print("Reconnection error..."));
@@ -171,29 +176,5 @@ class SocketioClient extends FlutterFeathersjs {
       asyncTask.complete(response[1]);
     });
     return asyncTask.future;
-  }
-
-  /// Listen to create method call
-  ///Get the last created ressource
-  onCreated({String serviceName, Function callback}) {
-    _socket.on("$serviceName created", (data) {
-      callback(data);
-    });
-  }
-
-  /// Listen to update method
-  ///Get the last updated ressource
-  onUpdated({String serviceName, Function callback}) {
-    _socket.on("$serviceName updated", (data) {
-      callback(data);
-    });
-  }
-
-  /// Listen to remove method call
-  ///Get the last deleted ressource
-  onRemoved({String serviceName, Function callback}) {
-    _socket.on("$serviceName removed", (data) {
-      callback(data);
-    });
   }
 }
