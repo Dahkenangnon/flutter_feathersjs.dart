@@ -34,8 +34,6 @@ class SocketioClient extends FlutterFeathersjs {
 
     utils = new Utils();
 
-    if (true) {
-      print("-----Dev printing start----");
 
       _socket.on('connect', (_) {
         print("Socket connection established");
@@ -61,8 +59,6 @@ class SocketioClient extends FlutterFeathersjs {
           'reconnect_attempt', (_) => print("Attempting a reconnection"));
       _socket.on('reconnect_failed', (_) => print("A reconnection failed"));
       _socket.on('reconnecting', (_) => print("Reconnecting..."));
-      print("-----Dev printing end----");
-    }
   }
 
   ///This function must be call afther auth with rest is OK

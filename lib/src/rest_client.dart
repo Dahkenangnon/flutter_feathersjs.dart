@@ -199,6 +199,12 @@ class RestClient extends FlutterFeathersjs {
 
   /// POST /serviceName
   /// Create a new resource with data.
+  /// @var fieldsMap: other field non file
+  ///@var hasSingleFile: true for signle file , false otherwise
+  ///@ fileFieldName: the file | files field which must be send to the server
+  ///@var files: a List map of {"filePath": the file path, "fileName": the file ame}
+  ///if hasSingleFile is true, just the file first entry of the list otherwise looping through the
+  ///list
   Future<Response<dynamic>> create(
       {String serviceName,
       Map<String, dynamic> data,
