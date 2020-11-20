@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_feathersjs: ^0.0.2
+  flutter_feathersjs: ^0.0.7
   cupertino_icons: ^1.0.0
 
 dev_dependencies:
