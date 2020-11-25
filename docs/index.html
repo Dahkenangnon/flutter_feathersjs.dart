@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="generator" content="made with love by dartdoc 0.37.0">
+  <meta name="description" content="flutter_feathersjs API docs, for the Dart programming language.">
+  <title>flutter_feathersjs - Dart API docs</title>
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500,400i,400,300|Source+Sans+Pro:400,300,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="static-assets/github.css">
+  <link rel="stylesheet" href="static-assets/styles.css">
+  <link rel="icon" href="static-assets/favicon.png">
+
+</head>
+
+<body data-base-href=""
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="https://github.com/Dahkenangnon/flutter_feathersjs.dart">flutter_feathersjs package</a></li>
+  </ol>
+  <div class="self-name">flutter_feathersjs</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+  <div id="dartdoc-sidebar-left" class="col-xs-6 col-sm-3 col-md-2 sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+      <form class="search-sidebar" role="search">
+        <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+      </form>
+    </header>
+    
+    <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+      <li><a href="https://github.com/Dahkenangnon/flutter_feathersjs.dart">flutter_feathersjs package</a></li>
+    </ol>
+    
+    <h5 class="hidden-xs"><span class="package-name">flutter_feathersjs</span> <span class="package-kind">package</span></h5>
+    <ol>
+          <li class="section-title">Libraries</li>
+          <li><a href="flutter_feathersjs/flutter_feathersjs-library.html">flutter_feathersjs</a></li>
+    </ol>
+  </div>
+
+  <div id="dartdoc-main-content" class="col-xs-12 col-sm-9 col-md-8 main-content">
+      <section class="desc markdown">
+        <h1 id="bird-flutter_feathersjs-bird">:bird: flutter_feathersjs :bird:</h1>
+<p>Communicate with your feathers js (<a href="https://feathersjs.com/">https://feathersjs.com/</a>) server from flutter.</p>
+<p><code>Infos: Feathers js is a node framework for real-time applications and REST APIs.</code></p>
+<p>*<strong>FormData support out the box, auth, reAuth, socketio send event, rest ...</strong></p>
+<h2 id="import-it">Import it</h2>
+<pre class="language-dart"><code class="language-dart">import 'package:flutter_feathersjs/flutter_feathersjs.dart';
+
+</code></pre>
+<h2 id="init">Init</h2>
+<pre class="language-dart"><code class="language-dart">FlutterFeathersjs flutterFeathersjs = FlutterFeathersjs()
+    ..init(baseUrl: BASE_URL);
+
+</code></pre>
+<h2 id="authentication-with-either-with-rest-or-socketio">Authentication with either with rest or socketio</h2>
+<pre class="language-dart"><code class="language-dart">   // Auth with rest client with email/password [Default strategy is email/password]
+   var authResponse = await flutterFeathersjs.rest
+      .authenticate(userName: user["email"], password: user["password"]);
+
+    // Auth with rest client with phone/password
+   var authResponse = await flutterFeathersjs.rest.authenticate(
+      strategy: "phone",
+      userNameFieldName: "tel",
+      userName: user["tel"],
+      password: user["password"]);
+
+  //Second time, application will restart, just:
+  var reAuthResponse = await flutterFeathersjs.rest.reAuthenticate();
+
+  // Or With socketio
+  // Note: This must be call after rest auth success
+  // Not recommanded to use this directly
+  var authResponse = await flutterFeathersjs.scketio.authWithJWT();
+
+</code></pre>
+<h2 id="auth-both-client-one-time">Auth both client one time</h2>
+<pre class="language-dart"><code class="language-dart">
+// Auth first time with credentials
+ var authResponse = await flutterFeathersjs.authenticate(
+      strategy: "phone",
+      userNameFieldName: "tel",
+      userName: user["tel"],
+      password: user["password"]);
+
+// on App restart, don't disturbe user, just reAuth with with accessToken, early store by FlutterFeathersjs
+var reAuthResponse = await flutterFeathersjs.reAuthenticate()
+
+</code></pre>
+<h2 id="contribution">Contribution</h2>
+<ul>
+<li>Contact-me for improvment or contribution purpose</li>
+<li>Example is coming</li>
+</ul>
+      </section>
+      
+      <section class="summary">
+          <h2>Libraries</h2>
+        <dl>
+          <dt id="flutter_feathersjs">
+            <span class="name"><a href="flutter_feathersjs/flutter_feathersjs-library.html">flutter_feathersjs</a></span>           
+          </dt>
+          <dd>
+            Communicate with your feathers js (<a href="https://feathersjs.com/">https://feathersjs.com/</a>) server from flutter app. 
+          </dd>
+        </dl>
+      </section>
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-right" class="col-xs-6 col-sm-6 col-md-2 sidebar sidebar-offcanvas-right">
+  </div>
+
+</main>
+
+<footer>
+  <span class="no-break">
+    flutter_feathersjs
+      0.1.0
+  </span>
+
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="static-assets/typeahead.bundle.min.js"></script>
+<script src="static-assets/highlight.pack.js"></script>
+<script src="static-assets/URI.js"></script>
+<script src="static-assets/script.js"></script>
+
+
+</body>
+
+</html>
