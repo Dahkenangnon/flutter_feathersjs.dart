@@ -14,15 +14,8 @@ class Constants {
   static const String BOTH_CLIENT_AUTHED = "BOTH_CLIENT_AUTHED";
   static const String ONE_OR_BOTH_CLIENT_NOT_AUTHED =
       "ONE_OR_BOTH_CLIENT_NOT_AUTHED";
+  static const String FEATHERSJS_ACCESS_TOKEN = "FEATHERSJS_ACCESS_TOKEN";
 }
-
-class Removed<T> {}
-
-class Patched<T> {}
-
-class Created<T> {}
-
-class Updated<T> {}
 
 class Connected {}
 

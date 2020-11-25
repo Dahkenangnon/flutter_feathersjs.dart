@@ -1,26 +1,23 @@
 //Help FlutterFeathersJs
 import 'dart:async';
 
+import 'package:flutter_feathersjs/src/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Utils {
-  /////////////////////////////////////////////////////////////////////
   SharedPreferences prefs;
-
-  ////////////////////////////////////////////////////////////////////////
-
   Utils();
 
-//Allow to set rest access token
+  /// Store JWT for reAuth() purpose
   Future<bool> setAccessToken({String token}) async {
     prefs = await SharedPreferences.getInstance();
 
-    return await prefs.setString('feathersjs_access_token', token);
+    return await prefs.setString(Constants.FEATHERSJS_ACCESS_TOKEN, token);
   }
 
-//Allow to get rest access token
+  /// Get the early stored JWT for reAuth() purpose
   Future<String> getAccessToken({String token}) async {
     prefs = await SharedPreferences.getInstance();
-    return await prefs.getString('feathersjs_access_token');
+    return await prefs.getString(Constants.FEATHERSJS_ACCESS_TOKEN);
   }
 }

@@ -57,6 +57,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.10"
+  event_bus:
+    dependency: transitive
+    description:
+      name: event_bus
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.1"
   fake_async:
     dependency: transitive
     description:
@@ -86,10 +93,10 @@ packages:
   flutter_feathersjs:
     dependency: "direct main"
     description:
-      name: flutter_feathersjs
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.6-dev"
+      path: ".."
+      relative: true
+    source: path
+    version: "0.1.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
