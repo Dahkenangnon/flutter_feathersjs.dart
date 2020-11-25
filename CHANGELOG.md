@@ -1,5 +1,5 @@
 
-## 0.1.0
+## 1.0.0
 
     - Improvment: Documentation of the code
     - Breaking: on both rest and socketio, you get exactly what feathers js send,  we don't support any serializer or deserializer. So how previous version handle data is breaken
