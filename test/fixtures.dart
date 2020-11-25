@@ -1,9 +1,10 @@
 //User credentials used for auth purpose
 Map<String, String> user = {
   "strategy": "local",
-  "email": "user@dah.com",
-  "password": "user"
+  "email": "email@email.com",
+  "password": "email@email.com",
+  "tel": "+229000000"
 };
 
-//your use api
-const BASE_URL = "https://api.domain.com";
+//your  api
+const BASE_URL = "https://api.my-domain.com";

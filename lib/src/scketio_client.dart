@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_feathersjs/src/constants.dart';
 import 'package:flutter_feathersjs/src/featherjs_client_base.dart';
 import 'package:flutter_feathersjs/src/utils.dart';
@@ -7,11 +8,31 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:meta/meta.dart';
 import 'package:event_bus/event_bus.dart';
 
+///
+///
 ///Socketio client for the realtime communication
+///
+///_______________________________________________
+///_______________________________________________
+///
+///
+/// `GENERAL NOTE 1`: If no error is occured, you will get an array
+///
+/// Feathers data can be retrieve by doing
+///
+/// `response[1]: => Feathers SocketIO `Method` Response Format`
+///
+/// When an error occured, you will get a Json or Map object
+///
+/// The format of the last one is according to what error occured on feather js server
+///
+/// `GENERAL NOTE 2`: You cannot send file through this realtime client, please use rest client
+///
 class SocketioClient extends FlutterFeathersjs {
   IO.Socket _socket;
-  bool dev = true;
+
   Utils utils;
+
   EventBus eventBus = EventBus();
 
   //Using singleton
@@ -19,11 +40,10 @@ class SocketioClient extends FlutterFeathersjs {
   factory SocketioClient() {
     return _socketioClient;
   }
+
   SocketioClient._internal();
 
-  ///Anonymous connection
-  ///
-
+  /// Initialize the realtime (socketio) connection
   init({@required String baseUrl, Map<String, dynamic> extraHeaders}) {
     _socket = IO.io(baseUrl, <String, dynamic>{
       'transports': ['websocket'],
@@ -34,34 +54,38 @@ class SocketioClient extends FlutterFeathersjs {
 
     utils = new Utils();
 
+    _socket.on('connect', (_) {
+      print("Socket connection established");
+      eventBus.fire(Connected());
+    });
 
-      _socket.on('connect', (_) {
-        print("Socket connection established");
-        eventBus.fire(Connected());
-      });
-
-      _socket.on('connect_error', (e) {
-        print("Connection error");
-        print(e);
-      });
-      _socket.on('connect_timeout', (data) {
-        print("Timeout error");
-        print(data);
-      });
-      _socket.on('connecting', (_) => print("Connecting..."));
-      _socket.on('disconnect', (_) {
-        eventBus.fire(DisConnected());
-      });
-      _socket.on('error', (_) => print("An error occured"));
-      _socket.on('reconnect', (_) => print("Reconnected"));
-      _socket.on('reconnect_error', (_) => print("Reconnection error..."));
-      _socket.on(
-          'reconnect_attempt', (_) => print("Attempting a reconnection"));
-      _socket.on('reconnect_failed', (_) => print("A reconnection failed"));
-      _socket.on('reconnecting', (_) => print("Reconnecting..."));
+    _socket.on('connect_error', (e) {
+      print("Connection error");
+      print(e);
+    });
+    _socket.on('connect_timeout', (data) {
+      print("Timeout error");
+      print(data);
+    });
+    _socket.on('connecting', (_) => print("Connecting..."));
+    _socket.on('disconnect', (_) {
+      eventBus.fire(DisConnected());
+    });
+    _socket.on('error', (_) => print("An error occured"));
+    _socket.on('reconnect', (_) => print("Reconnected"));
+    _socket.on('reconnect_error', (_) => print("Reconnection error..."));
+    _socket.on('reconnect_attempt', (_) => print("Attempting a reconnection"));
+    _socket.on('reconnect_failed', (_) => print("A reconnection failed"));
+    _socket.on('reconnecting', (_) => print("Reconnecting..."));
   }
 
-  ///This function must be call afther auth with rest is OK
+  ///
+  /// Authenticate the user with realtime connection
+  ///
+  /// @WARNING This function must be call afther auth with rest is OK
+  ///
+  ///Otherwise, you cannot be able to use socketio client because it won't be authed on the server
+  ///
   Future<dynamic> authWithJWT() async {
     //Get the existant accessToken
     //This cause you to call auth on rest before call this.
@@ -82,11 +106,11 @@ class SocketioClient extends FlutterFeathersjs {
       }
     ], ack: (dataResponse) {
       print("Receive response from server on JWT request");
-      if (dev) print(dataResponse);
+      print(dataResponse);
 
       //Check whether auth is OK
       if (dataResponse is List) {
-        if (dev) print("Is array");
+        print("Authentication process is ok with JWT");
         //Auth is ok
         var resp = dataResponse[1];
         authResponse["error"] = false;
@@ -98,7 +122,7 @@ class SocketioClient extends FlutterFeathersjs {
           'Authorization': "Bearer $token"
         };
       } else {
-        if (dev) print("Is not list");
+        print("Authentication process failed with JWT");
         //Auth is not ok
         authResponse["error"] = true;
         authResponse["message"] = dataResponse;
@@ -110,67 +134,197 @@ class SocketioClient extends FlutterFeathersjs {
     return asyncTask.future;
   }
 
-  /// EMIT find serviceName
-  /// Retrieves a list of all matching resources from the service
+  /// `EMIT find serviceName`
+  ///
+  /// Retrieves a list of all matching `query` resources from the service
+  ///
+  /// NOTE: If no error is occured, you will get an array
+  ///
+  /// Feathers data can be retrieve by doing
+  ///
+  /// `response[1]: => Feathers SocketIO Find Response Format`
+  ///
+  /// When an error occured, you will get a Json or Map object
+  ///
+  /// The format of the last one is according to what error occured on feather js server
+  ///
   Future<dynamic> find({String serviceName, Map<String, dynamic> query}) async {
     Completer asyncTask = Completer<dynamic>();
     _socket.emitWithAck("find", [serviceName, query], ack: (response) {
-      asyncTask.complete(response[1]);
+      asyncTask.complete(response);
     });
     return asyncTask.future;
   }
 
-  /// EMIT create serviceName
+  /// `EMIT create serviceName`
+  ///
   /// Create new ressource
+  ///
+  /// `NOTE`: If no error is occured, you will get an array
+  ///
+  /// Feathers data can be retrieve by doing
+  ///
+  /// `response[1]: => Feathers SocketIO Create Response Format`
+  ///
+  /// When an error occured, you will get a Json or Map object
+  ///
+  /// The format of the last one is according to what error occured on feather js server
+  ///
   Future<dynamic> create({String serviceName, Map<String, dynamic> data}) {
     Completer asyncTask = Completer<dynamic>();
     _socket.emitWithAck("create", [serviceName, data], ack: (response) {
-      asyncTask.complete(response[1]);
+      asyncTask.complete(response);
     });
     return asyncTask.future;
   }
 
-  /// EMIT update serviceName
+  /// `EMIT update serviceName`
+  ///
   /// Update a  ressource
+  ///
+  /// `NOTE`: If no error is occured, you will get an array
+  ///
+  /// Feathers data can be retrieve by doing
+  ///
+  /// `response[1]: => Feathers SocketIO Update Response Format`
+  ///
+  /// When an error occured, you will get a Json or Map object
+  ///
+  /// The format of the last one is according to what error occured on feather js server
+  ///
   Future<dynamic> update(
       {String serviceName, objectId, Map<String, dynamic> data}) {
     Completer asyncTask = Completer<dynamic>();
     _socket.emitWithAck("update", [serviceName, objectId, data],
         ack: (response) {
-      asyncTask.complete(response[1]);
+      asyncTask.complete(response);
     });
     return asyncTask.future;
   }
 
-  /// EMIT get serviceName
-  /// Retrieve a single  ressource
+  /// `EMIT get serviceName`
+  ///
+  /// NOTE: If no error is occured, you will get an array
+  ///
+  /// Feathers data can be retrieve by doing
+  ///
+  /// `response[1]: => Feathers SocketIO Get Response Format`
+  ///
+  /// When an error occured, you will get a Json or Map object
+  ///
+  /// The format of the last one is according to what error occured on feather js server
+  ///
   Future<dynamic> get({String serviceName, objectId}) {
     Completer asyncTask = Completer<dynamic>();
     _socket.emitWithAck("get", [serviceName, objectId], ack: (response) {
-      asyncTask.complete(response[1]);
+      asyncTask.complete(response);
     });
     return asyncTask.future;
   }
 
-  /// EMIT patch serviceName
+  /// `EMIT patch serviceName`
+  ///
   ///Merge the existing data of a single or multiple resources with the new data
+  ///
+  /// NOTE: If no error is occured, you will get an array
+  ///
+  /// Feathers data can be retrieve by doing
+  ///
+  /// `response[1]: => Feathers SocketIO Patch Response Format`
+  ///
+  /// When an error occured, you will get a Json or Map object
+  ///
+  /// The format of the last one is according to what error occured on feather js server
+  ///
   Future<dynamic> patch(
       {String serviceName, objectId, Map<String, dynamic> data}) {
     Completer asyncTask = Completer<dynamic>();
     _socket.emitWithAck("patch", [serviceName, objectId, data],
         ack: (response) {
-      asyncTask.complete(response[1]);
+      asyncTask.complete(response);
     });
     return asyncTask.future;
   }
 
-  /// EMIT patch serviceName
-  ///Merge the existing data of a single or multiple resources with the new data
+  /// `EMIT remove serviceName`
+  ///
+  /// Delete a ressource on the server
+  ///
+  /// NOTE: If no error is occured, you will get an array
+  ///
+  /// Feathers data can be retrieve by doing
+  ///
+  /// `response[1]: => Feathers SocketIO Remove Response Format`
+  ///
+  /// When an error occured, you will get a Json or Map object
+  ///
+  /// The format of the last one is according to what error occured on feather js server
+  ///
   Future<dynamic> remove({String serviceName, objectId}) {
     Completer asyncTask = Completer<dynamic>();
     _socket.emitWithAck("remove", [serviceName, objectId], ack: (response) {
-      asyncTask.complete(response[1]);
+      asyncTask.complete(response);
     });
     return asyncTask.future;
+  }
+
+  /// Listen to `On created serviceName`
+  ///
+  /// The created event will be published with the
+  ///  callback data, when a service create returns successfully.
+  ///
+  /// NOTE: The data you will get from the `StreamSubscription`
+  /// is exactly what feathers send `On created serviceName`
+  ///
+  Stream onCreated({@required String serviceName}) {
+    _socket.on('$serviceName created', (createdData) {
+      eventBus.fire(createdData);
+    });
+    return eventBus.on();
+  }
+
+  /// Listen to `On removed serviceName`
+  ///
+  /// The removed event will be published
+  /// with the callback data, when a service remove calls back successfully
+  ///
+  /// NOTE: The data you will get from the `StreamSubscription`
+  /// is exactly what feathers send `On removed serviceName`
+  ///
+  Stream onRemoved({@required String serviceName}) {
+    _socket.on('$serviceName removed', (removedData) {
+      eventBus.fire(removedData);
+    });
+    return eventBus.on();
+  }
+
+  /// Listen to `On updated | patched serviceName`
+  ///
+  /// The updated and patched events will be published with the callback data,
+  ///  when a service update or patch method calls back successfully.
+  ///
+  /// NOTE: The data you will get from the `StreamSubscription`
+  /// is exactly what feathers send `On updated | patched serviceName`
+  ///
+  Stream onUpdated({@required String serviceName}) {
+    _socket.on('$serviceName updated', (updatedData) {
+      eventBus.fire(updatedData);
+    });
+    return eventBus.on();
+  }
+
+  /// Listen to `On updated | patched serviceName`
+  ///
+  /// The updated and patched events will be published with the callback data,
+  ///  when a service update or patch method calls back successfully.
+  ///
+  /// NOTE: The data you will get from the `StreamSubscription`
+  /// is exactly what feathers send `On updated | patched serviceName`
+  ///
+  Stream onPatched({@required String serviceName}) {
+    _socket.on('$serviceName patched', (patchedData) {
+      eventBus.fire(patchedData);
+    });
+    return eventBus.on();
   }
 }
