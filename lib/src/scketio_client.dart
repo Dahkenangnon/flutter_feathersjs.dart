@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feathersjs/src/constants.dart';
 import 'package:flutter_feathersjs/src/featherjs_client_base.dart';
@@ -276,11 +277,12 @@ class SocketioClient extends FlutterFeathersjs {
   /// NOTE: The data you will get from the `StreamSubscription`
   /// is exactly what feathers send `On created serviceName`
   ///
-  Stream onCreated({@required String serviceName}) {
+  Stream<T> onCreated<T>({@required String serviceName, Function fromJson}) {
     _socket.on('$serviceName created', (createdData) {
-      eventBus.fire(createdData);
+      T object = fromJson(createdData);
+      eventBus.fire(object);
     });
-    return eventBus.on<Created>();
+    return eventBus.on<T>();
   }
 
   /// Listen to `On removed serviceName`
@@ -291,11 +293,12 @@ class SocketioClient extends FlutterFeathersjs {
   /// NOTE: The data you will get from the `StreamSubscription`
   /// is exactly what feathers send `On removed serviceName`
   ///
-  Stream onRemoved({@required String serviceName}) {
+  Stream<T> onRemoved<T>({@required String serviceName, Function fromJson}) {
     _socket.on('$serviceName removed', (removedData) {
-      eventBus.fire(removedData);
+      T object = fromJson(removedData);
+      eventBus.fire(object);
     });
-    return eventBus.on<Removed>();
+    return eventBus.on<T>();
   }
 
   /// Listen to `On updated | patched serviceName`
@@ -306,25 +309,15 @@ class SocketioClient extends FlutterFeathersjs {
   /// NOTE: The data you will get from the `StreamSubscription`
   /// is exactly what feathers send `On updated | patched serviceName`
   ///
-  Stream onUpdated({@required String serviceName}) {
+  Stream<T> onUpdated<T>({@required String serviceName, Function fromJson}) {
     _socket.on('$serviceName updated', (updatedData) {
-      eventBus.fire(updatedData);
+      T object = fromJson(updatedData);
+      eventBus.fire(object);
     });
-    return eventBus.on<Updated>();
-  }
-
-  /// Listen to `On updated | patched serviceName`
-  ///
-  /// The updated and patched events will be published with the callback data,
-  ///  when a service update or patch method calls back successfully.
-  ///
-  /// NOTE: The data you will get from the `StreamSubscription`
-  /// is exactly what feathers send `On updated | patched serviceName`
-  ///
-  Stream onPatched({@required String serviceName}) {
     _socket.on('$serviceName patched', (patchedData) {
-      eventBus.fire(patchedData);
+      T object = fromJson(patchedData);
+      eventBus.fire(object);
     });
-    return eventBus.on<Updated>();
+    return eventBus.on<T>();
   }
 }
