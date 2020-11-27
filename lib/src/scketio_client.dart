@@ -269,39 +269,39 @@ class SocketioClient extends FlutterFeathersjs {
     return asyncTask.future;
   }
 
-  /// Listen to `On created serviceName`
-  ///
-  /// The created event will be published with the
-  ///  callback data, when a service create returns successfully.
-  ///
-  /// NOTE: The data you will get from the `StreamSubscription`
-  /// is exactly what feathers send `On created serviceName`
-  ///
-  Stream<T> onCreated<T>({@required String serviceName, Function fromJson}) {
-    _socket.on('$serviceName created', (createdData) {
-      T object = fromJson(createdData);
-      eventBus.fire(object);
-    });
-    return eventBus.on<T>();
-  }
+  // /// Listen to `On created serviceName`
+  // ///
+  // /// The created event will be published with the
+  // ///  callback data, when a service create returns successfully.
+  // ///
+  // /// NOTE: The data you will get from the `StreamSubscription`
+  // /// is exactly what feathers send `On created serviceName`
+  // ///
+  // Stream<T> onCreated<T>({@required String serviceName, Function fromJson}) {
+  //   _socket.on('$serviceName created', (createdData) {
+  //     T object = fromJson(createdData);
+  //     eventBus.fire(object);
+  //   });
+  //   return eventBus.on<T>();
+  // }
 
-  /// Listen to `On removed serviceName`
-  ///
-  /// The removed event will be published
-  /// with the callback data, when a service remove calls back successfully
-  ///
-  /// NOTE: The data you will get from the `StreamSubscription`
-  /// is exactly what feathers send `On removed serviceName`
-  ///
-  Stream<T> onRemoved<T>({@required String serviceName, Function fromJson}) {
-    _socket.on('$serviceName removed', (removedData) {
-      T object = fromJson(removedData);
-      eventBus.fire(object);
-    });
-    return eventBus.on<T>();
-  }
+  // /// Listen to `On removed serviceName`
+  // ///
+  // /// The removed event will be published
+  // /// with the callback data, when a service remove calls back successfully
+  // ///
+  // /// NOTE: The data you will get from the `StreamSubscription`
+  // /// is exactly what feathers send `On removed serviceName`
+  // ///
+  // Stream<T> onRemoved<T>({@required String serviceName, Function fromJson}) {
+  //   _socket.on('$serviceName removed', (removedData) {
+  //     T object = fromJson(removedData);
+  //     eventBus.fire(object);
+  //   });
+  //   return eventBus.on<T>();
+  // }
 
-  /// Listen to `On updated | patched serviceName`
+  /// Listen to `On updated | patched | created | removed serviceName`
   ///
   /// The updated and patched events will be published with the callback data,
   ///  when a service update or patch method calls back successfully.
@@ -309,13 +309,31 @@ class SocketioClient extends FlutterFeathersjs {
   /// NOTE: The data you will get from the `StreamSubscription`
   /// is exactly what feathers send `On updated | patched serviceName`
   ///
-  Stream<T> onUpdated<T>({@required String serviceName, Function fromJson}) {
+  Stream<T> listen<T>({@required String serviceName, Function fromJson}) {
     _socket.on('$serviceName updated', (updatedData) {
+      print("$serviceName updated");
+      print(updatedData);
       T object = fromJson(updatedData);
       eventBus.fire(object);
     });
     _socket.on('$serviceName patched', (patchedData) {
+      print("$serviceName patched");
+      print(patchedData);
       T object = fromJson(patchedData);
+      eventBus.fire(object);
+    });
+
+    _socket.on('$serviceName removed', (removedData) {
+      print("$serviceName removed");
+      print(removedData);
+      T object = fromJson(removedData);
+      eventBus.fire(object);
+    });
+
+    _socket.on('$serviceName created', (createdData) {
+      print("$serviceName created");
+      print(createdData);
+      T object = fromJson(createdData);
       eventBus.fire(object);
     });
     return eventBus.on<T>();

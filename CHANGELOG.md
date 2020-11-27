@@ -1,11 +1,5 @@
-## 1.0.1-dev
-
-- Fixing stream suscription for realtime event
-
-
+## 1.0.3-dev
 ## 1.0.2-dev
-
-  
 ## 1.0.1-dev
 ## 1.0.0
 
