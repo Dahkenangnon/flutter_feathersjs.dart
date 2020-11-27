@@ -1,3 +1,5 @@
+import 'package:meta/meta.dart';
+
 class Constants {
   static const String INVALID_CREDENTIALS = "INVALID_CREDENTIALS";
   static const String JWT_EXPIRED_ERROR = "JWT_EXPIRED_ERROR";
@@ -20,13 +22,3 @@ class Constants {
 class Connected {}
 
 class DisConnected {}
-
-class Created {}
-
-class Removed {}
-
-class Updated {}
-
-
-
-

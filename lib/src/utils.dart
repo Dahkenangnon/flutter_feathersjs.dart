@@ -1,6 +1,5 @@
 //Help FlutterFeathersJs
 import 'dart:async';
-
 import 'package:flutter_feathersjs/src/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
