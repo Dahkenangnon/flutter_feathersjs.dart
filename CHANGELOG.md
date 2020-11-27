@@ -1,21 +1,24 @@
 
-## 0.1.0
+## 1.0.1-dev
 
-    - Improvment: Documentation of the code
-    - Breaking: on both rest and socketio, you get exactly what feathers js send,  we don't support any serializer or deserializer. So how previous version handle data is breaken
-    - Feature: Add event listen but not fully tested
-    - Authentication don't matter if you auth user with email/password. You can use email/password, phone/password, userName/password
-    - Feature: support now phone, email, etc, with password authentication
+- Fixing stream suscription for realtime event
+## 1.0.0
+
+- Improvment: Documentation of the code
+- Breaking: on both rest and socketio, you get exactly what feathers js send,  we don't support any serializer or deserializer. So how previous version handle data is breaken
+- Feature: Add event listen but not fully tested
+- Authentication don't matter if you auth user with email/password. You can use email/password, phone/password, userName/password
+- Feature: support now phone, email, etc, with password authentication
 
 ## 0.0.7
 
-    - remove unused comment
-    - Add formData handling 
-    - Update readme
+- remove unused comment
+- Add formData handling 
+- Update readme
 
 ## 0.0.6-dev
 
-    - Fix
+- Fix
 
 ## 0.0.5-dev
 

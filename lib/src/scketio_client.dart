@@ -280,7 +280,7 @@ class SocketioClient extends FlutterFeathersjs {
     _socket.on('$serviceName created', (createdData) {
       eventBus.fire(createdData);
     });
-    return eventBus.on();
+    return eventBus.on<Created>();
   }
 
   /// Listen to `On removed serviceName`
@@ -295,7 +295,7 @@ class SocketioClient extends FlutterFeathersjs {
     _socket.on('$serviceName removed', (removedData) {
       eventBus.fire(removedData);
     });
-    return eventBus.on();
+    return eventBus.on<Removed>();
   }
 
   /// Listen to `On updated | patched serviceName`
@@ -310,7 +310,7 @@ class SocketioClient extends FlutterFeathersjs {
     _socket.on('$serviceName updated', (updatedData) {
       eventBus.fire(updatedData);
     });
-    return eventBus.on();
+    return eventBus.on<Updated>();
   }
 
   /// Listen to `On updated | patched serviceName`
@@ -325,6 +325,6 @@ class SocketioClient extends FlutterFeathersjs {
     _socket.on('$serviceName patched', (patchedData) {
       eventBus.fire(patchedData);
     });
-    return eventBus.on();
+    return eventBus.on<Updated>();
   }
 }
