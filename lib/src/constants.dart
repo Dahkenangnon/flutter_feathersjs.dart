@@ -20,3 +20,13 @@ class Constants {
 class Connected {}
 
 class DisConnected {}
+
+class Created {}
+
+class Removed {}
+
+class Updated {}
+
+
+
+

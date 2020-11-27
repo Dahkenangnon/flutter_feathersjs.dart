@@ -7,9 +7,15 @@ Communicate with your feathers js (https://feathersjs.com/) server from flutter.
 
 *__FormData support out the box, auth, reAuth, socketio send event, rest ...__ 
 
-## Import it
+## Install it and Import it
+
+```yaml
+# Communicate with feathers server
+flutter_feathersjs: ^lastest
+```
 
 ```dart
+
 import 'package:flutter_feathersjs/flutter_feathersjs.dart';
 
 ```
