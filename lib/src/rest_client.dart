@@ -461,31 +461,12 @@ class RestClient extends FlutterFeathersjs {
     if (nonFilesFieldsMap != null) {
       print("nonFilesFieldsMap is not null ");
       nonFilesFieldsMap.forEach((key, value) {
-        formData.fields..add(MapEntry(key, value));
+        formData.fields..add(MapEntry<String,dynamic>(key, value));
       });
     }
 
     print("nonFilesFieldsMap  withoud the files is ");
     print(formData.fields);
-
-    // if (hasSingleFile) {
-    //   //File
-    //   var fileData = files[0];
-    //   formData.files.add(MapEntry(
-    //     fileFieldName,
-    //     await MultipartFile.fromFile(fileData["filePath"],
-    //         filename: fileData["fileName"]),
-    //   ));
-    // } else {
-    //   // Non file
-    //   for (var fileData in files) {
-    //     formData.files.add(MapEntry(
-    //       fileFieldName,
-    //       await MultipartFile.fromFile(fileData["filePath"],
-    //           filename: fileData["fileName"]),
-    //     ));
-    //   }
-    // }
     for (var fileData in files) {
       formData.files.add(MapEntry(
         fileFieldName,
