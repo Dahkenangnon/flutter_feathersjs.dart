@@ -1,6 +1,6 @@
 name: flutter_feathersjs
 description: Communicate with your feathers js server from flutter.
-version: 1.0.3-dev
+version: 1.0.4-dev
 homepage: https://github.com/Dahkenangnon/flutter_feathersjs.dart
 repository: https://github.com/Dahkenangnon/flutter_feathersjs.dart
 
