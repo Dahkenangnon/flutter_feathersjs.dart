@@ -465,24 +465,32 @@ class RestClient extends FlutterFeathersjs {
     }
     print("nonFilesFieldsMap  withoud the files is ");
     print(data);
-
-    // If single file is send
-    if (files != null && files.length == 1) {
-      print("Receive signle file");
-      var fileData = files[0];
-      var file = await MultipartFile.fromFile(fileData["filePath"],
-          filename: fileData["fileName"]);
-      data["$fileFieldName"] = file;
-    } else if (files != null && files.length >= 1) {
-      print("Receive multiple file");
-      List filesList = [];
-      for (var fileData in files) {
-        var file = await MultipartFile.fromFile(fileData["filePath"],
-            filename: fileData["fileName"]);
-        filesList.add(file);
-      }
-      data["$fileFieldName"] = filesList;
+    var formData = FormData.fromMap(data);
+    // // If single file is send
+    // if (files != null && files.length == 1) {
+    //   print("Receive signle file");
+    //   var fileData = files[0];
+    //   var file = await MultipartFile.fromFile(fileData["filePath"],
+    //       filename: fileData["fileName"]);
+    //   data["$fileFieldName"] = file;
+    // } else if (files != null && files.length >= 1) {
+    //   print("Receive multiple file");
+    //   List filesList = [];
+    //   for (var fileData in files) {
+    //     var file = await MultipartFile.fromFile(fileData["filePath"],
+    //         filename: fileData["fileName"]);
+    //     filesList.add(file);
+    //   }
+    //   data["$fileFieldName"] = filesList;
+    // }
+    for (var fileData in files) {
+      formData.files.add(MapEntry(
+        fileFieldName,
+        await MultipartFile.fromFile(fileData["filePath"],
+            filename: fileData["fileName"]),
+      ));
     }
-    return FormData.fromMap(data);
+
+    return formData;
   }
 }
