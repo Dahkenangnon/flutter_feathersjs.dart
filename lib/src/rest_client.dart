@@ -144,8 +144,8 @@ class RestClient extends FlutterFeathersjs {
   /// By default this will be `email`and the strategy `local`
   Future<dynamic> authenticate(
       {strategy = "local",
-      String userName,
-      String password,
+      @required String userName,
+      @required String password,
       String userNameFieldName = "email"}) async {
     Completer asyncTask = Completer<dynamic>();
 
@@ -201,7 +201,8 @@ class RestClient extends FlutterFeathersjs {
   /// Retrieves a list of all matching the `query` resources from the service
   ///
   Future<Response<dynamic>> find(
-      {String serviceName, Map<String, dynamic> query}) async {
+      {@required String serviceName,
+      @required Map<String, dynamic> query}) async {
     var response;
     try {
       response = await this.dio.get("/$serviceName", queryParameters: query);
@@ -216,7 +217,8 @@ class RestClient extends FlutterFeathersjs {
   ///
   /// Retrieve a single resource from the service with an `_id`
   ///
-  Future<Response<dynamic>> get({String serviceName, objectId}) async {
+  Future<Response<dynamic>> get(
+      {@required String serviceName, @required String objectId}) async {
     var response;
     try {
       response = response = await this.dio.get("/$serviceName/$objectId");
@@ -234,24 +236,10 @@ class RestClient extends FlutterFeathersjs {
   /// The below is important if you have file to upload [containsFile == true]
   ///
   ///
-  ///@var `hasSingleFile`: true for signle file , false otherwise
   ///
   ///@ `fileFieldName`: the file | files field which must be send to the server
   ///
   ///[@var files: a List map of {"filePath": the file path, "fileName": the file ame}]
-  ///
-  ///if `hasSingleFile` is true, just the file first entry of the list otherwise looping through the
-  ///list
-  ///
-  ///     //Example of files format
-  ///     // Even if, you want to upload a single file, you must send a list
-  ///     var files =
-  ///     [
-  ///
-  ///     { 'filePath': '/data/shared/epatriote_logo.png', 'fileName': 'epatriote_logo.png' }
-  ///
-  ///     ]
-  ///
   ///     // Or if multiple files
   ///     var files =
   ///     [
@@ -265,10 +253,9 @@ class RestClient extends FlutterFeathersjs {
   ///
   ///
   Future<Response<dynamic>> create(
-      {String serviceName,
-      Map<String, dynamic> data,
+      {@required String serviceName,
+      @required Map<String, dynamic> data,
       containsFile = false,
-      hasSingleFile = true,
       fileFieldName = "file",
       List<Map<String, String>> files}) async {
     Response<dynamic> response;
@@ -282,10 +269,7 @@ class RestClient extends FlutterFeathersjs {
       }
     } else {
       FormData formData = await this.makeFormData(
-          hasSingleFile: hasSingleFile,
-          nonFilesFieldsMap: data,
-          fileFieldName: fileFieldName,
-          files: files);
+          nonFilesFieldsMap: data, fileFieldName: fileFieldName, files: files);
       try {
         response = await this.dio.post("/$serviceName", data: formData);
       } catch (e) {
@@ -301,26 +285,9 @@ class RestClient extends FlutterFeathersjs {
   /// Completely replace a single resource with the `_id = objectId`
   ///
   /// The below is important if you have file to upload [containsFile == true]
-  ///
-  ///
-  ///@var `hasSingleFile`: true for signle file , false otherwise
-  ///
   ///@ `fileFieldName`: the file | files field which must be send to the server
   ///
   ///[@var files: a List map of {"filePath": the file path, "fileName": the file ame}]
-  ///
-  ///if `hasSingleFile` is true, just the file first entry of the list otherwise looping through the
-  ///list
-  ///
-  ///     //Example of files format
-  ///     // Even if, you want to upload a single file, you must send a list
-  ///     var files =
-  ///     [
-  ///
-  ///     { 'filePath': '/data/shared/epatriote_logo.png', 'fileName': 'epatriote_logo.png' }
-  ///
-  ///     ]
-  ///
   ///     // Or if multiple files
   ///     var files =
   ///     [
@@ -334,11 +301,10 @@ class RestClient extends FlutterFeathersjs {
   ///
   ///
   Future<Response<dynamic>> update(
-      {String serviceName,
-      objectId,
-      Map<String, dynamic> data,
+      {@required String serviceName,
+      @required String objectId,
+      @required Map<String, dynamic> data,
       containsFile = false,
-      hasSingleFile = true,
       fileFieldName = "file",
       List<Map<String, String>> files}) async {
     Response<dynamic> response;
@@ -353,10 +319,7 @@ class RestClient extends FlutterFeathersjs {
       }
     } else {
       FormData formData = await this.makeFormData(
-          hasSingleFile: hasSingleFile,
-          nonFilesFieldsMap: data,
-          fileFieldName: fileFieldName,
-          files: files);
+          nonFilesFieldsMap: data, fileFieldName: fileFieldName, files: files);
       try {
         response = await this
             .dio
@@ -376,23 +339,10 @@ class RestClient extends FlutterFeathersjs {
   /// The below is important if you have file to upload [containsFile == true]
   ///
   ///
-  ///@var `hasSingleFile`: true for signle file , false otherwise
   ///
   ///@ `fileFieldName`: the file | files field which must be send to the server
   ///
   ///[@var files: a List map of {"filePath": the file path, "fileName": the file ame}]
-  ///
-  ///if `hasSingleFile` is true, just the file first entry of the list otherwise looping through the
-  ///list
-  ///
-  ///     //Example of files format
-  ///     // Even if, you want to upload a single file, you must send a list
-  ///     var files =
-  ///     [
-  ///
-  ///     { 'filePath': '/data/shared/epatriote_logo.png', 'fileName': 'epatriote_logo.png' }
-  ///
-  ///     ]
   ///
   ///     // Or if multiple files
   ///     var files =
@@ -407,11 +357,10 @@ class RestClient extends FlutterFeathersjs {
   ///
   ///
   Future<Response<dynamic>> patch(
-      {String serviceName,
-      objectId,
-      Map<String, dynamic> data,
+      {@required String serviceName,
+      @required String objectId,
+      @required Map<String, dynamic> data,
       containsFile = false,
-      hasSingleFile = true,
       fileFieldName = "file",
       List<Map<String, String>> files}) async {
     Response<dynamic> response;
@@ -426,10 +375,7 @@ class RestClient extends FlutterFeathersjs {
       }
     } else {
       FormData formData = await this.makeFormData(
-          hasSingleFile: hasSingleFile,
-          nonFilesFieldsMap: data,
-          fileFieldName: fileFieldName,
-          files: files);
+          nonFilesFieldsMap: data, fileFieldName: fileFieldName, files: files);
       try {
         response = await this
             .dio
@@ -446,7 +392,8 @@ class RestClient extends FlutterFeathersjs {
   /// `DELETE /serviceName/_id`
   ///
   /// Remove a single  resource with `_id = objectId `:
-  Future<Response<dynamic>> remove({String serviceName, objectId}) async {
+  Future<Response<dynamic>> remove(
+      {@required String serviceName, @required String objectId}) async {
     var response;
     try {
       response = await this.dio.delete(
@@ -461,25 +408,12 @@ class RestClient extends FlutterFeathersjs {
 
   ///@params `nonFilesFieldsMap`: other field non file
   ///
-  ///@params `hasSingleFile`: `true` for signle file , `false` otherwise
   ///
   ///@params `fileFieldName`: the file | files field which must be send to the server
   ///
   ///@var `files`: a List map of `{"filePath": the file path, "fileName": the file name with extension}`
   ///
   /// `Example: { 'filePath': '/data/shared/epatriote_logo.png', 'fileName': 'epatriote_logo.png' }`
-  ///
-  /// If `hasSingleFile` is true, just the file first entry of the list otherwise looping through the
-  ///list
-  ///
-  ///     //Example of files format
-  ///     // Even if, you want to upload a single file, you must send a list
-  ///     var files =
-  ///     [
-  ///
-  ///     { 'filePath': '/data/shared/epatriote_logo.png', 'fileName': 'epatriote_logo.png' }
-  ///
-  ///     ]
   ///
   ///     // Or if multiple files
   ///     var files =
@@ -495,7 +429,6 @@ class RestClient extends FlutterFeathersjs {
   ///
   Future<FormData> makeFormData(
       {Map<String, dynamic> nonFilesFieldsMap,
-      hasSingleFile = true,
       fileFieldName = "file",
       List<Map<String, String>> files}) async {
     var formData = FormData();
@@ -507,23 +440,30 @@ class RestClient extends FlutterFeathersjs {
       });
     }
 
-    if (hasSingleFile) {
-      //File
-      var fileData = files[0];
+    // if (hasSingleFile) {
+    //   //File
+    //   var fileData = files[0];
+    //   formData.files.add(MapEntry(
+    //     fileFieldName,
+    //     await MultipartFile.fromFile(fileData["filePath"],
+    //         filename: fileData["fileName"]),
+    //   ));
+    // } else {
+    //   // Non file
+    //   for (var fileData in files) {
+    //     formData.files.add(MapEntry(
+    //       fileFieldName,
+    //       await MultipartFile.fromFile(fileData["filePath"],
+    //           filename: fileData["fileName"]),
+    //     ));
+    //   }
+    // }
+    for (var fileData in files) {
       formData.files.add(MapEntry(
         fileFieldName,
         await MultipartFile.fromFile(fileData["filePath"],
             filename: fileData["fileName"]),
       ));
-    } else {
-      // Non file
-      for (var fileData in files) {
-        formData.files.add(MapEntry(
-          fileFieldName,
-          await MultipartFile.fromFile(fileData["filePath"],
-              filename: fileData["fileName"]),
-        ));
-      }
     }
     return formData;
   }
