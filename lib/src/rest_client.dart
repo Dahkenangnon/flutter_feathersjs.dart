@@ -452,8 +452,7 @@ class RestClient extends FlutterFeathersjs {
       {Map<String, dynamic> nonFilesFieldsMap,
       @required fileFieldName,
       List<Map<String, String>> files}) async {
-    var formData = FormData();
-
+    Map<String, dynamic> data = {};
     print("Inside makeFormData");
     print("nonFilesFieldsMap is ");
     print(nonFilesFieldsMap);
@@ -461,19 +460,29 @@ class RestClient extends FlutterFeathersjs {
     if (nonFilesFieldsMap != null) {
       print("nonFilesFieldsMap is not null ");
       nonFilesFieldsMap.forEach((key, value) {
-        formData.fields..add(MapEntry<String,dynamic>(key, value));
+        data["$key"] = value;
       });
     }
-
     print("nonFilesFieldsMap  withoud the files is ");
-    print(formData.fields);
-    for (var fileData in files) {
-      formData.files.add(MapEntry(
-        fileFieldName,
-        await MultipartFile.fromFile(fileData["filePath"],
-            filename: fileData["fileName"]),
-      ));
+    print(data);
+
+    // If single file is send
+    if (files != null && files.length == 1) {
+      print("Receive signle file");
+      var fileData = files[0];
+      var file = await MultipartFile.fromFile(fileData["filePath"],
+          filename: fileData["fileName"]);
+      data["$fileFieldName"] = file;
+    } else if (files != null && files.length >= 1) {
+      print("Receive multiple file");
+      List filesList = [];
+      for (var fileData in files) {
+        var file = await MultipartFile.fromFile(fileData["filePath"],
+            filename: fileData["fileName"]);
+        filesList.add(file);
+      }
+      data["$fileFieldName"] = filesList;
     }
-    return formData;
+    return FormData.fromMap(data);
   }
 }
