@@ -149,7 +149,9 @@ class SocketioClient extends FlutterFeathersjs {
   ///
   /// The format of the last one is according to what error occured on feather js server
   ///
-  Future<dynamic> find({String serviceName, Map<String, dynamic> query}) async {
+  Future<dynamic> find(
+      {@required String serviceName,
+      @required Map<String, dynamic> query}) async {
     Completer asyncTask = Completer<dynamic>();
     _socket.emitWithAck("find", [serviceName, query], ack: (response) {
       asyncTask.complete(response);
@@ -171,7 +173,8 @@ class SocketioClient extends FlutterFeathersjs {
   ///
   /// The format of the last one is according to what error occured on feather js server
   ///
-  Future<dynamic> create({String serviceName, Map<String, dynamic> data}) {
+  Future<dynamic> create(
+      {@required String serviceName, @required Map<String, dynamic> data}) {
     Completer asyncTask = Completer<dynamic>();
     _socket.emitWithAck("create", [serviceName, data], ack: (response) {
       asyncTask.complete(response);
@@ -194,7 +197,9 @@ class SocketioClient extends FlutterFeathersjs {
   /// The format of the last one is according to what error occured on feather js server
   ///
   Future<dynamic> update(
-      {String serviceName, objectId, Map<String, dynamic> data}) {
+      {@required String serviceName,
+      @required String objectId,
+      @required Map<String, dynamic> data}) {
     Completer asyncTask = Completer<dynamic>();
     _socket.emitWithAck("update", [serviceName, objectId, data],
         ack: (response) {
@@ -215,7 +220,8 @@ class SocketioClient extends FlutterFeathersjs {
   ///
   /// The format of the last one is according to what error occured on feather js server
   ///
-  Future<dynamic> get({String serviceName, objectId}) {
+  Future<dynamic> get(
+      {@required String serviceName, @required String objectId}) {
     Completer asyncTask = Completer<dynamic>();
     _socket.emitWithAck("get", [serviceName, objectId], ack: (response) {
       asyncTask.complete(response);
@@ -238,7 +244,9 @@ class SocketioClient extends FlutterFeathersjs {
   /// The format of the last one is according to what error occured on feather js server
   ///
   Future<dynamic> patch(
-      {String serviceName, objectId, Map<String, dynamic> data}) {
+      {@required String serviceName,
+      @required String objectId,
+      @required Map<String, dynamic> data}) {
     Completer asyncTask = Completer<dynamic>();
     _socket.emitWithAck("patch", [serviceName, objectId, data],
         ack: (response) {
@@ -261,7 +269,7 @@ class SocketioClient extends FlutterFeathersjs {
   ///
   /// The format of the last one is according to what error occured on feather js server
   ///
-  Future<dynamic> remove({String serviceName, objectId}) {
+  Future<dynamic> remove({@required String serviceName, String objectId}) {
     Completer asyncTask = Completer<dynamic>();
     _socket.emitWithAck("remove", [serviceName, objectId], ack: (response) {
       asyncTask.complete(response);
@@ -309,7 +317,8 @@ class SocketioClient extends FlutterFeathersjs {
   /// NOTE: The data you will get from the `StreamSubscription`
   /// is exactly what feathers send `On updated | patched serviceName`
   ///
-  Stream<T> listen<T>({@required String serviceName, Function fromJson}) {
+  Stream<T> listen<T>(
+      {@required String serviceName, @required Function fromJson}) {
     _socket.on('$serviceName updated', (updatedData) {
       print("$serviceName updated");
       print(updatedData);
