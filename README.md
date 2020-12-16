@@ -72,3 +72,4 @@ var reAuthResponse = await flutterFeathersjs.reAuthenticate()
 
 - Contact-me for improvment or contribution purpose
 - Example is coming
+- Looking for contributor
