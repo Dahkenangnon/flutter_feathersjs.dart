@@ -58,17 +58,17 @@ class RestClient extends FlutterFeathersjs {
       // Do something with response error
 
       if (e.response != null) {
-        // print(e.response.data);
-        // print(e.response.headers);
-        // print(e.response.request);
-        //Only send the error message from feathers js server not for Dio
         print(e.response.data);
+        print(e.response.headers);
+        print(e.response.request);
+        //Only send the error message from feathers js server not for Dio
+        print(e.response);
         return dio.resolve(e.response.data);
         //return e.response.data; //continue
       } else {
         // Something happened in setting up or sending the request that triggered an Error
-        // print(e.request);
-        // print(e.message);
+        print(e.request);
+        print(e.message);
         //By returning null, it means that error is from client
         //return null;
         return e;
@@ -261,17 +261,38 @@ class RestClient extends FlutterFeathersjs {
     Response<dynamic> response;
 
     if (!containsFile) {
+      print('Dio.post without file');
+      print("Service name is");
+      print(serviceName);
+      print("Data are: ");
+      print(data);
       try {
         response = await this.dio.post("/$serviceName", data: data);
+        print("Response from server is:");
+        print(response.data);
+        print(response);
       } catch (e) {
         print("Error in rest::create");
         print(e);
       }
     } else {
+      print('Dio.post with file');
+      print("Service name is");
+      print(serviceName);
+      print("nonFilesFieldsMap are: ");
+      print(data);
+      print("fileFieldName are: ");
+      print(fileFieldName);
+      print("files are: ");
+      print(fileFieldName);
       FormData formData = await this.makeFormData(
           nonFilesFieldsMap: data, fileFieldName: fileFieldName, files: files);
+      print("FormData built is: ");
+      print(formData.fields);
+      print(formData.files);
       try {
         response = await this.dio.post("/$serviceName", data: formData);
+        print(response);
       } catch (e) {
         print("Error in rest::create::with:file");
         print(e);
@@ -429,34 +450,38 @@ class RestClient extends FlutterFeathersjs {
   ///
   Future<FormData> makeFormData(
       {Map<String, dynamic> nonFilesFieldsMap,
-      fileFieldName = "file",
+      @required fileFieldName,
       List<Map<String, String>> files}) async {
-    var formData = FormData();
-
+    Map<String, dynamic> data = {};
+    print("Inside makeFormData");
+    print("nonFilesFieldsMap is ");
+    print(nonFilesFieldsMap);
     // Non file
     if (nonFilesFieldsMap != null) {
+      print("nonFilesFieldsMap is not null ");
       nonFilesFieldsMap.forEach((key, value) {
-        formData.fields..add(MapEntry(key, value));
+        data["$key"] = value;
       });
     }
-
-    // if (hasSingleFile) {
-    //   //File
+    print("nonFilesFieldsMap  withoud the files is ");
+    print(data);
+    var formData = FormData.fromMap(data);
+    // // If single file is send
+    // if (files != null && files.length == 1) {
+    //   print("Receive signle file");
     //   var fileData = files[0];
-    //   formData.files.add(MapEntry(
-    //     fileFieldName,
-    //     await MultipartFile.fromFile(fileData["filePath"],
-    //         filename: fileData["fileName"]),
-    //   ));
-    // } else {
-    //   // Non file
+    //   var file = await MultipartFile.fromFile(fileData["filePath"],
+    //       filename: fileData["fileName"]);
+    //   data["$fileFieldName"] = file;
+    // } else if (files != null && files.length >= 1) {
+    //   print("Receive multiple file");
+    //   List filesList = [];
     //   for (var fileData in files) {
-    //     formData.files.add(MapEntry(
-    //       fileFieldName,
-    //       await MultipartFile.fromFile(fileData["filePath"],
-    //           filename: fileData["fileName"]),
-    //     ));
+    //     var file = await MultipartFile.fromFile(fileData["filePath"],
+    //         filename: fileData["fileName"]);
+    //     filesList.add(file);
     //   }
+    //   data["$fileFieldName"] = filesList;
     // }
     for (var fileData in files) {
       formData.files.add(MapEntry(
@@ -465,6 +490,7 @@ class RestClient extends FlutterFeathersjs {
             filename: fileData["fileName"]),
       ));
     }
+
     return formData;
   }
 }
