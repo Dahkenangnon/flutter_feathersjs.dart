@@ -1,3 +1,7 @@
+## 1.0.9
+
+Documentation is now available from: [https://dahkenangnon.github.io/flutter_feathersjs.dart/](https://dahkenangnon.github.io/flutter_feathersjs.dart/)
+
 ## 1.0.8-dev
 ## 1.0.7-dev
 ## 1.0.6-dev
