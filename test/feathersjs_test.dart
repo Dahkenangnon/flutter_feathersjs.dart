@@ -50,22 +50,22 @@ void main() async {
 
   // //Testing the authentication method
   // test(' reAuthentication method', () async {
-  //   var reps = await flutterFeathersjs.reAuthenticate();
-  //   if (!reps["error"]) {
-  //     print('client is authed');
-  //     print("----------Authed user :------");
-  //     print(reps["message"]);
-  //     print("----------Authed user :------");
-  //   } else if (reps["error_zone"] == Constants.BOTH_CLIENT_AUTHED)
-  //     print("Blabal");
-  //   else {
-  //     print(reps["error_zone"]);
-  //     print(reps["message"]);
-  //     print("frm secktio");
-  //     print(reps["scketResponse"]);
-  //     print("frm rest");
-  //     print(reps["restResponse"]);
-  //   }
+  // var reps = await flutterFeathersjs.reAuthenticate();
+  // if (!reps["error"]) {
+  //   print('client is authed');
+  //   print("----------Authed user :------");
+  //   print(reps["message"]);
+  //   print("----------Authed user :------");
+  // } else if (reps["error_zone"] == Constants.BOTH_CLIENT_AUTHED)
+  //   print("Blabal");
+  // else {
+  //   print(reps["error_zone"]);
+  //   print(reps["message"]);
+  //   print("frm secktio");
+  //   print(reps["scketResponse"]);
+  //   print("frm rest");
+  //   print(reps["restResponse"]);
+  // }
   // });
 
   // ////////////////////////////////////////////////////

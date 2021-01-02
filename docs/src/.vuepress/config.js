@@ -22,6 +22,7 @@ module.exports = {
         ['link', { rel: 'icon', href: '/assets/img/logo.png' }]
     ],
 
+    base: '/flutter_feathersjs.dart/',
     /**
      * Theme configuration, here is the default theme configuration for VuePress.
      *
