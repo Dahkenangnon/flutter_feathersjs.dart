@@ -6,10 +6,34 @@ Communicate with your feathers js [https://feathersjs.com/](https://feathersjs.c
 
 `Infos: Feathers js is a node framework for real-time applications and REST APIs.`
 
-
 *__FormData support out the box, auth, reAuth, socketio send event, rest ...__ 
 
+## Illustration's service infos
 
-NB: I'm working on this doc and an example app which will be available very soon.
+In this documentation, we assume that our feathers js api has a **news** services register on **/news**
 
-:warning: This Doc is still dev, so it can contain some misspelled.
+with the following schema
+
+```js
+
+ // News schema
+  const schema = new Schema({
+
+    title: { type: String, required: true },
+
+    content: { type: String, required: true },
+
+    // They can provide multiple image for a single news
+    files: { type: Array, required: false },
+
+    //The publisher id
+    author: { type: Schema.Types.ObjectId, ref: 'users', required: true },
+
+  }, {
+    timestamps: true
+  });
+```
+
+## The illustration's app
+
+The app used for this documentation will be available very soon.

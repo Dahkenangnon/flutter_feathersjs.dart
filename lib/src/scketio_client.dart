@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' as Foundation;
 import 'package:flutter/material.dart';
 import 'package:flutter_feathersjs/src/constants.dart';
 import 'package:flutter_feathersjs/src/featherjs_client_base.dart';
@@ -56,28 +56,37 @@ class SocketioClient extends FlutterFeathersjs {
     utils = new Utils();
 
     _socket.on('connect', (_) {
-      print("Socket connection established");
       eventBus.fire(Connected());
     });
 
-    _socket.on('connect_error', (e) {
-      print("Connection error");
-      print(e);
-    });
-    _socket.on('connect_timeout', (data) {
-      print("Timeout error");
-      print(data);
-    });
-    _socket.on('connecting', (_) => print("Connecting..."));
     _socket.on('disconnect', (_) {
       eventBus.fire(DisConnected());
     });
-    _socket.on('error', (_) => print("An error occured"));
-    _socket.on('reconnect', (_) => print("Reconnected"));
-    _socket.on('reconnect_error', (_) => print("Reconnection error..."));
-    _socket.on('reconnect_attempt', (_) => print("Attempting a reconnection"));
-    _socket.on('reconnect_failed', (_) => print("A reconnection failed"));
-    _socket.on('reconnecting', (_) => print("Reconnecting..."));
+
+    // Print debug infos only in debug mode
+    if (!Foundation.kReleaseMode) {
+      _socket.on('connect', (_) {
+        print("Socket connection established");
+      });
+
+      _socket.on('connect_error', (e) {
+        print("Connection error");
+        print(e);
+      });
+      _socket.on('connect_timeout', (data) {
+        print("Timeout error");
+        print(data);
+      });
+      _socket.on('connecting', (_) => print("Connecting..."));
+      _socket.on('disconnect', (_) {});
+      _socket.on('error', (_) => print("An error occured"));
+      _socket.on('reconnect', (_) => print("Reconnected"));
+      _socket.on('reconnect_error', (_) => print("Reconnection error..."));
+      _socket.on(
+          'reconnect_attempt', (_) => print("Attempting a reconnection"));
+      _socket.on('reconnect_failed', (_) => print("A reconnection failed"));
+      _socket.on('reconnecting', (_) => print("Reconnecting..."));
+    }
   }
 
   ///
@@ -106,12 +115,17 @@ class SocketioClient extends FlutterFeathersjs {
         'accessToken': token,
       }
     ], ack: (dataResponse) {
-      print("Receive response from server on JWT request");
-      print(dataResponse);
+      if (!Foundation.kReleaseMode) {
+        print("Receive response from server on JWT request");
+        print(dataResponse);
+      }
 
       //Check whether auth is OK
       if (dataResponse is List) {
-        print("Authentication process is ok with JWT");
+        if (!Foundation.kReleaseMode) {
+          print("Authentication process is ok with JWT");
+        }
+
         //Auth is ok
         var resp = dataResponse[1];
         authResponse["error"] = false;
@@ -123,7 +137,9 @@ class SocketioClient extends FlutterFeathersjs {
           'Authorization': "Bearer $token"
         };
       } else {
-        print("Authentication process failed with JWT");
+        if (!Foundation.kReleaseMode) {
+          print("Authentication process failed with JWT");
+        }
         //Auth is not ok
         authResponse["error"] = true;
         authResponse["message"] = dataResponse;
@@ -277,38 +293,6 @@ class SocketioClient extends FlutterFeathersjs {
     return asyncTask.future;
   }
 
-  // /// Listen to `On created serviceName`
-  // ///
-  // /// The created event will be published with the
-  // ///  callback data, when a service create returns successfully.
-  // ///
-  // /// NOTE: The data you will get from the `StreamSubscription`
-  // /// is exactly what feathers send `On created serviceName`
-  // ///
-  // Stream<T> onCreated<T>({@required String serviceName, Function fromJson}) {
-  //   _socket.on('$serviceName created', (createdData) {
-  //     T object = fromJson(createdData);
-  //     eventBus.fire(object);
-  //   });
-  //   return eventBus.on<T>();
-  // }
-
-  // /// Listen to `On removed serviceName`
-  // ///
-  // /// The removed event will be published
-  // /// with the callback data, when a service remove calls back successfully
-  // ///
-  // /// NOTE: The data you will get from the `StreamSubscription`
-  // /// is exactly what feathers send `On removed serviceName`
-  // ///
-  // Stream<T> onRemoved<T>({@required String serviceName, Function fromJson}) {
-  //   _socket.on('$serviceName removed', (removedData) {
-  //     T object = fromJson(removedData);
-  //     eventBus.fire(object);
-  //   });
-  //   return eventBus.on<T>();
-  // }
-
   /// Listen to `On updated | patched | created | removed serviceName`
   ///
   /// The updated and patched events will be published with the callback data,
@@ -320,28 +304,20 @@ class SocketioClient extends FlutterFeathersjs {
   Stream<T> listen<T>(
       {@required String serviceName, @required Function fromJson}) {
     _socket.on('$serviceName updated', (updatedData) {
-      print("$serviceName updated");
-      print(updatedData);
       T object = fromJson(updatedData);
       eventBus.fire(object);
     });
     _socket.on('$serviceName patched', (patchedData) {
-      print("$serviceName patched");
-      print(patchedData);
       T object = fromJson(patchedData);
       eventBus.fire(object);
     });
 
     _socket.on('$serviceName removed', (removedData) {
-      print("$serviceName removed");
-      print(removedData);
       T object = fromJson(removedData);
       eventBus.fire(object);
     });
 
     _socket.on('$serviceName created', (createdData) {
-      print("$serviceName created");
-      print(createdData);
       T object = fromJson(createdData);
       eventBus.fire(object);
     });

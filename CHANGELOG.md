@@ -1,3 +1,5 @@
+## 1.0.10
+Fix [overwhelming debug's message ouputing in production](https://github.com/Dahkenangnon/flutter_feathersjs.dart/discussions/6#discussion-2051014)
 ## 1.0.9
 
 Documentation is now available from: [https://dahkenangnon.github.io/flutter_feathersjs.dart/](https://dahkenangnon.github.io/flutter_feathersjs.dart/)

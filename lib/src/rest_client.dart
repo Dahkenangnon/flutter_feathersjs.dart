@@ -5,6 +5,7 @@ import 'package:flutter_feathersjs/src/constants.dart';
 import 'package:flutter_feathersjs/src/featherjs_client_base.dart';
 import 'package:flutter_feathersjs/src/utils.dart';
 import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart' as Foundation;
 
 ///
 ///Feathers Js rest client for rest api call
@@ -58,19 +59,24 @@ class RestClient extends FlutterFeathersjs {
       // Do something with response error
 
       if (e.response != null) {
-        print(e.response.data);
-        print(e.response.headers);
-        print(e.response.request);
-        //Only send the error message from feathers js server not for Dio
-        print(e.response);
+        if (!Foundation.kReleaseMode) {
+          print(e.response.data);
+          print(e.response.headers);
+          print(e.response.request);
+          //Only send the error message from feathers js server not for Dio
+          print(e.response);
+        }
+
         return dio.resolve(e.response.data);
         //return e.response.data; //continue
       } else {
-        // Something happened in setting up or sending the request that triggered an Error
-        print(e.request);
-        print(e.message);
-        //By returning null, it means that error is from client
-        //return null;
+        if (!Foundation.kReleaseMode) {
+          // Something happened in setting up or sending the request that triggered an Error
+          print(e.request);
+          print(e.message);
+          //By returning null, it means that error is from client
+          //return null;
+        }
         return e;
       }
     }));
@@ -98,26 +104,37 @@ class RestClient extends FlutterFeathersjs {
         var response = await this
             .dio
             .get("/$serviceName", queryParameters: {"\$limit": 1});
-        print(response);
+        if (!Foundation.kReleaseMode) {
+          print(response);
+        }
 
         if (response.statusCode == 401) {
-          print("jwt expired or jwt malformed");
+          if (!Foundation.kReleaseMode) {
+            print("jwt expired or jwt malformed");
+          }
+
           authResponse["error"] = true;
           authResponse["message"] = "jwt expired";
           authResponse["error_zone"] = Constants.JWT_EXPIRED_ERROR;
         } else if (response.statusCode == 200) {
-          print("Jwt still validated");
+          if (!Foundation.kReleaseMode) {
+            print("Jwt still validated");
+          }
           authResponse["error"] = false;
           authResponse["message"] = "Jwt still validated";
           authResponse["error_zone"] = Constants.NO_ERROR;
         } else {
-          print("Unknown error");
+          if (!Foundation.kReleaseMode) {
+            print("Unknown error");
+          }
           authResponse["error"] = true;
           authResponse["message"] = "Unknown error";
           authResponse["error_zone"] = Constants.UNKNOWN_ERROR;
         }
       } catch (e) {
-        print("Unable to connect to the server");
+        if (!Foundation.kReleaseMode) {
+          print("Unable to connect to the server");
+        }
         authResponse["error"] = true;
         authResponse["message"] = e;
         authResponse["error_zone"] = Constants.JWT_ERROR;
@@ -126,7 +143,9 @@ class RestClient extends FlutterFeathersjs {
 
     ///No token is found
     else {
-      print("No old token found. Must reAuth user");
+      if (!Foundation.kReleaseMode) {
+        print("No old token found. Must reAuth user");
+      }
       authResponse["error"] = true;
       authResponse["message"] = "No old token found. Must reAuth user";
       authResponse["error_zone"] = Constants.JWT_NOT_FOUND;
@@ -207,8 +226,8 @@ class RestClient extends FlutterFeathersjs {
     try {
       response = await this.dio.get("/$serviceName", queryParameters: query);
     } catch (e) {
-      print("Error in rest::find");
-      print(e);
+      // print("Error in rest::find");
+      // print(e);
     }
     return response;
   }
@@ -223,8 +242,8 @@ class RestClient extends FlutterFeathersjs {
     try {
       response = response = await this.dio.get("/$serviceName/$objectId");
     } catch (e) {
-      print("Error in rest::get");
-      print(e);
+      // print("Error in rest::get");
+      // print(e);
     }
     return response;
   }
@@ -261,16 +280,16 @@ class RestClient extends FlutterFeathersjs {
     Response<dynamic> response;
 
     if (!containsFile) {
-      print('Dio.post without file');
-      print("Service name is");
-      print(serviceName);
-      print("Data are: ");
-      print(data);
+      // print('Dio.post without file');
+      // print("Service name is");
+      // print(serviceName);
+      // print("Data are: ");
+      // print(data);
       try {
         response = await this.dio.post("/$serviceName", data: data);
-        print("Response from server is:");
-        print(response.data);
-        print(response);
+        // print("Response from server is:");
+        // print(response.data);
+        // print(response);
       } catch (e) {
         print("Error in rest::create");
         print(e);
@@ -453,9 +472,13 @@ class RestClient extends FlutterFeathersjs {
       @required fileFieldName,
       List<Map<String, String>> files}) async {
     Map<String, dynamic> data = {};
-    print("Inside makeFormData");
-    print("nonFilesFieldsMap is ");
-    print(nonFilesFieldsMap);
+
+    if (!Foundation.kReleaseMode) {
+      print("Inside makeFormData");
+      print("nonFilesFieldsMap is ");
+      print(nonFilesFieldsMap);
+    }
+
     // Non file
     if (nonFilesFieldsMap != null) {
       print("nonFilesFieldsMap is not null ");
@@ -463,26 +486,7 @@ class RestClient extends FlutterFeathersjs {
         data["$key"] = value;
       });
     }
-    print("nonFilesFieldsMap  withoud the files is ");
-    print(data);
     var formData = FormData.fromMap(data);
-    // // If single file is send
-    // if (files != null && files.length == 1) {
-    //   print("Receive signle file");
-    //   var fileData = files[0];
-    //   var file = await MultipartFile.fromFile(fileData["filePath"],
-    //       filename: fileData["fileName"]);
-    //   data["$fileFieldName"] = file;
-    // } else if (files != null && files.length >= 1) {
-    //   print("Receive multiple file");
-    //   List filesList = [];
-    //   for (var fileData in files) {
-    //     var file = await MultipartFile.fromFile(fileData["filePath"],
-    //         filename: fileData["fileName"]);
-    //     filesList.add(file);
-    //   }
-    //   data["$fileFieldName"] = filesList;
-    // }
     for (var fileData in files) {
       formData.files.add(MapEntry(
         fileFieldName,

@@ -49,14 +49,6 @@ class FlutterFeathersjs {
 
   ///Intialize both rest and scoketio client
   init({@required String baseUrl, Map<String, dynamic> extraHeaders}) {
-    // if (Foundation.kReleaseMode) {
-    //   // W're on release mode
-    //   dev = false;
-    // } else {
-    //   // W're not on release mode
-    //   dev = true;
-    // }
-
     rest = new RestClient()..init(baseUrl: baseUrl, extraHeaders: extraHeaders);
 
     scketio = new SocketioClient()..init(baseUrl: baseUrl);
