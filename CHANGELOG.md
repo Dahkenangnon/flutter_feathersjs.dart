@@ -1,3 +1,5 @@
+## 2.0.0-dev
+Upgrading to nullsafety
 ## 1.0.10
 Fix [overwhelming debug's message ouputing in production](https://github.com/Dahkenangnon/flutter_feathersjs.dart/discussions/6#discussion-2051014)
 ## 1.0.9

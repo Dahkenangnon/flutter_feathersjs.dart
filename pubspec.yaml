@@ -1,6 +1,6 @@
 name: flutter_feathersjs
 description: Communicate with your feathers js server from flutter.
-version: 1.0.10
+version: 2.0.0-dev
 homepage: https://github.com/Dahkenangnon/flutter_feathersjs.dart
 repository: https://github.com/Dahkenangnon/flutter_feathersjs.dart
 
@@ -15,10 +15,10 @@ dependencies:
   # Http client
   dio: ^4.0.0
   # For storing the acces token
-  shared_preferences: ^0.5.12+2
+  shared_preferences: ^2.0.5
   meta: ^1.1.8
   # Event managment
-  event_bus: ^1.1.1
+  event_bus: ^2.0.0
 
 dev_dependencies:
   flutter_test:
