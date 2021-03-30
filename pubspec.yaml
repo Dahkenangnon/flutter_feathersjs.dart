@@ -13,7 +13,7 @@ dependencies:
   # Socketio client
   socket_io_client: ^0.9.9
   # Http client
-  dio: ^3.0.9
+  dio: ^4.0.0
   # For storing the acces token
   shared_preferences: ^0.5.12+2
   meta: ^1.1.8

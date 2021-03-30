@@ -42,7 +42,7 @@ class RestClient extends FlutterFeathersjs {
     ));
 
     dio.interceptors
-        .add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
+        .add(InterceptorsWrapper(onRequest: (options, handler) async {
       // Do something before request is sent
       //Adding stored token early with SharedPreferences
       var oldToken = await utils.getAccessToken();
@@ -52,28 +52,23 @@ class RestClient extends FlutterFeathersjs {
       // you can return a `Response` object or return `dio.resolve(data)`.
       // If you want to reject the request with a error message,
       // you can return a `DioError` object or return `dio.reject(errMsg)`
-    }, onResponse: (Response response) async {
+    }, onResponse: (response, handler) async {
       // Do something with response data
       return response; // continue
-    }, onError: (DioError e) async {
+    }, onError: (e, handler) async {
       // Do something with response error
 
       if (e.response != null) {
         if (!Foundation.kReleaseMode) {
-          print(e.response.data);
-          print(e.response.headers);
-          print(e.response.request);
           //Only send the error message from feathers js server not for Dio
           print(e.response);
         }
 
-        return dio.resolve(e.response.data);
+        return handler.resolve(e.response.data);
         //return e.response.data; //continue
       } else {
         if (!Foundation.kReleaseMode) {
           // Something happened in setting up or sending the request that triggered an Error
-          print(e.request);
-          print(e.message);
           //By returning null, it means that error is from client
           //return null;
         }
