@@ -43,37 +43,28 @@ class RestClient extends FlutterFeathersjs {
 
     dio.interceptors
         .add(InterceptorsWrapper(onRequest: (options, handler) async {
-      // Do something before request is sent
-      //Adding stored token early with SharedPreferences
+      // Setting on every request the Bearer Token in the header
       var oldToken = await utils.getAccessToken();
       dio.options.headers["Authorization"] = "Bearer $oldToken";
-      return options; //continue
+      return handler.next(options); //continue
       // If you want to resolve the request with some custom data，
-      // you can return a `Response` object or return `dio.resolve(data)`.
+      // you can resolve a `Response` object eg: return `dio.resolve(response)`.
       // If you want to reject the request with a error message,
-      // you can return a `DioError` object or return `dio.reject(errMsg)`
-    }, onResponse: (response, handler) async {
-      // Do something with response data
-      return response; // continue
-    }, onError: (e, handler) async {
+      // you can reject a `DioError` object eg: return `dio.reject(dioError)`
+    }, onResponse: (response, handler) {
+      // Return exactly what response feather send
+      return handler.next(response); // continue
+      // If you want to reject the request with a error message,
+      // you can reject a `DioError` object eg: return `dio.reject(dioError)`
+    }, onError: (DioError e, handler) {
       // Do something with response error
-
-      if (e.response != null) {
-        if (!Foundation.kReleaseMode) {
-          //Only send the error message from feathers js server not for Dio
-          print(e.response);
-        }
-
-        return handler.resolve(e.response.data);
-        //return e.response.data; //continue
-      } else {
-        if (!Foundation.kReleaseMode) {
-          // Something happened in setting up or sending the request that triggered an Error
-          //By returning null, it means that error is from client
-          //return null;
-        }
-        return e;
+      if (!Foundation.kReleaseMode) {
+        //Only send the error message from feathers js server not for Dio
+        print(e.response);
       }
+      return handler.next(e); //continue
+      // If you want to resolve the request with some custom data，
+      // you can resolve a `Response` object eg: return `dio.resolve(response)`.
     }));
   }
 
@@ -221,8 +212,8 @@ class RestClient extends FlutterFeathersjs {
     try {
       response = await this.dio.get("/$serviceName", queryParameters: query);
     } catch (e) {
-      // print("Error in rest::find");
-      // print(e);
+      print("Error in rest::find");
+      print(e);
     }
     return response;
   }
@@ -254,7 +245,7 @@ class RestClient extends FlutterFeathersjs {
   ///@ `fileFieldName`: the file | files field which must be send to the server
   ///
   ///[@var files: a List map of {"filePath": the file path, "fileName": the file ame}]
-  ///     // Or if multiple files
+  //      Or if multiple files
   ///     var files =
   ///     [
   ///

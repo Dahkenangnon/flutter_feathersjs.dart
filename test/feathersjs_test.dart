@@ -22,57 +22,58 @@ void main() async {
   ///          Auth or reAuth
   ///
   ////////////////////////////////////////////////////
-  // Authenticate user  and comment this line
+  // // Authenticate user  and comment this line
   var rep = await flutterFeathersjs.authenticate(
-      strategy: "phone",
-      userNameFieldName: "tel",
-      userName: user["tel"],
+      // strategy: "phone",
+      // userNameFieldName: "tel",
+      userName: user["email"],
       password: user["password"]);
-  //Then use this one to reuse access token as it still valide
-  //var reAuthResp = await flutterFeathersjs.rest.reAuthenticate();
+  // //Then use this one to reuse access token as it still valide
+  var reAuthResp = await flutterFeathersjs.reAuthenticate();
 
-  ////////////////////////////////////////////////////
-  ///
-  ///          Singleton testing
-  ///
-  ////////////////////////////////////////////////////
+  // print("Hello");
+  // ////////////////////////////////////////////////////
+  // ///
+  // ///          Singleton testing
+  // ///
+  // ////////////////////////////////////////////////////
 
-  // // Singleton pattern if the flutterFeathersjs class
+  // // // Singleton pattern if the flutterFeathersjs class
   // test('Testing singleton ', () {
   //   FlutterFeathersjs flutterFeathersjs1 = FlutterFeathersjs();
   //   expect(identical(flutterFeathersjs1, flutterFeathersjs), true);
   // });
 
-  // // ////////////////////////////////////////////////////
-  // // ///
-  // // ///             reAuth
-  // // ////////////////////////////////////////////////////
+  // // // ////////////////////////////////////////////////////
+  // // // ///
+  // // // ///             reAuth
+  // // // ////////////////////////////////////////////////////
 
-  // //Testing the authentication method
+  // // //Testing the authentication method
   // test(' reAuthentication method', () async {
-  // var reps = await flutterFeathersjs.reAuthenticate();
-  // if (!reps["error"]) {
-  //   print('client is authed');
-  //   print("----------Authed user :------");
-  //   print(reps["message"]);
-  //   print("----------Authed user :------");
-  // } else if (reps["error_zone"] == Constants.BOTH_CLIENT_AUTHED)
-  //   print("Blabal");
-  // else {
-  //   print(reps["error_zone"]);
-  //   print(reps["message"]);
-  //   print("frm secktio");
-  //   print(reps["scketResponse"]);
-  //   print("frm rest");
-  //   print(reps["restResponse"]);
-  // }
+  //   var reps = await flutterFeathersjs.reAuthenticate();
+  //   if (!reps["error"]) {
+  //     print('client is authed');
+  //     print("----------Authed user :------");
+  //     print(reps["message"]);
+  //     print("----------Authed user :------");
+  //   } else if (reps["error_zone"] == Constants.BOTH_CLIENT_AUTHED)
+  //     print("Blabal");
+  //   else {
+  //     print(reps["error_zone"]);
+  //     print(reps["message"]);
+  //     print("frm secktio");
+  //     print(reps["scketResponse"]);
+  //     print("frm rest");
+  //     print(reps["restResponse"]);
+  //   }
   // });
 
-  // ////////////////////////////////////////////////////
-  // ///
-  // ///            Rest client methods
-  // ///
-  // ///////////////////////////////////////////////////
+  // // // ////////////////////////////////////////////////////
+  // // // ///
+  // // // ///            Rest client methods
+  // // // ///
+  // // // ///////////////////////////////////////////////////
 
   // test('Testing singleton on Rest client', () {
   //   RestClient so1 = RestClient()..init(baseUrl: BASE_URL);
@@ -83,11 +84,12 @@ void main() async {
   //   expect(identical(so1, so2), true);
   // });
 
-  // test(' \n rest Find all method  \n', () async {
-  //   var rep2 = await flutterFeathersjs.rest.find(serviceName: "v1/news");
-  //   print("\n  Founds news are: \n");
-  //   print(rep2.data);
-  // });
+  test(' \n rest Find all method  \n', () async {
+    var rep2 =
+        await flutterFeathersjs.rest.find(serviceName: "v1/news", query: {});
+    print("\n  Founds news are: \n");
+    print(rep2.data['data']);
+  });
 
   // test(' \n rest find with with query params \n ', () async {
   //   var rep2 = await flutterFeathersjs.rest.find(
@@ -128,7 +130,6 @@ void main() async {
   //       serviceName: "v1/news",
   //       data: data2Send,
   //       containsFile: true,
-  //       hasSingleFile: true,
   //       fileFieldName: "file",
   //       files: files);
   //   print("\n  The new news menu created  is: \n");
@@ -168,6 +169,7 @@ void main() async {
 
   // test('find method', () async {
   //   var rep2 = await flutterFeathersjs.scketio.find(
+  //     query: {},
   //     serviceName: "v1/news",
   //   );
   //   print("Printing news:");

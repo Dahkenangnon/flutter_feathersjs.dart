@@ -1,8 +1,8 @@
 //User credentials used for auth purpose
 Map<String, String> user = {
   "strategy": "local",
-  "email": "email@email.com",
-  "password": "email@email.com",
+  "email": "ep@ep.com",
+  "password": "ep@ep.com",
   "tel": "+229000000"
 };
 
