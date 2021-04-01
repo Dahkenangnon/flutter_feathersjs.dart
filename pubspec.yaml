@@ -1,6 +1,6 @@
 name: flutter_feathersjs
 description: Communicate with your feathers js server from flutter.
-version: 2.0.2-dev
+version: 2.0.3-dev
 homepage: https://github.com/Dahkenangnon/flutter_feathersjs.dart
 repository: https://github.com/Dahkenangnon/flutter_feathersjs.dart
 
@@ -19,6 +19,7 @@ dependencies:
   meta: ^1.1.8
   # Event managment
   event_bus: ^2.0.0
+ 
 
 dev_dependencies:
   flutter_test:

@@ -1,9 +1,23 @@
 /// Communicate with your feathers js (https://feathersjs.com/) server from flutter app.
+///
+/// Documentation at: https://dahkenangnon.github.io/flutter_feathersjs.dart/
+///
+/// Repository at: https://github.com/Dahkenangnon/flutter_feathersjs.dart
+///
+/// Pub.dev: https://pub.dev/packages/flutter_feathersjs/
+///
+/// Demo api at: https://flutter-feathersjs.herokuapp.com/
+///
+/// Demo app's repo at: https://github.com/Dahkenangnon/flutter_feathersjs_demo
+///
+///
+///
+/// Happy hacking
 library flutter_feathersjs;
 
-import 'package:flutter_feathersjs/src/constants.dart';
 import 'package:flutter_feathersjs/src/rest_client.dart';
 import 'package:flutter_feathersjs/src/scketio_client.dart';
+import 'package:flutter_feathersjs/src/utils.dart';
 import 'package:meta/meta.dart';
 //import 'package:flutter/foundation.dart' as Foundation;
 
@@ -22,7 +36,7 @@ import 'package:meta/meta.dart';
 ///
 /// Authentification is processed by:
 ///
-///     // Global auth (Rest and Socketio)
+///      //Global auth (Rest and Socketio)
 ///     var rep = await flutterFeathersjs
 ///     .authenticate(userName: user["email"], password: user["password"]);
 ///
@@ -35,9 +49,6 @@ class FlutterFeathersjs {
   RestClient rest;
   //SocketioClient
   SocketioClient scketio;
-
-  // For debug purpose
-  bool dev = false;
 
   ///Using singleton
   static final FlutterFeathersjs _flutterFeathersjs =
@@ -67,65 +78,65 @@ class FlutterFeathersjs {
       @required String userName,
       @required String password,
       String userNameFieldName = "email"}) async {
-    //Hold global auth infos
-    Map<String, dynamic> authResponse = {
-      "error": true,
-      "error_zone": "UNKNOWN",
-      "message": "An error occured either on rest or socketio auth",
-      "restResponse": {},
-      "scketResponse": {}
-    };
+    try {
+      //Auth with rest to refresh or create accessToken
+      var restAuthResponse = await rest.authenticate(
+          strategy: strategy,
+          userName: userName,
+          userNameFieldName: userNameFieldName,
+          password: password);
 
-    //Auth with rest to refresh or create accessToken
-    Map<String, dynamic> restAuthResponse = await rest.authenticate(
-        strategy: strategy,
-        userName: userName,
-        userNameFieldName: userNameFieldName,
-        password: password);
-    //Then auth with jwt socketio
-    Map<String, dynamic> socketioAuthResponse = await scketio.authWithJWT();
+      try {
+        //Then auth with jwt socketio
+        bool isAuthenticated = await scketio.authWithJWT();
 
-    //Finally send response
-    if (!restAuthResponse["error"] && !socketioAuthResponse["error"]) {
-      authResponse = restAuthResponse;
-    } else {
-      authResponse["restResponse"] = restAuthResponse;
-      authResponse["scketResponse"] = socketioAuthResponse;
+        // Check wether both client are authenticated or not
+        if (restAuthResponse != null && isAuthenticated == true) {
+          return restAuthResponse;
+        } else {
+          // Both failed
+          throw new FeatherJsError(
+              type: FeatherJsErrorType.IS_AUTH_FAILED_ERROR,
+              error: "Auth failed with unknown reason");
+        }
+      } on FeatherJsError catch (e) {
+        // Socketio failed
+        throw new FeatherJsError(type: e.type, error: e);
+      }
+    } on FeatherJsError catch (e) {
+      // Rest failed
+      throw new FeatherJsError(type: e.type, error: e);
     }
-    return authResponse;
   }
 
-  /// Authenticate rest and scketio clients so you can use both of them
+  /// ReAuthenticate rest and scketio clients
   ///
   ///___________________________________________________________________
-  Future<Map<String, dynamic>> reAuthenticate() async {
-    //Hold global auth infos
-    Map<String, dynamic> authResponse = {
-      "error": true,
-      "error_zone": Constants.UNKNOWN_ERROR,
-      "message": "An error occured either on rest or socketio auth",
-      "restResponse": {},
-      "scketResponse": {}
-    };
+  Future<dynamic> reAuthenticate() async {
+    try {
+      //Auth with rest to refresh or create accessToken
+      bool isRestAuthenticated = await rest.reAuthenticate();
 
-    //Auth with rest to refresh or create accessToken
-    Map<String, dynamic> restAuthResponse = await rest.reAuthenticate();
-    //Then auth with jwt socketio
-    Map<String, dynamic> socketioAuthResponse = await scketio.authWithJWT();
+      try {
+        //Then auth with jwt socketio
+        bool isSocketioAuthenticated = await scketio.authWithJWT();
 
-    //Finally send response
-    if (!restAuthResponse["error"] && !socketioAuthResponse["error"]) {
-      authResponse["error"] = false;
-      authResponse["error_zone"] = Constants.BOTH_CLIENT_AUTHED;
-      authResponse["message"] = socketioAuthResponse["message"];
-    } else {
-      authResponse["error"] = true;
-      authResponse["error_zone"] = Constants.ONE_OR_BOTH_CLIENT_NOT_AUTHED;
-      authResponse["message"] =
-          "One or both client is(are) not authed. Please checkout restResponse field or scketResponse field for more infos.";
-      authResponse["restResponse"] = restAuthResponse;
-      authResponse["scketResponse"] = socketioAuthResponse;
+        // Check wether both client are authenticated or not
+        if (isRestAuthenticated == true && isSocketioAuthenticated == true) {
+          return true;
+        } else {
+          // Both failed
+          throw new FeatherJsError(
+              type: FeatherJsErrorType.IS_AUTH_FAILED_ERROR,
+              error: "Auth failed with unknown reason");
+        }
+      } on FeatherJsError catch (e) {
+        // Socketio failed
+        throw new FeatherJsError(type: e.type, error: e);
+      }
+    } on FeatherJsError catch (e) {
+      // Rest failed
+      throw new FeatherJsError(type: e.type, error: e);
     }
-    return authResponse;
   }
 }

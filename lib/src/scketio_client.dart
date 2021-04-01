@@ -34,7 +34,7 @@ class SocketioClient extends FlutterFeathersjs {
 
   Utils utils;
 
-  EventBus eventBus = EventBus();
+  EventBus eventBus = EventBus(sync: true);
 
   //Using singleton
   static final SocketioClient _socketioClient = SocketioClient._internal();
@@ -100,13 +100,9 @@ class SocketioClient extends FlutterFeathersjs {
     //Get the existant accessToken
     //This cause you to call auth on rest before call this.
     String token = await utils.getAccessToken();
-
-    Map<String, dynamic> authResponse = {
-      "error": true,
-      "error_zone": Constants.UNKNOWN_ERROR,
-      "message": "An error occured"
-    };
     Completer asyncTask = Completer<dynamic>();
+    FeatherJsError featherJsError;
+    bool isReauthenticate = false;
 
     _socket.emitWithAck('create', [
       'authentication',
@@ -125,27 +121,25 @@ class SocketioClient extends FlutterFeathersjs {
         if (!Foundation.kReleaseMode) {
           print("Authentication process is ok with JWT");
         }
-
-        //Auth is ok
-        var resp = dataResponse[1];
-        authResponse["error"] = false;
-        authResponse["message"] = resp["user"]; // This contains the user data
-        authResponse["error_zone"] = Constants.AUTH_WITH_JWT_SUCCEED;
-
+        isReauthenticate = true;
         //Every emit or on will be authed
         this._socket.io.options['extraHeaders'] = {
           'Authorization': "Bearer $token"
         };
       } else {
+        // On error
         if (!Foundation.kReleaseMode) {
           print("Authentication process failed with JWT");
         }
-        //Auth is not ok
-        authResponse["error"] = true;
-        authResponse["message"] = dataResponse;
-        authResponse["error_zone"] = Constants.AUTH_WITH_JWT_FAILED;
+        featherJsError = new FeatherJsError(
+            type: FeatherJsErrorType.IS_JWT_TOKEN_ERROR, error: dataResponse);
       }
-      asyncTask.complete(authResponse);
+      if (featherJsError != null) {
+        asyncTask.completeError(featherJsError); //Complete with error
+      } else {
+        // Complete with success
+        asyncTask.complete(isReauthenticate);
+      }
     });
 
     return asyncTask.future;
@@ -155,22 +149,23 @@ class SocketioClient extends FlutterFeathersjs {
   ///
   /// Retrieves a list of all matching `query` resources from the service
   ///
-  /// NOTE: If no error is occured, you will get an array
+  /// If no error is occured, you will exactly feathers js data
   ///
-  /// Feathers data can be retrieve by doing
+  /// Otherwise, an exception of type FeatherJsError will be raised
   ///
-  /// `response[1]: => Feathers SocketIO Find Response Format`
-  ///
-  /// When an error occured, you will get a Json or Map object
-  ///
-  /// The format of the last one is according to what error occured on feather js server
   ///
   Future<dynamic> find(
       {@required String serviceName,
       @required Map<String, dynamic> query}) async {
     Completer asyncTask = Completer<dynamic>();
     _socket.emitWithAck("find", [serviceName, query], ack: (response) {
-      asyncTask.complete(response);
+      // Take care about error handling
+      if (response is List) {
+        asyncTask.complete(response[1]);
+      } else {
+        asyncTask.completeError(new FeatherJsError(
+            type: FeatherJsErrorType.IS_SERVER_ERROR, error: response));
+      }
     });
     return asyncTask.future;
   }
@@ -192,8 +187,15 @@ class SocketioClient extends FlutterFeathersjs {
   Future<dynamic> create(
       {@required String serviceName, @required Map<String, dynamic> data}) {
     Completer asyncTask = Completer<dynamic>();
+
     _socket.emitWithAck("create", [serviceName, data], ack: (response) {
-      asyncTask.complete(response);
+      // Take care about error handling
+      if (response is List) {
+        asyncTask.complete(response[1]);
+      } else {
+        asyncTask.completeError(new FeatherJsError(
+            type: FeatherJsErrorType.IS_SERVER_ERROR, error: response));
+      }
     });
     return asyncTask.future;
   }
@@ -219,7 +221,13 @@ class SocketioClient extends FlutterFeathersjs {
     Completer asyncTask = Completer<dynamic>();
     _socket.emitWithAck("update", [serviceName, objectId, data],
         ack: (response) {
-      asyncTask.complete(response);
+      // Take care about error handling
+      if (response is List) {
+        asyncTask.complete(response[1]);
+      } else {
+        asyncTask.completeError(new FeatherJsError(
+            type: FeatherJsErrorType.IS_SERVER_ERROR, error: response));
+      }
     });
     return asyncTask.future;
   }
@@ -240,7 +248,13 @@ class SocketioClient extends FlutterFeathersjs {
       {@required String serviceName, @required String objectId}) {
     Completer asyncTask = Completer<dynamic>();
     _socket.emitWithAck("get", [serviceName, objectId], ack: (response) {
-      asyncTask.complete(response);
+      // Take care about error handling
+      if (response is List) {
+        asyncTask.complete(response[1]);
+      } else {
+        asyncTask.completeError(new FeatherJsError(
+            type: FeatherJsErrorType.IS_SERVER_ERROR, error: response));
+      }
     });
     return asyncTask.future;
   }
@@ -266,7 +280,13 @@ class SocketioClient extends FlutterFeathersjs {
     Completer asyncTask = Completer<dynamic>();
     _socket.emitWithAck("patch", [serviceName, objectId, data],
         ack: (response) {
-      asyncTask.complete(response);
+      // Take care about error handling
+      if (response is List) {
+        asyncTask.complete(response[1]);
+      } else {
+        asyncTask.completeError(new FeatherJsError(
+            type: FeatherJsErrorType.IS_SERVER_ERROR, error: response));
+      }
     });
     return asyncTask.future;
   }
@@ -288,7 +308,13 @@ class SocketioClient extends FlutterFeathersjs {
   Future<dynamic> remove({@required String serviceName, String objectId}) {
     Completer asyncTask = Completer<dynamic>();
     _socket.emitWithAck("remove", [serviceName, objectId], ack: (response) {
-      asyncTask.complete(response);
+      // Take care about error handling
+      if (response is List) {
+        asyncTask.complete(response[1]);
+      } else {
+        asyncTask.completeError(new FeatherJsError(
+            type: FeatherJsErrorType.IS_SERVER_ERROR, error: response));
+      }
     });
     return asyncTask.future;
   }
@@ -299,27 +325,51 @@ class SocketioClient extends FlutterFeathersjs {
   ///  when a service update or patch method calls back successfully.
   ///
   /// NOTE: The data you will get from the `StreamSubscription`
-  /// is exactly what feathers send `On updated | patched serviceName`
+  /// is a <T> object deserialized by your fromJson function
   ///
   Stream<T> listen<T>(
       {@required String serviceName, @required Function fromJson}) {
     _socket.on('$serviceName updated', (updatedData) {
-      T object = fromJson(updatedData);
-      eventBus.fire(object);
+      // Take care about error handling
+      try {
+        T object = fromJson(updatedData);
+        eventBus.fire(object);
+      } catch (e) {
+        eventBus.fire(new FeatherJsError(
+            type: FeatherJsErrorType.IS_DESERIALIZATION_ERROR, error: e));
+      }
     });
     _socket.on('$serviceName patched', (patchedData) {
-      T object = fromJson(patchedData);
-      eventBus.fire(object);
+      // Take care about error handling
+      try {
+        T object = fromJson(patchedData);
+        eventBus.fire(object);
+      } catch (e) {
+        eventBus.fire(new FeatherJsError(
+            type: FeatherJsErrorType.IS_DESERIALIZATION_ERROR, error: e));
+      }
     });
 
     _socket.on('$serviceName removed', (removedData) {
-      T object = fromJson(removedData);
-      eventBus.fire(object);
+      // Take care about error handling
+      try {
+        T object = fromJson(removedData);
+        eventBus.fire(object);
+      } catch (e) {
+        eventBus.fire(new FeatherJsError(
+            type: FeatherJsErrorType.IS_DESERIALIZATION_ERROR, error: e));
+      }
     });
 
     _socket.on('$serviceName created', (createdData) {
-      T object = fromJson(createdData);
-      eventBus.fire(object);
+      // Take care about error handling
+      try {
+        T object = fromJson(createdData);
+        eventBus.fire(object);
+      } catch (e) {
+        eventBus.fire(new FeatherJsError(
+            type: FeatherJsErrorType.IS_DESERIALIZATION_ERROR, error: e));
+      }
     });
     return eventBus.on<T>();
   }

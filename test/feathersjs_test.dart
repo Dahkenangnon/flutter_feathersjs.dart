@@ -1,6 +1,7 @@
 import 'package:flutter_feathersjs/src/constants.dart';
 import 'package:flutter_feathersjs/src/rest_client.dart';
 import 'package:flutter_feathersjs/src/scketio_client.dart';
+import 'package:flutter_feathersjs/src/utils.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_feathersjs/flutter_feathersjs.dart';
 
@@ -23,13 +24,38 @@ void main() async {
   ///
   ////////////////////////////////////////////////////
   // // Authenticate user  and comment this line
-  var rep = await flutterFeathersjs.authenticate(
-      // strategy: "phone",
-      // userNameFieldName: "tel",
-      userName: user["email"],
-      password: user["password"]);
+  //
+
+  try {
+    // var rep = await flutterFeathersjs.authenticate(
+    //     //     // strategy: "phone",
+    //     //     // userNameFieldName: "tel",
+    //     userName: user["email"],
+    //     password: user["password"]);
+    var rep = await flutterFeathersjs.reAuthenticate();
+    print("Auth user is");
+    print(rep);
+  } on FeatherJsError catch (e) {
+    if (e.type == FeatherJsErrorType.IS_INVALID_CREDENTIALS_ERROR) {
+      print("Invalid credentials");
+    } else if (e.type == FeatherJsErrorType.IS_INVALID_STRATEGY_ERROR) {
+      print("Invalid STRA");
+    } else if (e.type == FeatherJsErrorType.IS_AUTH_FAILED_ERROR) {
+      print("IS_AUTH_FAILED_ERROR");
+    } else {
+      print(e.type);
+      print(e.message);
+    }
+  }
+
   // //Then use this one to reuse access token as it still valide
-  var reAuthResp = await flutterFeathersjs.reAuthenticate();
+  //var reAuthResp = await flutterFeathersjs.reAuthenticate();
+
+  // print("Auth user is");
+  // print(rep);
+
+  // print("ReAuth is");
+  // print(reAuthResp);
 
   // print("Hello");
   // ////////////////////////////////////////////////////
@@ -85,10 +111,19 @@ void main() async {
   // });
 
   test(' \n rest Find all method  \n', () async {
-    var rep2 =
-        await flutterFeathersjs.rest.find(serviceName: "v1/news", query: {});
-    print("\n  Founds news are: \n");
-    print(rep2.data['data']);
+    try {
+      var rep2 =
+          await flutterFeathersjs.rest.find(serviceName: "users", query: {});
+      print("\n  Founds news are: \n");
+      print(rep2);
+    } on FeatherJsError catch (e) {
+      print("Error");
+      print(e.type);
+      print(e.message);
+    } catch (er) {
+      print("Other error");
+      print(er);
+    }
   });
 
   // test(' \n rest find with with query params \n ', () async {
@@ -106,11 +141,30 @@ void main() async {
   // });
 
   // test(' \n Rest Create method with user service \n ', () async {
-  //   var rep2 = await flutterFeathersjs.rest.create(
-  //       serviceName: "users",
-  //       data: {"email": "user@email.com", "password": "password"});
-  //   print("\n  The newly created user is: \n");
-  //   print(rep2);
+  //   try {
+  //     var rep2 = await flutterFeathersjs.scketio.create(
+  //         serviceName: "users",
+  //         data: {"email": user["email"], "password": user["password"]});
+  //     print("\n  The newly created user is: \n");
+  //     print(rep2);
+  //   } on FeatherJsError catch (e) {
+  //     // Catch error from feahters js
+  //     //
+  //     if (e.type == FeatherJsErrorType.IS_SERVER_ERROR) {
+  //       print("Error is from feathers js api server");
+  //     } else if (e.type == FeatherJsErrorType.IS_REST_ERROR) {
+  //       print("Error is from rest methods");
+  //     } else if (e.type == FeatherJsErrorType.IS_SOCKETIO_ERROR) {
+  //       print("from socketio error");
+  //     } else {
+  //       print("incconnu error");
+  //       print(e.type);
+  //     }
+  //     print(e.message);
+  //   } catch (e) {
+  //     print("Last ca");
+  //     print(e.message);
+  //   }
   // });
 
   // test(' \n Rest create news with image (FormData support testing) \n ',
