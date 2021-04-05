@@ -1,20 +1,21 @@
 {
-  "name": "flutter_feathersjs",
-  "version": "0.0.1",
-  "description": "Communicate with your feathers js server from flutter",
-  "main": "index.js",
-  "authors": {
-    "name": "Justin Y. Dah-kenangnon",
-    "email": "dah.kenangnon@gmail.com"
-  },
-  "repository": "https://github.com/Dahkenangnon/flutter_feathersjs.dart/flutter_feathersjs",
-  "scripts": {
-    "dev": "vuepress dev src",
-    "build": "vuepress build src"
-  },
-  "license": "MIT",
-  "devDependencies": {
-    "@vuepress/plugin-nprogress": "^1.7.1",
-    "vuepress": "^1.5.3"
-  }
+    "name": "flutter_feathersjs",
+    "version": "0.0.1",
+    "description": "Communicate with your feathers js server from flutter",
+    "main": "index.js",
+    "authors": {
+        "name": "Justin Y. Dah-kenangnon",
+        "email": "dah.kenangnon@gmail.com"
+    },
+    "repository": "https://github.com/Dahkenangnon/flutter_feathersjs.dart/flutter_feathersjs",
+    "scripts": {
+        "dev": "vuepress dev src",
+        "build": "vuepress build src",
+        "up": "ncu -u && yarn install"
+    },
+    "license": "MIT",
+    "devDependencies": {
+        "@vuepress/plugin-nprogress": "^1.8.2",
+        "vuepress": "^1.8.2"
+    }
 }

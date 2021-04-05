@@ -1,9 +1,6 @@
-import 'package:flutter_feathersjs/src/constants.dart';
-import 'package:flutter_feathersjs/src/rest_client.dart';
-import 'package:flutter_feathersjs/src/scketio_client.dart';
-import 'package:flutter_feathersjs/src/utils.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_feathersjs/flutter_feathersjs.dart';
+import 'package:flutter_feathersjs/src/helper.dart';
 
 //Fixtures contains sample data for processing test with a feathers js client
 import 'fixtures.dart';

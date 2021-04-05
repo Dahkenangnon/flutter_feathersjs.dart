@@ -1,91 +1,142 @@
 # Authentication
 
-Because we have two parts (scoketio and rest) which must communicate 
-with the same server (which required maybe authentication) we must found a way to authenticate 
+Because we have two parts (scketio and rest) which must communicate
+with the same server (which required maybe authentication) we must found a way to authenticate
 both rest & socketio once user is logged.
 
-Below, how to authenticate rest only or socketio only. But notice that in a production app, 
+Below, how to authenticate rest only or socketio only. But notice that in a production app,
 you don't need to auth speratly the different client, just use the global authentication method.
-Nice ? Go
+Nice ? Go :rocket:
 
-## Auth rest
+## Rest only
 
 You can for testing purpose only authenticate the rest client by doing the following.
 Note that when you use an other stratagy different from email/pass strategy, you must configure it on your server.
 
 ```dart
-   // Auth with rest client with email/password [Default strategy]
-   var authResponse = await flutterFeathersjs.rest
-      .authenticate(userName: "mail@mail.com", password: "Strong_Pass");
+    try {
+      var user = await flutterFeathersjs.rest.authenticate(
+          userName: "dah.kenangnon@flutter_feathersjs.com",
+      password: "flutter_feathersjs");
+      //TODO: Authentication is Ok, save user in local storage
 
-    // Or
-
-    // Auth with rest client with phone/password strategy
-   var authResponse = await flutterFeathersjs.rest.authenticate(
-      strategy: "phone",
-      userNameFieldName: "tel",
-      userName:"+22900000000",,
-      password: "Strong_Pass");
+    } on FeatherJsError catch (e) {
+      if (e.type == FeatherJsErrorType.IS_INVALID_CREDENTIALS_ERROR) {
+        //TODO: Invalid credentials
+      } else if (e.type == FeatherJsErrorType.IS_INVALID_STRATEGY_ERROR) {
+       //TODO: Invalid strategy
+      } else if (e.type == FeatherJsErrorType.IS_AUTH_FAILED_ERROR) {
+        //TODO: Invalid authentication failed for other reason.
+        // verbose => print(e.message);
+      }
+      //TODO: Check for other FeatherJsErrorType
+      // => print(e.type);
+    } catch (e) {
+       //TODO: Authentication failed for unkknown reason.
+        // why => print(e.type);
+        // why => print(e.message);
+    }
 
 ```
 
-## Auth socketio
+## Socketio only
 
-The process to authenticate the socketio client is done after rest auth is os because,
-it using the JWT retrieved by rest client when process finished with ok. 
+The process to authenticate the socketio client is done after rest auth is done because,
+it use the JWT retrieved by rest client when process finished with ok.
 
 ```dart
+
   // Note: This must be call after rest auth success
   // Not recommanded to use this directly
-  var authResponse = await flutterFeathersjs.scketio.authWithJWT();
+  try {
+       bool isReAuthenticated = await flutterFeathersjs.scketio.authWithJWT();
+
+      //print(isReAuthenticated); => true
+
+    } on FeatherJsError catch (e) {
+      if (e.type == FeatherJsErrorType.IS_JWT_TOKEN_ERROR) {
+        //TODO: Error using the JWT to authenticated
+        // Redirect user to login page
+      }else{
+        //TODO: Check for other FeatherJsErrorType
+        // why => print(e.type);
+        // why => print(e.message);
+      }
+    } catch (e) {
+       //TODO: Authentication failed for unkknown reason.
+        // why => print(e.type);
+        // why => print(e.message);
+    }
 
 ```
 
+## Global  (recommended)
 
+### Autenticate
 
-## Global Auth (recommanded)
-
-Definitely, this is what you must do when you want to authenticate your user.
+Go to login page, retrieve user credentials and authenticat user
+with different strategy
 
 ```dart
+ try {
 
-/// ------ First time
+      // Default strategy (email/password => local strategy)
+      var user = await flutterFeathersjs.authenticate(
+          userName: "dah.kenangnon@flutter_feathersjs.com",
+      password: "flutter_feathersjs");
 
-// Auth globaly with phone number strategy
-// When using this strategy: ensure you configure your feathers js server accordingly
- var rep = await flutterFeathersjs.authenticate(
+      // Or use what you want, e.g: phone/password
+      // Auth with rest client with phone/password strategy
+      // Note: You must configure your server for this strategy to work
+   var user = await flutterFeathersjs.authenticate(
       strategy: "phone",
-      userNameFieldName: "tel",
-      userName: "+22900000000",
-      password: "Strong_Pass");
+      userNameFieldName: "tel", // "tel" is the fieldname on the mongoose|? model
+      userName:"+22900000000",
+      password: "flutter_feathersjs");
 
 
+      //TODO: Authentication is Ok, save user in local storage
 
+    } on FeatherJsError catch (e) {
+      if (e.type == FeatherJsErrorType.IS_INVALID_CREDENTIALS_ERROR) {
+        //TODO: Invalid credentials
+      } else if (e.type == FeatherJsErrorType.IS_INVALID_STRATEGY_ERROR) {
+       //TODO: Invalid strategy
+      } else if (e.type == FeatherJsErrorType.IS_AUTH_FAILED_ERROR) {
+        //TODO: Invalid authentication failed for other reason.
+        // verbose => print(e.message);
+      }
+      //TODO: Check for other FeatherJsErrorType
+      // => print(e.type);
+    } catch (e) {
+       //TODO: Authentication failed for unkknown reason.
+        // why => print(e.type);
+        // why => print(e.message);
+    }
+```
 
-// Auth globaly with email  strategy [default]
- var rep = await flutterFeathersjs.authenticate(
-      userName: "mail@mail.com",
-      password: "Strong_Pass");
+## ReAuthenticate on app restarted
 
-/// ------ On app restart or when JWT still validated
- var reps = await flutterFeathersjs.reAuthenticate();
+Then reAutenticate user, if JWT still validated without request credentials from user on app restart
 
-    if (!reps["error"]) {
-      print('client is authed');
-      print("----------Authed user :------");
-      print(reps["message"]); // User is under  reps["message"] when all thing is Ok
-      print("----------Authed user :------");
-    } else
-    {
-      print(reps["message"]); // Error message is under  reps["message"] when something is wrong
+```dart
+ try {
+       bool isReAuthenticated = await flutterFeathersjs.reAuthenticate();
 
-      // If you want to check when error is comming from socketio client
-      // Error message from socketio client,
-      print(reps["scketResponse"]);
+      //print(isReAuthenticated); => true
 
-
-       // If you want to check when error is comming from rest client
-      // Error message from rest client,
-      print(reps["restResponse"]);
+    } on FeatherJsError catch (e) {
+      if (e.type == FeatherJsErrorType.IS_AUTH_FAILED_ERROR) {
+        //TODO: ReAutentication failed
+        // Redirect user to login page
+      }else{
+        //TODO: Check for other FeatherJsErrorType
+        // why => print(e.type);
+        // why => print(e.message);
+      }
+    } catch (e) {
+       //TODO: Authentication failed for unkknown reason.
+        // why => print(e.type);
+        // why => print(e.message);
     }
 ```

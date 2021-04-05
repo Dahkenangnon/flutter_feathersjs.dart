@@ -1,26 +1,18 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_feathersjs/src/featherjs_client_base.dart';
-import 'package:flutter_feathersjs/src/utils.dart';
 import 'package:meta/meta.dart';
 import 'package:flutter/foundation.dart' as Foundation;
 
-///
+import 'featherjs_client_base.dart';
+import 'helper.dart';
+
 ///Feathers Js rest client for rest api call
-///
-///_______________________________________________
-///_______________________________________________
-///
-///
-/// `GENERAL NOTE 1`: Serialization and Deserialization are not supported.
-///
-/// You get exactly what feathers server send
-///
-class RestClient extends FlutterFeathersjs {
+/// `Note`: You get exactly what feathers server send
+class RestClient extends FlutterFeathersjsBase {
   ///Dio as http client
   Dio dio;
-  Utils utils;
+  FeatherjsHelper utils;
   bool dev = true;
 
   //Using singleton to ensure we use the same instance of it accross our app
@@ -32,7 +24,7 @@ class RestClient extends FlutterFeathersjs {
 
   /// Initialize FlutterFeathersJs with the server baseUrl
   init({@required String baseUrl, Map<String, dynamic> extraHeaders}) {
-    utils = new Utils();
+    utils = new FeatherjsHelper();
 
     //Setup Http client
     dio = Dio(BaseOptions(
@@ -57,10 +49,10 @@ class RestClient extends FlutterFeathersjs {
       // you can reject a `DioError` object eg: return `dio.reject(dioError)`
     }, onError: (DioError e, handler) {
       // Do something with response error
-      // if (!Foundation.kReleaseMode) {
-      //   //Only send the error message from feathers js server not for Dio
-      //   print(e.response);
-      // }
+      if (!Foundation.kReleaseMode) {
+        print("An error occured in Resclient");
+        print(e.response);
+      }
 
       return handler.next(e);
       //continue
@@ -71,10 +63,12 @@ class RestClient extends FlutterFeathersjs {
 
   /// `Authenticate with JWT`
   ///
-  /// The @params serviceName is use to test if the past token still validated
-  /// It so assume that your api has at least a service called `users` or `$serviceName`
+  /// The @params serviceName is used to test if the last token still validated
+  ///
+  /// It so assume that your api has at least a service called  `$serviceName`
+  ///
+  /// `$serviceName` may be a service which required authentication
   Future<dynamic> reAuthenticate({String serviceName = "users"}) async {
-    //AsyncTask manager
     Completer asyncTask = Completer<dynamic>();
     FeatherJsError featherJsError;
     bool isReauthenticate = false;
@@ -82,7 +76,7 @@ class RestClient extends FlutterFeathersjs {
     //Getting the early stored rest access token and send the request by using it
     var oldToken = await utils.getAccessToken();
 
-    ///If an oldToken exist really, try to chect it is still valided
+    ///If an oldToken exist really, try to chect if it is still validated
     if (oldToken != null) {
       dio.options.headers["Authorization"] = "Bearer $oldToken";
       try {
@@ -91,7 +85,6 @@ class RestClient extends FlutterFeathersjs {
             .dio
             .get("/$serviceName", queryParameters: {"\$limit": 1});
 
-        // logging purpose
         if (!Foundation.kReleaseMode) {
           print(response);
         }
@@ -105,19 +98,18 @@ class RestClient extends FlutterFeathersjs {
               type: FeatherJsErrorType.IS_JWT_EXPIRED_ERROR,
               error: "Must authenticate again because Jwt has expired");
         } else if (response.statusCode == 200) {
-          // Jwt valid
           if (!Foundation.kReleaseMode) {
             print("Jwt still validated");
             isReauthenticate = true;
           }
         } else {
-          // Unknown error
           if (!Foundation.kReleaseMode) {
             print("Unknown error");
           }
           featherJsError = new FeatherJsError(
               type: FeatherJsErrorType.IS_UNKNOWN_ERROR,
-              error: "Must authenticate again because Jwt has expired");
+              error:
+                  "Must authenticate again because unable to authenticate with the last token");
         }
       } catch (e) {
         // Error
@@ -226,7 +218,7 @@ class RestClient extends FlutterFeathersjs {
     try {
       var response =
           await this.dio.get("/$serviceName", queryParameters: query);
-      // Take care about error handling
+
       if (response.data != null) {
         return response.data;
       } else {
@@ -248,7 +240,7 @@ class RestClient extends FlutterFeathersjs {
       {@required String serviceName, @required String objectId}) async {
     try {
       var response = await this.dio.get("/$serviceName/$objectId");
-      // Take care about error handling
+
       if (response.data != null) {
         return response.data;
       } else {
@@ -304,8 +296,6 @@ class RestClient extends FlutterFeathersjs {
               error: "Response body is empty");
         }
       } catch (e) {
-        print("Par ici");
-
         throw new FeatherJsError(
             type: FeatherJsErrorType.IS_SERVER_ERROR, error: e.response);
       }
@@ -319,7 +309,7 @@ class RestClient extends FlutterFeathersjs {
             files: files);
       } catch (e) {
         throw new FeatherJsError(
-            type: FeatherJsErrorType.IS_REST_ERROR, error: e);
+            type: FeatherJsErrorType.IS_FORM_DATA_ERROR, error: e);
       }
 
       // Making request
@@ -394,7 +384,7 @@ class RestClient extends FlutterFeathersjs {
             files: files);
       } catch (e) {
         throw new FeatherJsError(
-            type: FeatherJsErrorType.IS_REST_ERROR, error: e);
+            type: FeatherJsErrorType.IS_FORM_DATA_ERROR, error: e);
       }
 
       // Try making request with  file field
@@ -475,7 +465,7 @@ class RestClient extends FlutterFeathersjs {
             files: files);
       } catch (e) {
         throw new FeatherJsError(
-            type: FeatherJsErrorType.IS_REST_ERROR, error: e);
+            type: FeatherJsErrorType.IS_FORM_DATA_ERROR, error: e);
       }
 
       // Try to send response as feathers send or throw an error
