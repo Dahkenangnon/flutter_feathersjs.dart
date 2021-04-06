@@ -1,4 +1,4 @@
-# Rest methods
+# Rest Client
 
 ****Feathers Js rest client for rest api call****
 

@@ -1,12 +1,12 @@
-# Socketio client
+# Default Client
 
-\***\*Feathers Js scketio client for realtime communication\*\***
+**Because we love the realtime side of feathers js, by default socketio's methods are available on FlutterFeathersjs.{methodName}**
 
 You get exactly what feathers server send (_Serialization and Deserialization are not supported._) except in the listen method.
 
 This client don't support file upload
 
-Recommended: Use this client accross your app when file upload is not required
+Recommended: Use rest client to upload file
 
 ## find
 
@@ -16,7 +16,7 @@ All message
 
 ```dart
      try {
-       var messageResponse = await flutterFeathersjs.scketio.so(serviceName: "message",
+       var messageResponse = await flutterFeathersjs.find(serviceName: "message",
        query: {});
 
        // print(messageResponse); => feathers's find data format
@@ -37,7 +37,7 @@ message matching certain query
 
      try {
       // Find message with query: here with {"_id": "5f7643f0462f4348970cd32e"}
- var messageResponse = await flutterFeathersjs.scketio.find(serviceName: "message", query: {"_id": "5f7643f0462f4348970cd32e"});
+ var messageResponse = await flutterFeathersjs.find(serviceName: "message", query: {"_id": "5f7643f0462f4348970cd32e"});
 
        // print(messageResponse); => feathers's find data format
     } on FeatherJsError catch (e) {
@@ -60,7 +60,7 @@ Retrieve a single resource from the service with an `_id`
 
      try {
       // Get a single new with it _id
- var messageResponse = await flutterFeathersjs.scketio.get(serviceName: "message", objectId: "5f7643f0462f4348970cd32e");
+ var messageResponse = await flutterFeathersjs.get(serviceName: "message", objectId: "5f7643f0462f4348970cd32e");
 
        // print(messageResponse); => feathers's get data format
     } on FeatherJsError catch (e) {
@@ -84,7 +84,7 @@ Create a new resource with data.
     try {
 
    // Create a message on the server without file upload
-      var messageResponse = await flutterFeathersjs.scketio.create(
+      var messageResponse = await flutterFeathersjs.create(
         serviceName: "message",
         data: {"title": "Using FlutterFeathersjs is easy", "content": "Yes very easy" , "author" :"5f7h43f0462f4348970cd32e"});
 
@@ -108,7 +108,7 @@ Completely replace a single resource with the `_id = objectId`
 
     try {
 
-     var messageResponse = await flutterFeathersjs.scketio.update(
+     var messageResponse = await flutterFeathersjs.update(
         objectId: "5f7h43f0462f4t48970cd32e",
         serviceName: "message",
         data: {"title": "Using FlutterFeathersjs is easy", "content": "Yes very easy" , "author" :"5f7h43f0462f4348970cd32e"});
@@ -132,7 +132,7 @@ Completely replace a single resource with the `_id = objectId`
 ```dart
  try {
 
-    var messageResponse = await flutterFeathersjs.scketio.patch(
+    var messageResponse = await flutterFeathersjs.patch(
         objectId: "5f7h43f0462f4t48970cd32e",
         serviceName: "message",
         data: {"title": "Using FlutterFeathersjs is easy", "content": "Yes very easy" , "author" :"5f7h43f0462f4348970cd32e"});
@@ -154,7 +154,7 @@ Remove a single resource with `_id = objectId`:
 
 ```dart
 try {
-    var messageResponse = await flutterFeathersjs.scketio.remove(serviceName: "message", objectId: "5f7643f0462f4348970cd32e");
+    var messageResponse = await flutterFeathersjs.remove(serviceName: "message", objectId: "5f7643f0462f4348970cd32e");
 
        // print(messageResponse); => feathers's remove data format
     } on FeatherJsError catch (e) {
@@ -234,7 +234,7 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
       : super(MessageInitial()) {
 
     // Listen to realtime event
-    streamSubscription = flutterFeathersjs.scketio
+    streamSubscription = flutterFeathersjs
         .listen<Message>(
             serviceName: "message",
             fromJson: Message.fromMap)

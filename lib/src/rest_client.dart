@@ -27,38 +27,39 @@ class RestClient extends FlutterFeathersjsBase {
     utils = new FeatherjsHelper();
 
     //Setup Http client
-    dio = Dio(BaseOptions(
+    this.dio = Dio(BaseOptions(
       baseUrl: baseUrl,
       headers: extraHeaders,
     ));
 
-    dio.interceptors
+    this
+        .dio
+        .interceptors
         .add(InterceptorsWrapper(onRequest: (options, handler) async {
-      // Setting on every request the Bearer Token in the header
-      var oldToken = await utils.getAccessToken();
-      dio.options.headers["Authorization"] = "Bearer $oldToken";
-      return handler.next(options); //continue
-      // If you want to resolve the request with some custom data，
-      // you can resolve a `Response` object eg: return `dio.resolve(response)`.
-      // If you want to reject the request with a error message,
-      // you can reject a `DioError` object eg: return `dio.reject(dioError)`
-    }, onResponse: (response, handler) {
-      // Return exactly what response feather send
-      return handler.next(response); // continue
-      // If you want to reject the request with a error message,
-      // you can reject a `DioError` object eg: return `dio.reject(dioError)`
-    }, onError: (DioError e, handler) {
-      // Do something with response error
-      if (!Foundation.kReleaseMode) {
-        print("An error occured in Resclient");
-        print(e.response);
-      }
-
-      return handler.next(e);
-      //continue
-      // If you want to resolve the request with some custom data，
-      // you can resolve a `Response` object eg: return `dio.resolve(response)`.
-    }));
+          // Setting on every request the Bearer Token in the header
+          var oldToken = await utils.getAccessToken();
+          this.dio.options.headers["Authorization"] = "Bearer $oldToken";
+          return handler.next(options); //continue
+          // If you want to resolve the request with some custom data，
+          // you can resolve a `Response` object eg: return `dio.resolve(response)`.
+          // If you want to reject the request with a error message,
+          // you can reject a `DioError` object eg: return `dio.reject(dioError)`
+        }, onResponse: (response, handler) {
+          // Return exactly what response feather send
+          return handler.next(response); // continue
+          // If you want to reject the request with a error message,
+          // you can reject a `DioError` object eg: return `dio.reject(dioError)`
+        }, onError: (DioError e, handler) {
+          // Do something with response error
+          if (!Foundation.kReleaseMode) {
+            print("An error occured in Resclient");
+            print(e.response);
+          }
+          return handler.next(e);
+          //continue
+          // If you want to resolve the request with some custom data，
+          // you can resolve a `Response` object eg: return `dio.resolve(response)`.
+        }));
   }
 
   /// `Authenticate with JWT`
@@ -78,7 +79,7 @@ class RestClient extends FlutterFeathersjsBase {
 
     ///If an oldToken exist really, try to chect if it is still validated
     if (oldToken != null) {
-      dio.options.headers["Authorization"] = "Bearer $oldToken";
+      this.dio.options.headers["Authorization"] = "Bearer $oldToken";
       try {
         // Try to retrieve the service which normaly don't accept anonimous user
         var response = await this
@@ -165,7 +166,7 @@ class RestClient extends FlutterFeathersjsBase {
 
     try {
       //Making http request to get auth token
-      response = await dio.post("/authentication", data: {
+      response = await this.dio.post("/authentication", data: {
         "strategy": strategy,
         "$userNameFieldName": userName,
         "password": password
@@ -179,22 +180,38 @@ class RestClient extends FlutterFeathersjsBase {
             type: FeatherJsErrorType.IS_UNKNOWN_ERROR,
             error: response.data["message"]);
       }
-    } catch (e) {
-      if (e.response.data["code"] == 401) {
-        //This is useful to display to end user why auth failed
-        //With 401: it will be either Invalid credentials or strategy error
-        if (e.response.data["message"] == "Invalid login") {
-          featherJsError = new FeatherJsError(
-              type: FeatherJsErrorType.IS_INVALID_CREDENTIALS_ERROR,
-              error: e.response.data["message"]);
+    } on DioError catch (e) {
+      if (e.response != null) {
+        print(":: Error from the request");
+        print(e.response.data);
+        print(e.response.headers);
+      } else {
+        print(":: Unable to send the request");
+        // Something happened in setting up or sending the request that triggered an Error
+        print(e.message);
+      }
+
+      // Error in the request
+      if (e.response != null) {
+        if (e.response.data["code"] == 401) {
+          //This is useful to display to end user why auth failed
+          //With 401: it will be either Invalid credentials or strategy error
+          if (e.response.data["message"] == "Invalid login") {
+            featherJsError = new FeatherJsError(
+                type: FeatherJsErrorType.IS_INVALID_CREDENTIALS_ERROR,
+                error: e.response.data["message"]);
+          } else {
+            featherJsError = new FeatherJsError(
+                type: FeatherJsErrorType.IS_INVALID_STRATEGY_ERROR,
+                error: e.response.data["message"]);
+          }
         } else {
           featherJsError = new FeatherJsError(
-              type: FeatherJsErrorType.IS_INVALID_STRATEGY_ERROR,
-              error: e.response.data["message"]);
+              type: FeatherJsErrorType.IS_UNKNOWN_ERROR, error: e);
         }
       } else {
-        featherJsError = new FeatherJsError(
-            type: FeatherJsErrorType.IS_UNKNOWN_ERROR, error: e);
+        new FeatherJsError(
+            error: e.message, type: FeatherJsErrorType.IS_CANNOT_SEND_REQUEST);
       }
     }
 
@@ -227,8 +244,12 @@ class RestClient extends FlutterFeathersjsBase {
             error: "Response body is empty");
       }
     } catch (e) {
-      throw new FeatherJsError(
-          type: FeatherJsErrorType.IS_SERVER_ERROR, error: e.response);
+      if (e.response != null) {
+        throw errorCode2FeatherJsError(e.response.data);
+      } else {
+        throw new FeatherJsError(
+            type: FeatherJsErrorType.IS_UNKNOWN_ERROR, error: e.message);
+      }
     }
   }
 
@@ -249,8 +270,12 @@ class RestClient extends FlutterFeathersjsBase {
             error: "Response body is empty");
       }
     } catch (e) {
-      throw new FeatherJsError(
-          type: FeatherJsErrorType.IS_SERVER_ERROR, error: e);
+      if (e.response != null) {
+        throw errorCode2FeatherJsError(e.response.data);
+      } else {
+        throw new FeatherJsError(
+            type: FeatherJsErrorType.IS_UNKNOWN_ERROR, error: e.message);
+      }
     }
   }
 
@@ -323,8 +348,12 @@ class RestClient extends FlutterFeathersjsBase {
               error: "Response body is empty");
         }
       } catch (e) {
-        throw new FeatherJsError(
-            type: FeatherJsErrorType.IS_SERVER_ERROR, error: e.response);
+        if (e.response != null) {
+          throw errorCode2FeatherJsError(e.response.data);
+        } else {
+          throw new FeatherJsError(
+              type: FeatherJsErrorType.IS_UNKNOWN_ERROR, error: e.message);
+        }
       }
     }
   }
@@ -400,8 +429,12 @@ class RestClient extends FlutterFeathersjsBase {
               error: "Response body is empty");
         }
       } catch (e) {
-        throw new FeatherJsError(
-            type: FeatherJsErrorType.IS_SERVER_ERROR, error: e.response);
+        if (e.response != null) {
+          throw errorCode2FeatherJsError(e.response.data);
+        } else {
+          throw new FeatherJsError(
+              type: FeatherJsErrorType.IS_UNKNOWN_ERROR, error: e.message);
+        }
       }
     }
   }
@@ -481,8 +514,12 @@ class RestClient extends FlutterFeathersjsBase {
               error: "Response body is empty");
         }
       } catch (e) {
-        throw new FeatherJsError(
-            type: FeatherJsErrorType.IS_SERVER_ERROR, error: e.response);
+        if (e.response != null) {
+          throw errorCode2FeatherJsError(e.response.data);
+        } else {
+          throw new FeatherJsError(
+              type: FeatherJsErrorType.IS_UNKNOWN_ERROR, error: e.message);
+        }
       }
     }
   }
@@ -506,8 +543,12 @@ class RestClient extends FlutterFeathersjsBase {
       }
     } catch (e) {
       // Throw an exception with e
-      throw new FeatherJsError(
-          type: FeatherJsErrorType.IS_SERVER_ERROR, error: e.response);
+      if (e.response != null) {
+        throw errorCode2FeatherJsError(e.response.data);
+      } else {
+        throw new FeatherJsError(
+            type: FeatherJsErrorType.IS_UNKNOWN_ERROR, error: e.message);
+      }
     }
   }
 

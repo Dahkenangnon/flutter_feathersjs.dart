@@ -1,6 +1,6 @@
 # Introduction
 
-## :bird: flutter_feathersjs :bird
+## :bird: flutter_feathersjs :bird:
 
 Communicate with your feathers js [https://feathersjs.com/](https://feathersjs.com/) server from flutter.
 

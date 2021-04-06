@@ -53,13 +53,20 @@ class SocketioClient extends FlutterFeathersjsBase {
         print("Connection error");
         print(e);
       });
+
       _socket.on('connect_timeout', (data) {
         print("Timeout error");
         print(data);
       });
+
       _socket.on('connecting', (_) => print("Connecting..."));
       _socket.on('disconnect', (_) {});
-      _socket.on('error', (_) => print("An error occured"));
+
+      _socket.on('error', (e) {
+        print("____An error occured____");
+        print(e);
+      });
+
       _socket.on('reconnect', (_) => print("Reconnected"));
       _socket.on('reconnect_error', (_) => print("Reconnection error..."));
       _socket.on(
@@ -145,8 +152,7 @@ class SocketioClient extends FlutterFeathersjsBase {
       if (response is List) {
         asyncTask.complete(response[1]);
       } else {
-        asyncTask.completeError(new FeatherJsError(
-            type: FeatherJsErrorType.IS_SERVER_ERROR, error: response));
+        asyncTask.completeError(errorCode2FeatherJsError(response));
       }
     });
     return asyncTask.future;
@@ -170,8 +176,7 @@ class SocketioClient extends FlutterFeathersjsBase {
       if (response is List) {
         asyncTask.complete(response[1]);
       } else {
-        asyncTask.completeError(new FeatherJsError(
-            type: FeatherJsErrorType.IS_SERVER_ERROR, error: response));
+        asyncTask.completeError(errorCode2FeatherJsError(response));
       }
     });
     return asyncTask.future;
@@ -198,8 +203,7 @@ class SocketioClient extends FlutterFeathersjsBase {
       if (response is List) {
         asyncTask.complete(response[1]);
       } else {
-        asyncTask.completeError(new FeatherJsError(
-            type: FeatherJsErrorType.IS_SERVER_ERROR, error: response));
+        asyncTask.completeError(errorCode2FeatherJsError(response));
       }
     });
     return asyncTask.future;
@@ -221,8 +225,7 @@ class SocketioClient extends FlutterFeathersjsBase {
       if (response is List) {
         asyncTask.complete(response[1]);
       } else {
-        asyncTask.completeError(new FeatherJsError(
-            type: FeatherJsErrorType.IS_SERVER_ERROR, error: response));
+        asyncTask.completeError(errorCode2FeatherJsError(response));
       }
     });
     return asyncTask.future;
@@ -248,8 +251,7 @@ class SocketioClient extends FlutterFeathersjsBase {
       if (response is List) {
         asyncTask.complete(response[1]);
       } else {
-        asyncTask.completeError(new FeatherJsError(
-            type: FeatherJsErrorType.IS_SERVER_ERROR, error: response));
+        asyncTask.completeError(errorCode2FeatherJsError(response));
       }
     });
     return asyncTask.future;
@@ -266,14 +268,14 @@ class SocketioClient extends FlutterFeathersjsBase {
   ///
   /// Use FeatherJsErrorType.{ERROR} to known what happen
   ///
-  Future<dynamic> remove({@required String serviceName, String objectId}) {
+  Future<dynamic> remove(
+      {@required String serviceName, @required String objectId}) {
     Completer asyncTask = Completer<dynamic>();
     _socket.emitWithAck("remove", [serviceName, objectId], ack: (response) {
       if (response is List) {
         asyncTask.complete(response[1]);
       } else {
-        asyncTask.completeError(new FeatherJsError(
-            type: FeatherJsErrorType.IS_SERVER_ERROR, error: response));
+        asyncTask.completeError(errorCode2FeatherJsError(response));
       }
     });
     return asyncTask.future;

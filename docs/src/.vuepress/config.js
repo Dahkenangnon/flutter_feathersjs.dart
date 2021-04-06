@@ -55,6 +55,7 @@ module.exports = {
                     '',
                     'installation',
                     'authentication',
+                    'socketio-is-default-client',
                     'using-rest',
                     'using-socketio',
                     'how-to-upload-file',

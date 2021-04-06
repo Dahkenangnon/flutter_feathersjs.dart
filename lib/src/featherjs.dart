@@ -10,6 +10,11 @@ import 'package:meta/meta.dart';
 ///
 ///Uploading file: Use rest client, socketio client cannot upload file
 ///
+///--------------------------------------------
+/// Because we love the realtime side of
+/// feathers js, by default socketio's methods
+/// are used on FlutterFeathersjs.{methodName}
+///--------------------------------------------
 class FlutterFeathersjs {
   //RestClient
   RestClient rest;
@@ -104,5 +109,138 @@ class FlutterFeathersjs {
       // Rest failed
       throw new FeatherJsError(type: e.type, error: e);
     }
+  }
+
+  ///--------------------------------------------
+  /// Because we love the realtime side of
+  /// feathers js, by default socketio's methods
+  /// are used on FlutterFeathersjs.{methodName}
+  ///--------------------------------------------
+
+  /// `EMIT find serviceName`
+  ///
+  /// Retrieves a list of all matching `query` resources from the service
+  ///
+  /// If no error is occured, you will get exactly feathersjs's data format
+  ///
+  /// Otherwise, an exception of type FeatherJsError will be raised
+  ///
+  /// Use FeatherJsErrorType.{ERROR} to known what happen
+  ///
+  ///
+  Future<dynamic> find(
+      {@required String serviceName,
+      @required Map<String, dynamic> query}) async {
+    return this.scketio.find(serviceName: serviceName, query: query);
+  }
+
+  /// `EMIT create serviceName`
+  ///
+  /// Create new ressource
+  ///
+  /// If no error is occured, you will get exactly feathersjs's data format
+  ///
+  /// Otherwise, an exception of type FeatherJsError will be raised
+  ///
+  /// Use FeatherJsErrorType.{ERROR} to known what happen
+  ///
+  /// @Warning: If uploading file is required, please use FlutterFeathersjs's rest client
+  ///
+  Future<dynamic> create(
+      {@required String serviceName, @required Map<String, dynamic> data}) {
+    return this.scketio.create(serviceName: serviceName, data: data);
+  }
+
+  /// `EMIT update serviceName`
+  ///
+  /// Update a  ressource
+  ///
+  ///
+  /// If no error is occured, you will get exactly feathersjs's data format
+  ///
+  /// Otherwise, an exception of type FeatherJsError will be raised
+  ///
+  /// Use FeatherJsErrorType.{ERROR} to known what happen
+  ///
+  /// @Warning: If uploading file is required, please use FlutterFeathersjs's rest client
+  ///
+  Future<dynamic> update(
+      {@required String serviceName,
+      @required String objectId,
+      @required Map<String, dynamic> data}) {
+    return this
+        .scketio
+        .update(serviceName: serviceName, objectId: objectId, data: data);
+  }
+
+  /// `EMIT get serviceName`
+  ///
+  ///
+  /// If no error is occured, you will get exactly feathersjs's data format
+  ///
+  /// Otherwise, an exception of type FeatherJsError will be raised
+  ///
+  /// Use FeatherJsErrorType.{ERROR} to known what happen
+  ///
+  Future<dynamic> get(
+      {@required String serviceName, @required String objectId}) {
+    return this.scketio.get(serviceName: serviceName, objectId: objectId);
+  }
+
+  /// `EMIT patch serviceName`
+  ///
+  ///Merge the existing data of a single or multiple resources with the new data
+  ///
+  /// If no error is occured, you will get exactly feathersjs's data format
+  ///
+  /// Otherwise, an exception of type FeatherJsError will be raised
+  ///
+  /// Use FeatherJsErrorType.{ERROR} to known what happen
+  ///
+  /// @Warning: If uploading file is required, please use FlutterFeathersjs's rest client
+  ///
+  Future<dynamic> patch(
+      {@required String serviceName,
+      @required String objectId,
+      @required Map<String, dynamic> data}) {
+    return this
+        .scketio
+        .patch(serviceName: serviceName, objectId: objectId, data: data);
+  }
+
+  /// `EMIT remove serviceName`
+  ///
+  /// Delete a ressource on the server
+  ///
+  ///
+  /// If no error is occured, you will get exactly feathersjs's data format
+  ///
+  /// Otherwise, an exception of type FeatherJsError will be raised
+  ///
+  /// Use FeatherJsErrorType.{ERROR} to known what happen
+  ///
+  Future<dynamic> remove(
+      {@required String serviceName, @required String objectId}) {
+    return this.scketio.remove(serviceName: serviceName, objectId: objectId);
+  }
+
+  /// Listen to `On updated | patched | created | removed serviceName`
+  ///
+  /// If no error is occured, you will get FeathersJsEventData<T>  feathersJsEventData
+  ///
+  ///     Then to retrieve the data send by feathers, do: feathersJsEventData.data
+  ///
+  ///     Event type send by feathers: feathersJsEventData.type
+  ///
+  /// Note: T is class that represent what feather js will send. You have to define it in your code
+  ///
+  ///
+  /// Otherwise, an exception of type FeatherJsError will be raised that can be caught on the stream
+  ///
+  ///     Use FeatherJsErrorType.{ERROR} to known what happen
+  ///
+  Stream<FeathersJsEventData<T>> listen<T>(
+      {@required String serviceName, @required Function fromJson}) {
+    return this.scketio.listen(serviceName: serviceName, fromJson: fromJson);
   }
 }

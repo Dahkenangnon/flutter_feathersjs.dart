@@ -140,3 +140,10 @@ Then reAutenticate user, if JWT still validated without request credentials from
         // why => print(e.message);
     }
 ```
+
+
+
+
+
+
+Now, let's send request and listen to feathers js event :notes: :zzz: :car:
