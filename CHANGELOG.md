@@ -1,3 +1,7 @@
+## 3.0.0 - Error handling and new features
+
+See [the release information](https://github.com/Dahkenangnon/flutter_feathersjs.dart/releases/tag/V3.0.0)
+
 ## 2.0.3-dev
 ## 2.0.2-dev
 ## 2.0.1-dev
