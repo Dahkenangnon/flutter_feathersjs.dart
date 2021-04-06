@@ -259,7 +259,7 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
 
 
      // onError:
-    (e) {
+    onError: (e) {
     // e is a FeatherJsError
     // You can check what error occured: e.type
      
