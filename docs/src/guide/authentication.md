@@ -1,6 +1,6 @@
 # Authentication
 
-Because we have two parts (scketio and rest) which must communicate
+Because we have two parts (socketio and rest) which must communicate
 with the same server (which required maybe authentication) we must found a way to authenticate
 both rest & socketio once user is logged.
 

@@ -12,7 +12,7 @@
 ///
 ///
 ///
-/// Happy hacking
+/// Happy hacking 🚀
 ///
 ///
 library flutter_feathersjs;
