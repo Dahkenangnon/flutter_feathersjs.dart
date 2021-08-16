@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:meta/meta.dart';
 import 'package:flutter/foundation.dart' as Foundation;
 
 import 'featherjs_client_base.dart';
@@ -11,8 +10,8 @@ import 'helper.dart';
 /// `Note`: You get exactly what feathers server send
 class RestClient extends FlutterFeathersjsBase {
   ///Dio as http client
-  Dio dio;
-  FeatherjsHelper utils;
+  late Dio dio;
+  late FeatherjsHelper utils;
   bool dev = true;
 
   //Using singleton to ensure we use the same instance of it accross our app
@@ -23,7 +22,7 @@ class RestClient extends FlutterFeathersjsBase {
   RestClient._internal();
 
   /// Initialize FlutterFeathersJs with the server baseUrl
-  init({@required String baseUrl, Map<String, dynamic> extraHeaders}) {
+  init({required String baseUrl, Map<String, dynamic>? extraHeaders}) {
     utils = new FeatherjsHelper();
 
     //Setup Http client
@@ -71,70 +70,57 @@ class RestClient extends FlutterFeathersjsBase {
   /// `$serviceName` may be a service which required authentication
   Future<dynamic> reAuthenticate({String serviceName = "users"}) async {
     Completer asyncTask = Completer<dynamic>();
-    FeatherJsError featherJsError;
+    FeatherJsError? featherJsError;
     bool isReauthenticate = false;
 
     //Getting the early stored rest access token and send the request by using it
     var oldToken = await utils.getAccessToken();
 
     ///If an oldToken exist really, try to chect if it is still validated
-    if (oldToken != null) {
-      this.dio.options.headers["Authorization"] = "Bearer $oldToken";
-      try {
-        // Try to retrieve the service which normaly don't accept anonimous user
-        var response = await this
-            .dio
-            .get("/$serviceName", queryParameters: {"\$limit": 1});
+    this.dio.options.headers["Authorization"] = "Bearer $oldToken";
+    try {
+      // Try to retrieve the service which normaly don't accept anonimous user
+      var response =
+          await this.dio.get("/$serviceName", queryParameters: {"\$limit": 1});
 
-        if (!Foundation.kReleaseMode) {
-          print(response);
-        }
-
-        if (response.statusCode == 401) {
-          if (!Foundation.kReleaseMode) {
-            print("jwt expired or jwt malformed");
-          }
-
-          featherJsError = new FeatherJsError(
-              type: FeatherJsErrorType.IS_JWT_EXPIRED_ERROR,
-              error: "Must authenticate again because Jwt has expired");
-        } else if (response.statusCode == 200) {
-          if (!Foundation.kReleaseMode) {
-            print("Jwt still validated");
-            isReauthenticate = true;
-          }
-        } else {
-          if (!Foundation.kReleaseMode) {
-            print("Unknown error");
-          }
-          featherJsError = new FeatherJsError(
-              type: FeatherJsErrorType.IS_UNKNOWN_ERROR,
-              error:
-                  "Must authenticate again because unable to authenticate with the last token");
-        }
-      } catch (e) {
-        // Error
-        if (!Foundation.kReleaseMode) {
-          print("Unable to connect to the server");
-        }
-        if (e.response != null) {
-          featherJsError = new FeatherJsError(
-              type: FeatherJsErrorType.IS_SERVER_ERROR, error: e.response);
-        } else {
-          featherJsError = new FeatherJsError(
-              type: FeatherJsErrorType.IS_UNKNOWN_ERROR, error: e);
-        }
-      }
-    }
-
-    ///No token is found
-    else {
       if (!Foundation.kReleaseMode) {
-        print("No old token found. Must reAuth user");
+        print(response);
       }
-      featherJsError = new FeatherJsError(
-          type: FeatherJsErrorType.IS_JWT_TOKEN_NOT_FOUND_ERROR,
-          error: "No old token found. Must reAuth user");
+
+      if (response.statusCode == 401) {
+        if (!Foundation.kReleaseMode) {
+          print("jwt expired or jwt malformed");
+        }
+
+        featherJsError = new FeatherJsError(
+            type: FeatherJsErrorType.IS_JWT_EXPIRED_ERROR,
+            error: "Must authenticate again because Jwt has expired");
+      } else if (response.statusCode == 200) {
+        if (!Foundation.kReleaseMode) {
+          print("Jwt still validated");
+          isReauthenticate = true;
+        }
+      } else {
+        if (!Foundation.kReleaseMode) {
+          print("Unknown error");
+        }
+        featherJsError = new FeatherJsError(
+            type: FeatherJsErrorType.IS_UNKNOWN_ERROR,
+            error:
+                "Must authenticate again because unable to authenticate with the last token");
+      }
+    } on DioError catch (e) {
+      // Error
+      if (!Foundation.kReleaseMode) {
+        print("Unable to connect to the server");
+      }
+      if (e.response != null) {
+        featherJsError = new FeatherJsError(
+            type: FeatherJsErrorType.IS_SERVER_ERROR, error: e.response);
+      } else {
+        featherJsError = new FeatherJsError(
+            type: FeatherJsErrorType.IS_UNKNOWN_ERROR, error: e);
+      }
     }
 
     if (featherJsError != null) {
@@ -155,14 +141,14 @@ class RestClient extends FlutterFeathersjsBase {
   /// By default this will be `email`and the strategy `local`
   Future<dynamic> authenticate(
       {strategy = "local",
-      @required String userName,
-      @required String password,
+      required String? userName,
+      required String? password,
       String userNameFieldName = "email"}) async {
     Completer asyncTask = Completer<dynamic>();
 
     /// Final response of the server
-    var response;
-    FeatherJsError featherJsError;
+    late var response;
+    FeatherJsError? featherJsError;
 
     try {
       //Making http request to get auth token
@@ -181,29 +167,19 @@ class RestClient extends FlutterFeathersjsBase {
             error: response.data["message"]);
       }
     } on DioError catch (e) {
-      if (e.response != null) {
-        print(":: Error from the request");
-        print(e.response.data);
-        print(e.response.headers);
-      } else {
-        print(":: Unable to send the request");
-        // Something happened in setting up or sending the request that triggered an Error
-        print(e.message);
-      }
-
       // Error in the request
       if (e.response != null) {
-        if (e.response.data["code"] == 401) {
+        if (e.response?.data["code"] == 401) {
           //This is useful to display to end user why auth failed
           //With 401: it will be either Invalid credentials or strategy error
-          if (e.response.data["message"] == "Invalid login") {
+          if (e.response?.data["message"] == "Invalid login") {
             featherJsError = new FeatherJsError(
                 type: FeatherJsErrorType.IS_INVALID_CREDENTIALS_ERROR,
-                error: e.response.data["message"]);
+                error: e.response?.data["message"]);
           } else {
             featherJsError = new FeatherJsError(
                 type: FeatherJsErrorType.IS_INVALID_STRATEGY_ERROR,
-                error: e.response.data["message"]);
+                error: e.response?.data["message"]);
           }
         } else {
           featherJsError = new FeatherJsError(
@@ -230,8 +206,8 @@ class RestClient extends FlutterFeathersjsBase {
   /// Retrieves a list of all matching the `query` resources from the service
   ///
   Future<dynamic> find(
-      {@required String serviceName,
-      @required Map<String, dynamic> query}) async {
+      {required String serviceName,
+      required Map<String, dynamic> query}) async {
     try {
       var response =
           await this.dio.get("/$serviceName", queryParameters: query);
@@ -243,9 +219,9 @@ class RestClient extends FlutterFeathersjsBase {
             type: FeatherJsErrorType.IS_SERVER_ERROR,
             error: "Response body is empty");
       }
-    } catch (e) {
+    } on DioError catch (e) {
       if (e.response != null) {
-        throw errorCode2FeatherJsError(e.response.data);
+        throw errorCode2FeatherJsError(e.response?.data);
       } else {
         throw new FeatherJsError(
             type: FeatherJsErrorType.IS_UNKNOWN_ERROR, error: e.message);
@@ -258,7 +234,7 @@ class RestClient extends FlutterFeathersjsBase {
   /// Retrieve a single resource from the service with an `_id`
   ///
   Future<dynamic> get(
-      {@required String serviceName, @required String objectId}) async {
+      {required String serviceName, required String objectId}) async {
     try {
       var response = await this.dio.get("/$serviceName/$objectId");
 
@@ -269,9 +245,9 @@ class RestClient extends FlutterFeathersjsBase {
             type: FeatherJsErrorType.IS_SERVER_ERROR,
             error: "Response body is empty");
       }
-    } catch (e) {
+    } on DioError catch (e) {
       if (e.response != null) {
-        throw errorCode2FeatherJsError(e.response.data);
+        throw errorCode2FeatherJsError(e.response?.data);
       } else {
         throw new FeatherJsError(
             type: FeatherJsErrorType.IS_UNKNOWN_ERROR, error: e.message);
@@ -303,11 +279,11 @@ class RestClient extends FlutterFeathersjsBase {
   ///
   ///
   Future<dynamic> create(
-      {@required String serviceName,
-      @required Map<String, dynamic> data,
+      {required String serviceName,
+      required Map<String, dynamic> data,
       containsFile = false,
       fileFieldName = "file",
-      List<Map<String, String>> files}) async {
+      List<Map<String, String>>? files}) async {
     var response;
 
     if (!containsFile) {
@@ -320,7 +296,7 @@ class RestClient extends FlutterFeathersjsBase {
               type: FeatherJsErrorType.IS_SERVER_ERROR,
               error: "Response body is empty");
         }
-      } catch (e) {
+      } on DioError catch (e) {
         throw new FeatherJsError(
             type: FeatherJsErrorType.IS_SERVER_ERROR, error: e.response);
       }
@@ -331,7 +307,7 @@ class RestClient extends FlutterFeathersjsBase {
         formData = await this.makeFormData(
             nonFilesFieldsMap: data,
             fileFieldName: fileFieldName,
-            files: files);
+            files: files!);
       } catch (e) {
         throw new FeatherJsError(
             type: FeatherJsErrorType.IS_FORM_DATA_ERROR, error: e);
@@ -347,9 +323,9 @@ class RestClient extends FlutterFeathersjsBase {
               type: FeatherJsErrorType.IS_SERVER_ERROR,
               error: "Response body is empty");
         }
-      } catch (e) {
+      } on DioError catch (e) {
         if (e.response != null) {
-          throw errorCode2FeatherJsError(e.response.data);
+          throw errorCode2FeatherJsError(e.response?.data);
         } else {
           throw new FeatherJsError(
               type: FeatherJsErrorType.IS_UNKNOWN_ERROR, error: e.message);
@@ -379,12 +355,12 @@ class RestClient extends FlutterFeathersjsBase {
   ///
   ///
   Future<dynamic> update(
-      {@required String serviceName,
-      @required String objectId,
-      @required Map<String, dynamic> data,
+      {required String serviceName,
+      required String objectId,
+      required Map<String, dynamic> data,
       containsFile = false,
       fileFieldName = "file",
-      List<Map<String, String>> files}) async {
+      List<Map<String, String>>? files}) async {
     var response;
 
     if (!containsFile) {
@@ -399,7 +375,7 @@ class RestClient extends FlutterFeathersjsBase {
               type: FeatherJsErrorType.IS_SERVER_ERROR,
               error: "Response body is empty");
         }
-      } catch (e) {
+      } on DioError catch (e) {
         throw new FeatherJsError(
             type: FeatherJsErrorType.IS_SERVER_ERROR, error: e.response);
       }
@@ -410,7 +386,7 @@ class RestClient extends FlutterFeathersjsBase {
         formData = await this.makeFormData(
             nonFilesFieldsMap: data,
             fileFieldName: fileFieldName,
-            files: files);
+            files: files!);
       } catch (e) {
         throw new FeatherJsError(
             type: FeatherJsErrorType.IS_FORM_DATA_ERROR, error: e);
@@ -428,9 +404,9 @@ class RestClient extends FlutterFeathersjsBase {
               type: FeatherJsErrorType.IS_SERVER_ERROR,
               error: "Response body is empty");
         }
-      } catch (e) {
+      } on DioError catch (e) {
         if (e.response != null) {
-          throw errorCode2FeatherJsError(e.response.data);
+          throw errorCode2FeatherJsError(e.response?.data);
         } else {
           throw new FeatherJsError(
               type: FeatherJsErrorType.IS_UNKNOWN_ERROR, error: e.message);
@@ -464,12 +440,12 @@ class RestClient extends FlutterFeathersjsBase {
   ///
   ///
   Future<dynamic> patch(
-      {@required String serviceName,
-      @required String objectId,
-      @required Map<String, dynamic> data,
+      {required String serviceName,
+      required String objectId,
+      required Map<String, dynamic> data,
       containsFile = false,
       fileFieldName = "file",
-      List<Map<String, String>> files}) async {
+      List<Map<String, String>>? files}) async {
     var response;
 
     if (!containsFile) {
@@ -484,7 +460,7 @@ class RestClient extends FlutterFeathersjsBase {
               type: FeatherJsErrorType.IS_SERVER_ERROR,
               error: "Response body is empty");
         }
-      } catch (e) {
+      } on DioError catch (e) {
         throw new FeatherJsError(
             type: FeatherJsErrorType.IS_SERVER_ERROR, error: e.response);
       }
@@ -495,7 +471,7 @@ class RestClient extends FlutterFeathersjsBase {
         formData = await this.makeFormData(
             nonFilesFieldsMap: data,
             fileFieldName: fileFieldName,
-            files: files);
+            files: files!);
       } catch (e) {
         throw new FeatherJsError(
             type: FeatherJsErrorType.IS_FORM_DATA_ERROR, error: e);
@@ -513,9 +489,9 @@ class RestClient extends FlutterFeathersjsBase {
               type: FeatherJsErrorType.IS_SERVER_ERROR,
               error: "Response body is empty");
         }
-      } catch (e) {
+      } on DioError catch (e) {
         if (e.response != null) {
-          throw errorCode2FeatherJsError(e.response.data);
+          throw errorCode2FeatherJsError(e.response?.data);
         } else {
           throw new FeatherJsError(
               type: FeatherJsErrorType.IS_UNKNOWN_ERROR, error: e.message);
@@ -528,7 +504,7 @@ class RestClient extends FlutterFeathersjsBase {
   ///
   /// Remove a single  resource with `_id = objectId `:
   Future<dynamic> remove(
-      {@required String serviceName, @required String objectId}) async {
+      {required String serviceName, required String objectId}) async {
     try {
       var response = await this.dio.delete(
             "/$serviceName/$objectId",
@@ -541,10 +517,10 @@ class RestClient extends FlutterFeathersjsBase {
             type: FeatherJsErrorType.IS_SERVER_ERROR,
             error: "Response body is empty");
       }
-    } catch (e) {
+    } on DioError catch (e) {
       // Throw an exception with e
       if (e.response != null) {
-        throw errorCode2FeatherJsError(e.response.data);
+        throw errorCode2FeatherJsError(e.response?.data);
       } else {
         throw new FeatherJsError(
             type: FeatherJsErrorType.IS_UNKNOWN_ERROR, error: e.message);
@@ -574,9 +550,9 @@ class RestClient extends FlutterFeathersjsBase {
   ///
   ///
   Future<FormData> makeFormData(
-      {Map<String, dynamic> nonFilesFieldsMap,
-      @required fileFieldName,
-      List<Map<String, String>> files}) async {
+      {Map<String, dynamic>? nonFilesFieldsMap,
+      required fileFieldName,
+      required List<Map<String, String>> files}) async {
     Map<String, dynamic> data = {};
 
     // logging
@@ -597,8 +573,8 @@ class RestClient extends FlutterFeathersjsBase {
     for (var fileData in files) {
       formData.files.add(MapEntry(
         fileFieldName,
-        await MultipartFile.fromFile(fileData["filePath"],
-            filename: fileData["fileName"]),
+        await MultipartFile.fromFile(fileData["filePath"]!,
+            filename: fileData["fileName"]!),
       ));
     }
 

@@ -21,7 +21,7 @@ void main() async {
       // var rep2 = await flutterFeathersjs.authenticate(
       //     userName: user["email"], password: user["password"]);
       // print("\n  The authenticated  user is: \n");
-      // print(rep2);
+      print(rep2);
     } on FeatherJsError catch (e) {
       // Catch error from feahters js
       //
@@ -36,9 +36,9 @@ void main() async {
         print(e.type);
         print(e.message);
       }
-    } catch (e) {
+    } on Error catch (e) {
       print("Bad error here");
-      print(e.message);
+      print(e);
     }
   });
 

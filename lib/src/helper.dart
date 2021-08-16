@@ -12,19 +12,20 @@ class DisConnected {}
 
 /// Utilities for FlutterFeathersJs
 class FeatherjsHelper {
-  SharedPreferences prefs;
+  late SharedPreferences prefs;
   FeatherjsHelper();
 
   /// Store JWT for reAuth() purpose
-  Future<bool> setAccessToken({String token}) async {
+  Future<bool> setAccessToken({required String token}) async {
     prefs = await SharedPreferences.getInstance();
 
     return await prefs.setString(FEATHERSJS_ACCESS_TOKEN, token);
   }
 
   /// Get the early stored JWT for reAuth() purpose
-  Future<String> getAccessToken({String token}) async {
+  Future<String?> getAccessToken() async {
     prefs = await SharedPreferences.getInstance();
+
     return prefs.getString(FEATHERSJS_ACCESS_TOKEN);
   }
 }
@@ -134,11 +135,13 @@ class FeatherJsError implements Exception {
 
   dynamic error;
 
-  StackTrace _stackTrace;
+  StackTrace? _stackTrace;
 
-  set stackTrace(StackTrace stack) => _stackTrace = stack;
+  // ignore: unnecessary_getters_setters
+  set stackTrace(StackTrace? stack) => _stackTrace = stack;
 
-  StackTrace get stackTrace => _stackTrace;
+  // ignore: unnecessary_getters_setters
+  StackTrace? get stackTrace => _stackTrace;
 
   String get message => (error?.toString() ?? '');
 
@@ -212,8 +215,8 @@ FeatherJsError errorCode2FeatherJsError(error) {
 
 /// Feathers Js realtime event data
 class FeathersJsEventData<T> {
-  FeathersJsEventType type;
-  T data;
+  FeathersJsEventType? type;
+  T? data;
   FeathersJsEventData({this.type, this.data});
 }
 

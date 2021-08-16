@@ -2,7 +2,6 @@ import 'package:flutter_feathersjs/src/rest_client.dart';
 import 'package:flutter_feathersjs/src/scketio_client.dart';
 import 'dart:async';
 import 'package:flutter_feathersjs/src/helper.dart';
-import 'package:meta/meta.dart';
 
 ///FlutterFeatherJs allow you to communicate with your feathers js server
 ///
@@ -17,9 +16,9 @@ import 'package:meta/meta.dart';
 ///--------------------------------------------
 class FlutterFeathersjs {
   //RestClient
-  RestClient rest;
+  late RestClient rest;
   //SocketioClient
-  SocketioClient scketio;
+  late SocketioClient scketio;
 
   ///Using singleton
   static final FlutterFeathersjs _flutterFeathersjs =
@@ -30,7 +29,7 @@ class FlutterFeathersjs {
   FlutterFeathersjs._internal();
 
   ///Intialize both rest and scoketio client
-  init({@required String baseUrl, Map<String, dynamic> extraHeaders}) {
+  init({required String baseUrl, Map<String, dynamic>? extraHeaders}) {
     rest = new RestClient()..init(baseUrl: baseUrl, extraHeaders: extraHeaders);
 
     scketio = new SocketioClient()..init(baseUrl: baseUrl);
@@ -46,8 +45,8 @@ class FlutterFeathersjs {
   /// By default this will be `email`and the strategy `local`
   Future<Map<String, dynamic>> authenticate(
       {String strategy = "local",
-      @required String userName,
-      @required String password,
+      required String? userName,
+      required String? password,
       String userNameFieldName = "email"}) async {
     try {
       //Auth with rest to refresh or create accessToken
@@ -59,7 +58,7 @@ class FlutterFeathersjs {
 
       try {
         //Then auth with jwt socketio
-        bool isAuthenticated = await scketio.authWithJWT();
+        bool isAuthenticated = await (scketio.authWithJWT() as FutureOr<bool>);
 
         // Check wether both client are authenticated or not
         if (restAuthResponse != null && isAuthenticated == true) {
@@ -86,11 +85,13 @@ class FlutterFeathersjs {
   Future<dynamic> reAuthenticate() async {
     try {
       //Auth with rest to refresh or create accessToken
-      bool isRestAuthenticated = await rest.reAuthenticate();
+      bool isRestAuthenticated =
+          await (rest.reAuthenticate() as FutureOr<bool>);
 
       try {
         //Then auth with jwt socketio
-        bool isSocketioAuthenticated = await scketio.authWithJWT();
+        bool isSocketioAuthenticated =
+            await (scketio.authWithJWT() as FutureOr<bool>);
 
         // Check wether both client are authenticated or not
         if (isRestAuthenticated == true && isSocketioAuthenticated == true) {
@@ -129,8 +130,8 @@ class FlutterFeathersjs {
   ///
   ///
   Future<dynamic> find(
-      {@required String serviceName,
-      @required Map<String, dynamic> query}) async {
+      {required String serviceName,
+      required Map<String, dynamic> query}) async {
     return this.scketio.find(serviceName: serviceName, query: query);
   }
 
@@ -147,7 +148,7 @@ class FlutterFeathersjs {
   /// @Warning: If uploading file is required, please use FlutterFeathersjs's rest client
   ///
   Future<dynamic> create(
-      {@required String serviceName, @required Map<String, dynamic> data}) {
+      {required String serviceName, required Map<String, dynamic> data}) {
     return this.scketio.create(serviceName: serviceName, data: data);
   }
 
@@ -165,9 +166,9 @@ class FlutterFeathersjs {
   /// @Warning: If uploading file is required, please use FlutterFeathersjs's rest client
   ///
   Future<dynamic> update(
-      {@required String serviceName,
-      @required String objectId,
-      @required Map<String, dynamic> data}) {
+      {required String serviceName,
+      required String objectId,
+      required Map<String, dynamic> data}) {
     return this
         .scketio
         .update(serviceName: serviceName, objectId: objectId, data: data);
@@ -182,8 +183,7 @@ class FlutterFeathersjs {
   ///
   /// Use FeatherJsErrorType.{ERROR} to known what happen
   ///
-  Future<dynamic> get(
-      {@required String serviceName, @required String objectId}) {
+  Future<dynamic> get({required String serviceName, required String objectId}) {
     return this.scketio.get(serviceName: serviceName, objectId: objectId);
   }
 
@@ -200,9 +200,9 @@ class FlutterFeathersjs {
   /// @Warning: If uploading file is required, please use FlutterFeathersjs's rest client
   ///
   Future<dynamic> patch(
-      {@required String serviceName,
-      @required String objectId,
-      @required Map<String, dynamic> data}) {
+      {required String serviceName,
+      required String objectId,
+      required Map<String, dynamic> data}) {
     return this
         .scketio
         .patch(serviceName: serviceName, objectId: objectId, data: data);
@@ -220,7 +220,7 @@ class FlutterFeathersjs {
   /// Use FeatherJsErrorType.{ERROR} to known what happen
   ///
   Future<dynamic> remove(
-      {@required String serviceName, @required String objectId}) {
+      {required String serviceName, required String objectId}) {
     return this.scketio.remove(serviceName: serviceName, objectId: objectId);
   }
 
@@ -240,7 +240,7 @@ class FlutterFeathersjs {
   ///     Use FeatherJsErrorType.{ERROR} to known what happen
   ///
   Stream<FeathersJsEventData<T>> listen<T>(
-      {@required String serviceName, @required Function fromJson}) {
+      {required String serviceName, required Function fromJson}) {
     return this.scketio.listen(serviceName: serviceName, fromJson: fromJson);
   }
 }

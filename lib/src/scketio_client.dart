@@ -1,18 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart' as Foundation;
-import 'package:flutter/material.dart';
 import 'package:flutter_feathersjs/src/helper.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
-import 'package:meta/meta.dart';
 import 'package:event_bus/event_bus.dart';
 import 'featherjs_client_base.dart';
 
 ///Socketio client for the realtime communication
 class SocketioClient extends FlutterFeathersjsBase {
-  IO.Socket _socket;
+  late IO.Socket _socket;
 
-  FeatherjsHelper utils;
+  late FeatherjsHelper utils;
 
   EventBus eventBus = EventBus(sync: true);
 
@@ -25,7 +23,7 @@ class SocketioClient extends FlutterFeathersjsBase {
   SocketioClient._internal();
 
   /// Initialize the realtime (socketio) connection
-  init({@required String baseUrl, Map<String, dynamic> extraHeaders}) {
+  init({required String baseUrl, Map<String, dynamic>? extraHeaders}) {
     _socket = IO.io(baseUrl, <String, dynamic>{
       'transports': ['websocket'],
       //'extraHeaders': extraHeaders,
@@ -87,9 +85,9 @@ class SocketioClient extends FlutterFeathersjsBase {
   ///use instead the global flutterFeathersjs.authenticate({...})
   ///
   Future<dynamic> authWithJWT() async {
-    String token = await utils.getAccessToken();
+    String? token = await utils.getAccessToken();
     Completer asyncTask = Completer<dynamic>();
-    FeatherJsError featherJsError;
+    FeatherJsError? featherJsError;
     bool isReauthenticate = false;
 
     _socket.emitWithAck('create', [
@@ -123,7 +121,7 @@ class SocketioClient extends FlutterFeathersjsBase {
             type: FeatherJsErrorType.IS_JWT_TOKEN_ERROR, error: dataResponse);
       }
       if (featherJsError != null) {
-        asyncTask.completeError(featherJsError); //Complete with error
+        asyncTask.completeError(featherJsError!); //Complete with error
       } else {
         // Complete with success
         asyncTask.complete(isReauthenticate);
@@ -145,8 +143,8 @@ class SocketioClient extends FlutterFeathersjsBase {
   ///
   ///
   Future<dynamic> find(
-      {@required String serviceName,
-      @required Map<String, dynamic> query}) async {
+      {required String serviceName,
+      required Map<String, dynamic> query}) async {
     Completer asyncTask = Completer<dynamic>();
     _socket.emitWithAck("find", [serviceName, query], ack: (response) {
       if (response is List) {
@@ -169,7 +167,7 @@ class SocketioClient extends FlutterFeathersjsBase {
   /// Use FeatherJsErrorType.{ERROR} to known what happen
   ///
   Future<dynamic> create(
-      {@required String serviceName, @required Map<String, dynamic> data}) {
+      {required String serviceName, required Map<String, dynamic> data}) {
     Completer asyncTask = Completer<dynamic>();
 
     _socket.emitWithAck("create", [serviceName, data], ack: (response) {
@@ -194,9 +192,9 @@ class SocketioClient extends FlutterFeathersjsBase {
   /// Use FeatherJsErrorType.{ERROR} to known what happen
   ///
   Future<dynamic> update(
-      {@required String serviceName,
-      @required String objectId,
-      @required Map<String, dynamic> data}) {
+      {required String serviceName,
+      required String objectId,
+      required Map<String, dynamic> data}) {
     Completer asyncTask = Completer<dynamic>();
     _socket.emitWithAck("update", [serviceName, objectId, data],
         ack: (response) {
@@ -218,8 +216,7 @@ class SocketioClient extends FlutterFeathersjsBase {
   ///
   /// Use FeatherJsErrorType.{ERROR} to known what happen
   ///
-  Future<dynamic> get(
-      {@required String serviceName, @required String objectId}) {
+  Future<dynamic> get({required String serviceName, required String objectId}) {
     Completer asyncTask = Completer<dynamic>();
     _socket.emitWithAck("get", [serviceName, objectId], ack: (response) {
       if (response is List) {
@@ -242,9 +239,9 @@ class SocketioClient extends FlutterFeathersjsBase {
   /// Use FeatherJsErrorType.{ERROR} to known what happen
   ///
   Future<dynamic> patch(
-      {@required String serviceName,
-      @required String objectId,
-      @required Map<String, dynamic> data}) {
+      {required String serviceName,
+      required String objectId,
+      required Map<String, dynamic> data}) {
     Completer asyncTask = Completer<dynamic>();
     _socket.emitWithAck("patch", [serviceName, objectId, data],
         ack: (response) {
@@ -269,7 +266,7 @@ class SocketioClient extends FlutterFeathersjsBase {
   /// Use FeatherJsErrorType.{ERROR} to known what happen
   ///
   Future<dynamic> remove(
-      {@required String serviceName, @required String objectId}) {
+      {required String serviceName, required String objectId}) {
     Completer asyncTask = Completer<dynamic>();
     _socket.emitWithAck("remove", [serviceName, objectId], ack: (response) {
       if (response is List) {
@@ -297,11 +294,11 @@ class SocketioClient extends FlutterFeathersjsBase {
   ///     Use FeatherJsErrorType.{ERROR} to known what happen
   ///
   Stream<FeathersJsEventData<T>> listen<T>(
-      {@required String serviceName, @required Function fromJson}) {
+      {required String serviceName, required Function fromJson}) {
     /// On updated event
     _socket.on('$serviceName updated', (updatedData) {
       try {
-        T object = fromJson(updatedData);
+        T? object = fromJson(updatedData);
         eventBus.fire(FeathersJsEventData<T>(
             data: object, type: FeathersJsEventType.updated));
       } catch (e) {
@@ -313,7 +310,7 @@ class SocketioClient extends FlutterFeathersjsBase {
     /// On patched event
     _socket.on('$serviceName patched', (patchedData) {
       try {
-        T object = fromJson(patchedData);
+        T? object = fromJson(patchedData);
         eventBus.fire(FeathersJsEventData<T>(
             data: object, type: FeathersJsEventType.patched));
       } catch (e) {
@@ -325,7 +322,7 @@ class SocketioClient extends FlutterFeathersjsBase {
     /// On removed event
     _socket.on('$serviceName removed', (removedData) {
       try {
-        T object = fromJson(removedData);
+        T? object = fromJson(removedData);
         eventBus.fire(FeathersJsEventData<T>(
             data: object, type: FeathersJsEventType.removed));
       } catch (e) {
@@ -337,7 +334,7 @@ class SocketioClient extends FlutterFeathersjsBase {
     /// On created event
     _socket.on('$serviceName created', (createdData) {
       try {
-        T object = fromJson(createdData);
+        T? object = fromJson(createdData);
         eventBus.fire(FeathersJsEventData<T>(
             data: object, type: FeathersJsEventType.created));
       } catch (e) {

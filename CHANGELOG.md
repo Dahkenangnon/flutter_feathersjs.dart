@@ -1,3 +1,5 @@
+## 4.0.0-dev.nullsafety - Migrating to null-safety
+
 ## 3.0.0 - Error handling and new features
 
 See [the release information](https://github.com/Dahkenangnon/flutter_feathersjs.dart/releases/tag/V3.0.0)
