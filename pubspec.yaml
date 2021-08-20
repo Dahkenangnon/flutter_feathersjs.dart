@@ -1,6 +1,6 @@
 name: flutter_feathersjs
 description: Communicate with your feathers js (https://feathersjs.com/) server from flutter app and make a production ready, realtime app in minute and more features out the box. 
-version: 4.0.1-dev.nullsafety
+version: 4.0.2
 homepage: https://github.com/Dahkenangnon/flutter_feathersjs.dart
 repository: https://github.com/Dahkenangnon/flutter_feathersjs.dart
 

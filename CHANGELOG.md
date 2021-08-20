@@ -1,3 +1,5 @@
+## 4.0.2 - Nullsafety
+
 ## 4.0.1-dev.nullsafety - Remove meta from pubspec
 
 ## 4.0.0-dev.nullsafety - Migrating to null-safety
