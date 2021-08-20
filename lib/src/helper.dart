@@ -71,7 +71,7 @@ enum FeatherJsErrorType {
   /// Auth failed with unknown reason
   IS_AUTH_FAILED_ERROR,
 
-  // See https://docs.feathersjs.com/api/errors.html#feathers-errors
+  /// See https://docs.feathersjs.com/api/errors.html#feathers-errors
   /// Bad request
   IS_BAD_REQUEST_ERROR,
 
@@ -120,7 +120,7 @@ enum FeatherJsErrorType {
   /// Server is unavailable
   IS_UNAVAILABLE_ERROR,
 
-  // Cannot sent the request
+  /// Cannot sent the request
   IS_CANNOT_SEND_REQUEST
 }
 

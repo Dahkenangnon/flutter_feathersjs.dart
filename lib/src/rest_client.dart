@@ -12,7 +12,6 @@ class RestClient extends FlutterFeathersjsBase {
   ///Dio as http client
   late Dio dio;
   late FeatherjsHelper utils;
-  bool dev = true;
 
   //Using singleton to ensure we use the same instance of it accross our app
   static final RestClient _restClient = RestClient._internal();
@@ -124,7 +123,8 @@ class RestClient extends FlutterFeathersjsBase {
     }
 
     if (featherJsError != null) {
-      asyncTask.completeError(featherJsError); //Complete with error
+      //Complete with error
+      asyncTask.completeError(featherJsError);
     } else {
       // Complete with success
       asyncTask.complete(isReauthenticate);
@@ -192,10 +192,11 @@ class RestClient extends FlutterFeathersjsBase {
     }
 
     if (featherJsError != null) {
-      asyncTask.completeError(featherJsError); // Complete with error
+      // Complete with error
+      asyncTask.completeError(featherJsError);
     } else {
-      asyncTask.complete(
-          response.data["user"]); // Send directly user if all thing is good
+      // Send directly user if all thing is good
+      asyncTask.complete(response.data["user"]);
     }
 
     return asyncTask.future;
@@ -265,7 +266,7 @@ class RestClient extends FlutterFeathersjsBase {
   ///
   ///@ `fileFieldName`: the file | files field which must be send to the server
   ///
-  ///[@var files: a List map of {"filePath": the file path, "fileName": the file ame}]
+  ///[@var files: a List of map of {"filePath": the file path, "fileName": the file ame}]
   //      Or if multiple files
   ///     var files =
   ///     [
