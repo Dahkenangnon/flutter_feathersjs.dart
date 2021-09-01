@@ -1,6 +1,6 @@
 # Socketio client
 
-\***\*Feathers Js scketio client for realtime communication\*\***
+**Feathers Js scketio client for realtime communication**
 
 You get exactly what feathers server send (_Serialization and Deserialization are not supported._) except in the listen method.
 

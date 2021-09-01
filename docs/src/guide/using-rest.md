@@ -1,6 +1,6 @@
 # Rest Client
 
-****Feathers Js rest client for rest api call****
+**Feathers Js rest client for rest api call**
 
 You get exactly what feathers server send (_Serialization and Deserialization are not supported._)
 

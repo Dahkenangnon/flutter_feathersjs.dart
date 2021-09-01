@@ -4,16 +4,15 @@
 ## Update your pubspec.yaml
 
 ```yaml
+# Please see https://pub.dev/packages/flutter_feathersjs/install
 flutter_feathersjs: ^lastest
 ```
 
 ## Import it in your flutter code
 
 ```dart
-// Main package
+// Import it
 import 'package:flutter_feathersjs/flutter_feathersjs.dart';
-// Contains helper like error handling, etc..
-import 'package:flutter_feathersjs/src/helper.dart';
 
 ```
 
@@ -22,13 +21,13 @@ import 'package:flutter_feathersjs/src/helper.dart';
 ```dart
 
 
-//your  api
+//your  api baseUrl
 const BASE_URL = "https://flutter-feathersjs.herokuapp.com";
 
-// Init it globally accross your app, maybe with get_it
+// Init it globally accross your app, maybe with get_it or something like that
 FlutterFeathersjs flutterFeathersjs = FlutterFeathersjs()
     ..init(baseUrl: BASE_URL);
 
 ```
 
-You're ready to go :rocket: 
+You're ready to go: 3, 2, 1 :rocket:  

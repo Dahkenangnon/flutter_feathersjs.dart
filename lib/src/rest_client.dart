@@ -11,6 +11,8 @@ import 'helper.dart';
 class RestClient extends FlutterFeathersjsBase {
   ///Dio as http client
   late Dio dio;
+
+  /// Feathers js helper
   late FeatherjsHelper utils;
 
   //Using singleton to ensure we use the same instance of it accross our app
@@ -20,7 +22,7 @@ class RestClient extends FlutterFeathersjsBase {
   }
   RestClient._internal();
 
-  /// Initialize FlutterFeathersJs with the server baseUrl
+  /// Initialize FlutterFeathersJs with the server's baseUrl and some extraHeaders
   init({required String baseUrl, Map<String, dynamic>? extraHeaders}) {
     utils = new FeatherjsHelper();
 
@@ -36,6 +38,8 @@ class RestClient extends FlutterFeathersjsBase {
         .add(InterceptorsWrapper(onRequest: (options, handler) async {
           // Setting on every request the Bearer Token in the header
           var oldToken = await utils.getAccessToken();
+
+          // This is necessary to send on every request the Bearer token to be authenticated
           this.dio.options.headers["Authorization"] = "Bearer $oldToken";
           return handler.next(options); //continue
           // If you want to resolve the request with some custom data，
@@ -264,9 +268,9 @@ class RestClient extends FlutterFeathersjsBase {
   ///
   ///
   ///
-  ///@ `fileFieldName`: the file | files field which must be send to the server
+  /// @ `fileFieldName`: the file | files field which must be send to the server
   ///
-  ///[@var files: a List of map of {"filePath": the file path, "fileName": the file ame}]
+  /// [@var files: a List of map of {"filePath": the file path, "fileName": the file ame}]
   //      Or if multiple files
   ///     var files =
   ///     [
@@ -340,9 +344,9 @@ class RestClient extends FlutterFeathersjsBase {
   /// Completely replace a single resource with the `_id = objectId`
   ///
   /// The below is important if you have file to upload [containsFile == true]
-  ///@ `fileFieldName`: the file | files field which must be send to the server
+  /// @ `fileFieldName`: the file | files field which must be send to the server
   ///
-  ///[@var files: a List map of {"filePath": the file path, "fileName": the file ame}]
+  /// [@var files: a List map of {"filePath": the file path, "fileName": the file ame}]
   ///      Or if multiple files
   ///     var files =
   ///     [
@@ -424,9 +428,9 @@ class RestClient extends FlutterFeathersjsBase {
   ///
   ///
   ///
-  ///@ `fileFieldName`: the file | files field which must be send to the server
+  /// @ `fileFieldName`: the file | files field which must be send to the server
   ///
-  ///[@var files: a List map of {"filePath": the file path, "fileName": the file ame}]
+  /// [@var files: a List map of {"filePath": the file path, "fileName": the file ame}]
   ///
   ///     // Or if multiple files
   ///     var files =
@@ -529,12 +533,12 @@ class RestClient extends FlutterFeathersjsBase {
     }
   }
 
-  ///@params `nonFilesFieldsMap`: other field non file
+  /// @params `nonFilesFieldsMap`: other field non file
   ///
   ///
-  ///@params `fileFieldName`: the file | files field which must be send to the server
+  /// @params `fileFieldName`: the file | files field which must be send to the server
   ///
-  ///@var `files`: a List map of `{"filePath": the file path, "fileName": the file name with extension}`
+  /// @var `files`: a List map of `{"filePath": the file path, "fileName": the file name with extension}`
   ///
   /// `Example: { 'filePath': '/data/shared/epatriote_logo.png', 'fileName': 'epatriote_logo.png' }`
   ///

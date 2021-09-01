@@ -5,7 +5,7 @@ import 'package:flutter_feathersjs/src/helper.dart';
 
 ///FlutterFeatherJs allow you to communicate with your feathers js server
 ///
-///Response format: You get exactly what feathers server send when no error
+///Response format: You get exactly what feathers server send when no error occured
 ///
 ///Uploading file: Use rest client, socketio client cannot upload file
 ///
@@ -28,7 +28,7 @@ class FlutterFeathersjs {
   }
   FlutterFeathersjs._internal();
 
-  ///Intialize both rest and scoketio client
+  ///Initialize both rest and scoketio client
   init({required String baseUrl, Map<String, dynamic>? extraHeaders}) {
     rest = new RestClient()..init(baseUrl: baseUrl, extraHeaders: extraHeaders);
 
@@ -189,7 +189,7 @@ class FlutterFeathersjs {
 
   /// `EMIT patch serviceName`
   ///
-  ///Merge the existing data of a single or multiple resources with the new data
+  /// Merge the existing data of a single or multiple resources with the new data
   ///
   /// If no error is occured, you will get exactly feathersjs's data format
   ///
@@ -224,7 +224,7 @@ class FlutterFeathersjs {
     return this.scketio.remove(serviceName: serviceName, objectId: objectId);
   }
 
-  /// Listen to `On updated | patched | created | removed serviceName`
+  /// Listen to On [` updated | patched | created | removed `] `serviceName`
   ///
   /// If no error is occured, you will get FeathersJsEventData<T>  feathersJsEventData
   ///

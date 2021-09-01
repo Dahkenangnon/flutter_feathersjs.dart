@@ -12,7 +12,7 @@ Recommended: Use rest client to upload file
 
 Retrieves a list of all matching resources from the service
 
-All message
+All messages
 
 ```dart
      try {

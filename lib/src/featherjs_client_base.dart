@@ -1,2 +1,2 @@
-///Base classe for both rest and socketio
+///Base class for both rest and scketio
 class FlutterFeathersjsBase {}

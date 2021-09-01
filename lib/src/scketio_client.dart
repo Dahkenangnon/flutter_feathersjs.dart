@@ -8,10 +8,13 @@ import 'featherjs_client_base.dart';
 
 ///Socketio client for the realtime communication
 class SocketioClient extends FlutterFeathersjsBase {
+  // Socketio
   late IO.Socket _socket;
 
+  // Featthers js helper
   late FeatherjsHelper utils;
 
+  // Event bus
   EventBus eventBus = EventBus(sync: true);
 
   //Using singleton
@@ -42,6 +45,7 @@ class SocketioClient extends FlutterFeathersjsBase {
       eventBus.fire(DisConnected());
     });
 
+    // Only print these when in debug mode, disable in release mode
     if (!Foundation.kReleaseMode) {
       _socket.on('connect', (_) {
         print("Socket connection established");
@@ -79,10 +83,10 @@ class SocketioClient extends FlutterFeathersjsBase {
   ///
   /// @Warning This function must be call afther auth with rest is OK
   ///
-  ///Otherwise, you cannot be able to use socketio client because it won't be authed on the server
+  /// Otherwise, you cannot be able to use socketio client because it won't be authed on the server
   ///
-  ///@Warning: You don't need to use this directly in your code,
-  ///use instead the global flutterFeathersjs.authenticate({...})
+  /// @Warning: You don't need to use this directly in your code,
+  /// use instead the global `flutterFeathersjs.authenticate({...})`
   ///
   Future<dynamic> authWithJWT() async {
     String? token = await utils.getAccessToken();
@@ -230,7 +234,7 @@ class SocketioClient extends FlutterFeathersjsBase {
 
   /// `EMIT patch serviceName`
   ///
-  ///Merge the existing data of a single or multiple resources with the new data
+  /// Merge the existing data of a single or multiple resources with the new data
   ///
   /// If no error is occured, you will get exactly feathersjs's data format
   ///
@@ -278,7 +282,7 @@ class SocketioClient extends FlutterFeathersjsBase {
     return asyncTask.future;
   }
 
-  /// Listen to `On updated | patched | created | removed serviceName`
+  /// Listen to On [` updated | patched | created | removed `] `serviceName`
   ///
   /// If no error is occured, you will get FeathersJsEventData<T>  feathersJsEventData
   ///
