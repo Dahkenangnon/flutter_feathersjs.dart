@@ -6,6 +6,7 @@ Please see below, versions of flutter_feathersjs which is supported about securi
 
 | Version | Supported          |
 | ------- | ------------------ |
+| 4.x     | :white_check_mark: |
 | 3.x     | :white_check_mark: |
 | < 3.0   | :x:                |
 
@@ -13,6 +14,6 @@ Please see below, versions of flutter_feathersjs which is supported about securi
 
 If you found a security issue in this project, feel free to send email to [dah.kenangnon@gmail.com](mailto:dah.kenangnon@gmail.com)
 
-I will reply quckly.
+I will reply quickly.
 
 Thank.

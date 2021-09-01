@@ -11,13 +11,14 @@ Nice ? Go :rocket:
 ## Rest only
 
 You can for testing purpose only authenticate the rest client by doing the following.
-Note that when you use an other stratagy different from email/pass strategy, you must configure it on your server.
+Note that when you use an other stratagy different from email/pass strategy a.k.a `local strategy`, you must configure it on your server.
 
 ```dart
     try {
       var user = await flutterFeathersjs.rest.authenticate(
           userName: "dah.kenangnon@flutter_feathersjs.com",
       password: "flutter_feathersjs");
+
       //TODO: Authentication is Ok, save user in local storage
 
     } on FeatherJsError catch (e) {
@@ -74,7 +75,7 @@ it use the JWT retrieved by rest client when process finished with ok.
 
 ### Autenticate
 
-Go to login page, retrieve user credentials and authenticat user
+Go to login page, retrieve user credentials and authenticate user
 with different strategy
 
 ```dart
@@ -87,10 +88,10 @@ with different strategy
 
       // Or use what you want, e.g: phone/password
       // Auth with rest client with phone/password strategy
-      // Note: You must configure your server for this strategy to work
+      // Note: You must configure your server for any strategy you use other than the local strategy to make thing work
    var user = await flutterFeathersjs.authenticate(
       strategy: "phone",
-      userNameFieldName: "tel", // "tel" is the fieldname on the mongoose|? model
+      userNameFieldName: "tel", // "tel" is the fieldname on your the mongoose or your database model
       userName:"+22900000000",
       password: "flutter_feathersjs");
 

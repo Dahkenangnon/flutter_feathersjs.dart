@@ -41,7 +41,7 @@ enum FeatherJsErrorType {
   /// This error come from any FlutterFeathersjs.scketio's method
   IS_SOCKETIO_ERROR,
 
-  /// Error when derialiazing realtime object in socketio listen method
+  /// Error when deserializing realtime object in socketio listen method
   IS_DESERIALIZATION_ERROR,
 
   /// Unknown error
@@ -81,7 +81,7 @@ enum FeatherJsErrorType {
   /// PaymentError
   IS_PAYMENT_ERROR,
 
-  /// Accès denied
+  /// Access denied
   IS_FORBIDDEN_ERROR,
 
   /// Service not found
@@ -155,7 +155,7 @@ class FeatherJsError implements Exception {
   }
 }
 
-/// Transforme error sent by feathers js to local error type
+/// Transform error sent by feathers js to local error type
 FeatherJsError errorCode2FeatherJsError(error) {
   var type;
   switch (error["code"]) {
