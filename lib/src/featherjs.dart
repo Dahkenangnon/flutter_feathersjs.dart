@@ -58,7 +58,7 @@ class FlutterFeathersjs {
 
       try {
         //Then auth with jwt socketio
-        bool isAuthenticated = await (scketio.authWithJWT() as FutureOr<bool>);
+        bool isAuthenticated = await scketio.authWithJWT();
 
         // Check wether both client are authenticated or not
         if (restAuthResponse != null && isAuthenticated == true) {
@@ -85,13 +85,11 @@ class FlutterFeathersjs {
   Future<dynamic> reAuthenticate() async {
     try {
       //Auth with rest to refresh or create accessToken
-      bool isRestAuthenticated =
-          await (rest.reAuthenticate() as FutureOr<bool>);
+      bool isRestAuthenticated = await rest.reAuthenticate();
 
       try {
         //Then auth with jwt socketio
-        bool isSocketioAuthenticated =
-            await (scketio.authWithJWT() as FutureOr<bool>);
+        bool isSocketioAuthenticated = await scketio.authWithJWT();
 
         // Check wether both client are authenticated or not
         if (isRestAuthenticated == true && isSocketioAuthenticated == true) {

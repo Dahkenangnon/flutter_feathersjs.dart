@@ -17,5 +17,8 @@
     "devDependencies": {
         "@vuepress/plugin-nprogress": "^1.8.2",
         "vuepress": "^1.8.2"
+    },
+    "resolutions": {
+        "vuepress/**/glob-parent": "6.0.2"
     }
 }
