@@ -1,4 +1,7 @@
+## 4.0.4 - Fix [Authentication Breaking Due to Casting Error on Future](https://github.com/Dahkenangnon/flutter_feathersjs.dart/issues/22)
+
 ## 4.0.3 - Improve documentation
+
 
 ## 4.0.2 - Nullsafety
 
@@ -46,15 +49,10 @@ Documentation is now available from: [https://dahkenangnon.github.io/flutter_fea
 
 ## 0.0.6-dev
 
-- Fix
 
 ## 0.0.5-dev
 
-- Fix const error
-
 ## 0.0.4-dev
-
-- Fix const error
 
 ## 0.0.3-dev
 
@@ -70,4 +68,5 @@ Documentation is now available from: [https://dahkenangnon.github.io/flutter_fea
 ## 0.0.1-dev
 
 - Initial version
-- Not for production use. It still under dev
+- Not for production use. 
+- It still under dev
