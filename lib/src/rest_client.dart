@@ -17,6 +17,8 @@ class RestClient extends FlutterFeathersjsBase {
 
   //Using singleton to ensure we use the same instance of it accross our app
   static final RestClient _restClient = RestClient._internal();
+
+
   factory RestClient() {
     return _restClient;
   }
@@ -41,26 +43,21 @@ class RestClient extends FlutterFeathersjsBase {
 
           // This is necessary to send on every request the Bearer token to be authenticated
           this.dio.options.headers["Authorization"] = "Bearer $oldToken";
-          return handler.next(options); //continue
-          // If you want to resolve the request with some custom data，
-          // you can resolve a `Response` object eg: return `dio.resolve(response)`.
-          // If you want to reject the request with a error message,
-          // you can reject a `DioError` object eg: return `dio.reject(dioError)`
+          return handler.next(options);
+
+
         }, onResponse: (response, handler) {
           // Return exactly what response feather send
-          return handler.next(response); // continue
-          // If you want to reject the request with a error message,
-          // you can reject a `DioError` object eg: return `dio.reject(dioError)`
+          return handler.next(response); 
+
         }, onError: (DioError e, handler) {
-          // Do something with response error
+
           if (!Foundation.kReleaseMode) {
             print("An error occured in Resclient");
             print(e.response);
           }
+
           return handler.next(e);
-          //continue
-          // If you want to resolve the request with some custom data，
-          // you can resolve a `Response` object eg: return `dio.resolve(response)`.
         }));
   }
 

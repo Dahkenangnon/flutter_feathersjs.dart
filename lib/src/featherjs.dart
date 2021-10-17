@@ -12,17 +12,21 @@ import 'package:flutter_feathersjs/src/helper.dart';
 ///--------------------------------------------
 /// Because we love the realtime side of
 /// feathers js, by default socketio's methods
-/// are used on FlutterFeathersjs.{methodName}
+/// can be used on FlutterFeathersjs.{methodName}
 ///--------------------------------------------
 class FlutterFeathersjs {
   //RestClient
   late RestClient rest;
+
+
   //SocketioClient
   late SocketioClient scketio;
 
   ///Using singleton
   static final FlutterFeathersjs _flutterFeathersjs =
       FlutterFeathersjs._internal();
+
+
   factory FlutterFeathersjs() {
     return _flutterFeathersjs;
   }
@@ -40,7 +44,7 @@ class FlutterFeathersjs {
   ///___________________________________________________________________
   /// @params `username` can be : email, phone, etc;
   ///
-  /// But ensure that `userNameFieldName` is correct with your chosed `strategy`
+  /// But ensure that `userNameFieldName` is correct with your chosed `strategy` on your feathers js server
   ///
   /// By default this will be `email`and the strategy `local`
   Future<Map<String, dynamic>> authenticate(
@@ -49,7 +53,7 @@ class FlutterFeathersjs {
       required String? password,
       String userNameFieldName = "email"}) async {
     try {
-      //Auth with rest to refresh or create accessToken
+      //Auth with rest to refresh or create new accessToken
       var restAuthResponse = await rest.authenticate(
           strategy: strategy,
           userName: userName,

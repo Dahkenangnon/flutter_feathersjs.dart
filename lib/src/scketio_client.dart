@@ -19,6 +19,8 @@ class SocketioClient extends FlutterFeathersjsBase {
 
   //Using singleton
   static final SocketioClient _socketioClient = SocketioClient._internal();
+
+  
   factory SocketioClient() {
     return _socketioClient;
   }
