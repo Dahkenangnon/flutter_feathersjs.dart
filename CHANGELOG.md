@@ -1,4 +1,6 @@
-## 4.0.4+1 - Add documentation in pubspec.yaml and 
+## 4.0.4+2 - Flutter format .
+
+## 4.0.4+1 - Add documentation in pubspec.yaml 
 ## 4.0.4 - Fix [Authentication Breaking Due to Casting Error on Future](https://github.com/Dahkenangnon/flutter_feathersjs.dart/issues/22)
 
 ## 4.0.3 - Improve documentation
