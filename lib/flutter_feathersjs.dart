@@ -1,4 +1,4 @@
-/// Communicate with your feathers js (https://feathersjs.com/) server from flutter app.
+/// Communicate with your feathers js  server from flutter app with unbelieved ease and make happy your customers.
 ///
 /// Documentation at: https://dahkenangnon.github.io/flutter_feathersjs.dart/
 ///

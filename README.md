@@ -4,7 +4,7 @@
 <p align="center">
  <img width="460" alt="FlutterFeathersJs Icon" height="300" src="https://dahkenangnon.github.io/flutter_feathersjs.dart/assets/img/logo.png">
  <br>
- Communicate with your feathers js server from flutter.
+ Communicate with your feathers js  server from flutter app with unbelieved ease and make happy your customers.
  <br><br><br>
 </p>
 
