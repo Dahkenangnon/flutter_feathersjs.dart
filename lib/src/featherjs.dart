@@ -18,14 +18,12 @@ class FlutterFeathersjs {
   //RestClient
   late RestClient rest;
 
-
   //SocketioClient
   late SocketioClient scketio;
 
   ///Using singleton
   static final FlutterFeathersjs _flutterFeathersjs =
       FlutterFeathersjs._internal();
-
 
   factory FlutterFeathersjs() {
     return _flutterFeathersjs;

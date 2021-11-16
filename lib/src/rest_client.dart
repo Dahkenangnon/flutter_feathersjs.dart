@@ -18,7 +18,6 @@ class RestClient extends FlutterFeathersjsBase {
   //Using singleton to ensure we use the same instance of it accross our app
   static final RestClient _restClient = RestClient._internal();
 
-
   factory RestClient() {
     return _restClient;
   }
@@ -44,14 +43,10 @@ class RestClient extends FlutterFeathersjsBase {
           // This is necessary to send on every request the Bearer token to be authenticated
           this.dio.options.headers["Authorization"] = "Bearer $oldToken";
           return handler.next(options);
-
-
         }, onResponse: (response, handler) {
           // Return exactly what response feather send
-          return handler.next(response); 
-
+          return handler.next(response);
         }, onError: (DioError e, handler) {
-
           if (!Foundation.kReleaseMode) {
             print("An error occured in Resclient");
             print(e.response);
