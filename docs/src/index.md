@@ -1,7 +1,8 @@
 ---
 home: true
 heroImage: /assets/img/logo.png
-tagline: Communicate with your feathers js server from flutter
+tagline: Communicate with your feathers js server from flutter app with unbelieved ease and make happy your customers.
+
 actionText: Quick Start →
 actionLink: /guide/
 features:
@@ -11,5 +12,5 @@ features:
   details: The desired feature is of course the realtime. Don't worry, it's ok.
 - title: Rest & Socketio methods
   details: Use as you want either rest or scoketio only methods as needed.
-footer: ❤️ MIT | © Justin Y. Dah-kenangnon
+footer: ❤️ MIT _ |-| _ © Justin Dah-kenangnon
 ---

@@ -1,3 +1,5 @@
+## 4.0.4+3 - Update docs dependencies
+
 ## 4.0.4+2 - Flutter format .
 
 ## 4.0.4+1 - Add documentation in pubspec.yaml 

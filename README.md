@@ -15,25 +15,27 @@
 
 Documentation is now available from: [https://dahkenangnon.github.io/flutter_feathersjs.dart/](https://dahkenangnon.github.io/flutter_feathersjs.dart/)
 
-## :green_circle: TODO
+## Tutorial
 
-These features are planned for from to now to June 2022.
+Coming tutorial at: [https://dah-kenangnon.com/](https://dah-kenangnon.com)
 
-- [X] Going to null safety
-- [ ] Update demo app to sound null safety
-- [x] Update documentation
-- [ ] Add offline database support :rocket: [Learn more](https://github.com/Dahkenangnon/flutter_feathersjs.dart/issues/19)
-- [ ] Add synchronization with remote api :rocket: [Learn more](https://github.com/Dahkenangnon/flutter_feathersjs.dart/issues/19)
-- [ ] Testable version of flutter web :rocket: [Learn more](https://github.com/Dahkenangnon/flutter_feathersjs.dart/issues/19)
-- [ ] Testable version of flutter desktop :rocket: [Learn more](https://github.com/Dahkenangnon/flutter_feathersjs.dart/issues/19)
-- [ ] Add feathers services like api :rocket: [Learn more](https://github.com/Dahkenangnon/flutter_feathersjs.dart/issues/19)
-- [ ] Add authentication client :rocket: [Learn more](https://github.com/Dahkenangnon/flutter_feathersjs.dart/issues/19)
 
-At the end, this package will be your very cool and very serious choice for flutter mobile app if you like using feathers js rest+realtime api.
 
-## :green_circle: Deployment
+## Deployment
 
-Notice that the package can from now be used in production app.
+This package can be used in production app.
+
+
+
+## Support
+
+Please email to dah.kenangnon@gmail.com if you have any questions or comments or business support.
+
+
+## Contributing
+
+Please feel free to contribute to this project by opening an issue or creating a pull request.
+
 
 ## Project status
 
