@@ -6,10 +6,17 @@
  <br>
  Communicate with your feathers js  server from flutter app with unbelieved ease and make happy your customers.
  <br><br><br>
+ 
 </p>
 
 
 `Infos: Feathers js is a node framework for real-time applications and REST APIs.`
+
+<br>
+
+# :warning: [PLEASE CONTRIBUTE TO THESE DISCUSSIONS FOR NEXT RELEASE OF THIS PACKAGE](https://github.com/Dahkenangnon/flutter_feathersjs.dart/discussions)
+
+
 
 ## Documentation
 
