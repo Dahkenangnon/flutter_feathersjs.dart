@@ -12,5 +12,5 @@ features:
   details: The desired feature is of course the realtime. Don't worry, it's ok.
 - title: Rest & Socketio methods
   details: Use as you want either rest or scoketio only methods as needed.
-footer: ❤️ MIT _ |-| _ © Justin Dah-kenangnon
+footer: ❤️ MIT by Justin Dah-kenangnon
 ---
