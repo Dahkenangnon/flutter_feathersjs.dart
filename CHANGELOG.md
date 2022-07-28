@@ -1,3 +1,5 @@
+## 4.0.5 - Update dependencies
+
 ## 4.0.4+4 - Open discussion for next release
 
 ## 4.0.4+3 - Update docs dependencies
