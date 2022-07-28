@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Authentication | FlutterFeatherjs</title>
+    <meta name="generator" content="VuePress 1.9.7">
+    <link rel="icon" href="/flutter_feathersjs.dart/assets/img/logo.png">
+    <meta name="description" content="Communicate with your feathers js server from flutter">
+    <meta name="theme-color" content="#3eaf7c">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    
+    <link rel="preload" href="/flutter_feathersjs.dart/assets/css/0.styles.9d460a33.css" as="style"><link rel="preload" href="/flutter_feathersjs.dart/assets/js/app.4c8c045c.js" as="script"><link rel="preload" href="/flutter_feathersjs.dart/assets/js/2.03c1e6bb.js" as="script"><link rel="preload" href="/flutter_feathersjs.dart/assets/js/11.3dee18f8.js" as="script"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/10.ec7bfd4d.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/12.6f58159e.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/13.4bc6ed0b.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/14.e8939e1c.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/15.790ed2a2.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/16.36c0fa39.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/17.630e316c.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/18.06d76bc6.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/19.3fcca83d.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/3.bbe5046a.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/4.e27a7f7a.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/5.e9f4081f.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/6.c7b54f12.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/7.81b258a5.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/8.344f8a2b.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/9.effed064.js">
+    <link rel="stylesheet" href="/flutter_feathersjs.dart/assets/css/0.styles.9d460a33.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/flutter_feathersjs.dart/" class="home-link router-link-active"><!----> <span class="site-name">FlutterFeatherjs</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/flutter_feathersjs.dart/guide/" class="nav-link router-link-active">
+  Guide
+</a></div><div class="nav-item"><a href="https://github.com/Dahkenangnon/flutter_feathersjs.dart" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://pub.dev/packages/flutter_feathersjs" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Pub.Dev
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/flutter_feathersjs.dart/guide/" class="nav-link router-link-active">
+  Guide
+</a></div><div class="nav-item"><a href="https://github.com/Dahkenangnon/flutter_feathersjs.dart" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://pub.dev/packages/flutter_feathersjs" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Pub.Dev
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>Guide</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/flutter_feathersjs.dart/guide/" aria-current="page" class="sidebar-link">Introduction</a></li><li><a href="/flutter_feathersjs.dart/guide/installation.html" class="sidebar-link">Installation</a></li><li><a href="/flutter_feathersjs.dart/guide/authentication.html" aria-current="page" class="active sidebar-link">Authentication</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/flutter_feathersjs.dart/guide/authentication.html#rest-only" class="sidebar-link">Rest only</a></li><li class="sidebar-sub-header"><a href="/flutter_feathersjs.dart/guide/authentication.html#socketio-only" class="sidebar-link">Socketio only</a></li><li class="sidebar-sub-header"><a href="/flutter_feathersjs.dart/guide/authentication.html#global-recommended" class="sidebar-link">Global  (recommended)</a></li><li class="sidebar-sub-header"><a href="/flutter_feathersjs.dart/guide/authentication.html#reauthenticate-on-app-restarted" class="sidebar-link">ReAuthenticate on app restarted</a></li></ul></li><li><a href="/flutter_feathersjs.dart/guide/socketio-is-default-client.html" class="sidebar-link">Default Client</a></li><li><a href="/flutter_feathersjs.dart/guide/using-rest.html" class="sidebar-link">Rest Client</a></li><li><a href="/flutter_feathersjs.dart/guide/using-socketio.html" class="sidebar-link">Socketio client</a></li><li><a href="/flutter_feathersjs.dart/guide/how-to-upload-file.html" class="sidebar-link">Uploading file with FlutterFeathersJs</a></li><li><a href="/flutter_feathersjs.dart/guide/listening-event.html" class="sidebar-link">Realtime with FlutterFeatherJs</a></li><li><a href="/flutter_feathersjs.dart/guide/examples.html" class="sidebar-link">Examples</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="authentication"><a href="#authentication" class="header-anchor">#</a> Authentication</h1> <p>Because we have two parts (socketio and rest) which must communicate
+with the same server (which required maybe authentication) we must found a way to authenticate
+both rest &amp; socketio once user is logged.</p> <p>Below, how to authenticate rest only or socketio only. But notice that in a production app,
+you don't need to auth speratly the different client, just use the global authentication method.
+Nice ? Go 🚀</p> <h2 id="rest-only"><a href="#rest-only" class="header-anchor">#</a> Rest only</h2> <p>You can for testing purpose only authenticate the rest client by doing the following.
+Note that when you use an other stratagy different from email/pass strategy a.k.a <code>local strategy</code>, you must configure it on your server.</p> <div class="language-dart extra-class"><pre class="language-dart"><code>    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+      <span class="token keyword">var</span> user <span class="token operator">=</span> <span class="token keyword">await</span> flutterFeathersjs<span class="token punctuation">.</span>rest<span class="token punctuation">.</span><span class="token function">authenticate</span><span class="token punctuation">(</span>
+          userName<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;dah.kenangnon@flutter_feathersjs.com&quot;</span></span><span class="token punctuation">,</span>
+      password<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;flutter_feathersjs&quot;</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+      <span class="token comment">//TODO: Authentication is Ok, save user in local storage</span>
+
+    <span class="token punctuation">}</span> <span class="token keyword">on</span> <span class="token class-name">FeatherJsError</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>e<span class="token punctuation">.</span>type <span class="token operator">==</span> <span class="token class-name">FeatherJsErrorType</span><span class="token punctuation">.</span>IS_INVALID_CREDENTIALS_ERROR<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">//TODO: Invalid credentials</span>
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>e<span class="token punctuation">.</span>type <span class="token operator">==</span> <span class="token class-name">FeatherJsErrorType</span><span class="token punctuation">.</span>IS_INVALID_STRATEGY_ERROR<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+       <span class="token comment">//TODO: Invalid strategy</span>
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>e<span class="token punctuation">.</span>type <span class="token operator">==</span> <span class="token class-name">FeatherJsErrorType</span><span class="token punctuation">.</span>IS_AUTH_FAILED_ERROR<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">//TODO: Invalid authentication failed for other reason.</span>
+        <span class="token comment">// verbose =&gt; print(e.message);</span>
+      <span class="token punctuation">}</span>
+      <span class="token comment">//TODO: Check for other FeatherJsErrorType</span>
+      <span class="token comment">// =&gt; print(e.type);</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+       <span class="token comment">//TODO: Authentication failed for unkknown reason.</span>
+        <span class="token comment">// why =&gt; print(e.type);</span>
+        <span class="token comment">// why =&gt; print(e.message);</span>
+    <span class="token punctuation">}</span>
+
+</code></pre></div><h2 id="socketio-only"><a href="#socketio-only" class="header-anchor">#</a> Socketio only</h2> <p>The process to authenticate the socketio client is done after rest auth is done because,
+it use the JWT retrieved by rest client when process finished with ok.</p> <div class="language-dart extra-class"><pre class="language-dart"><code>
+  <span class="token comment">// Note: This must be call after rest auth success</span>
+  <span class="token comment">// Not recommanded to use this directly</span>
+  <span class="token keyword">try</span> <span class="token punctuation">{</span>
+       bool isReAuthenticated <span class="token operator">=</span> <span class="token keyword">await</span> flutterFeathersjs<span class="token punctuation">.</span>scketio<span class="token punctuation">.</span><span class="token function">authWithJWT</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+      <span class="token comment">//print(isReAuthenticated); =&gt; true</span>
+
+    <span class="token punctuation">}</span> <span class="token keyword">on</span> <span class="token class-name">FeatherJsError</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>e<span class="token punctuation">.</span>type <span class="token operator">==</span> <span class="token class-name">FeatherJsErrorType</span><span class="token punctuation">.</span>IS_JWT_TOKEN_ERROR<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">//TODO: Error using the JWT to authenticated</span>
+        <span class="token comment">// Redirect user to login page</span>
+      <span class="token punctuation">}</span><span class="token keyword">else</span><span class="token punctuation">{</span>
+        <span class="token comment">//TODO: Check for other FeatherJsErrorType</span>
+        <span class="token comment">// why =&gt; print(e.type);</span>
+        <span class="token comment">// why =&gt; print(e.message);</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+       <span class="token comment">//TODO: Authentication failed for unkknown reason.</span>
+        <span class="token comment">// why =&gt; print(e.type);</span>
+        <span class="token comment">// why =&gt; print(e.message);</span>
+    <span class="token punctuation">}</span>
+
+</code></pre></div><h2 id="global-recommended"><a href="#global-recommended" class="header-anchor">#</a> Global  (recommended)</h2> <h3 id="autenticate"><a href="#autenticate" class="header-anchor">#</a> Autenticate</h3> <p>Go to login page, retrieve user credentials and authenticate user
+with different strategy</p> <div class="language-dart extra-class"><pre class="language-dart"><code> <span class="token keyword">try</span> <span class="token punctuation">{</span>
+
+      <span class="token comment">// Default strategy (email/password =&gt; local strategy)</span>
+      <span class="token keyword">var</span> user <span class="token operator">=</span> <span class="token keyword">await</span> flutterFeathersjs<span class="token punctuation">.</span><span class="token function">authenticate</span><span class="token punctuation">(</span>
+          userName<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;dah.kenangnon@flutter_feathersjs.com&quot;</span></span><span class="token punctuation">,</span>
+      password<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;flutter_feathersjs&quot;</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+      <span class="token comment">// Or use what you want, e.g: phone/password</span>
+      <span class="token comment">// Auth with rest client with phone/password strategy</span>
+      <span class="token comment">// Note: You must configure your server for any strategy you use other than the local strategy to make thing work</span>
+   <span class="token keyword">var</span> user <span class="token operator">=</span> <span class="token keyword">await</span> flutterFeathersjs<span class="token punctuation">.</span><span class="token function">authenticate</span><span class="token punctuation">(</span>
+      strategy<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;phone&quot;</span></span><span class="token punctuation">,</span>
+      userNameFieldName<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;tel&quot;</span></span><span class="token punctuation">,</span> <span class="token comment">// &quot;tel&quot; is the fieldname on your the mongoose or your database model</span>
+      userName<span class="token punctuation">:</span><span class="token string-literal"><span class="token string">&quot;+22900000000&quot;</span></span><span class="token punctuation">,</span>
+      password<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;flutter_feathersjs&quot;</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+
+      <span class="token comment">//TODO: Authentication is Ok, save user in local storage</span>
+
+    <span class="token punctuation">}</span> <span class="token keyword">on</span> <span class="token class-name">FeatherJsError</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>e<span class="token punctuation">.</span>type <span class="token operator">==</span> <span class="token class-name">FeatherJsErrorType</span><span class="token punctuation">.</span>IS_INVALID_CREDENTIALS_ERROR<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">//TODO: Invalid credentials</span>
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>e<span class="token punctuation">.</span>type <span class="token operator">==</span> <span class="token class-name">FeatherJsErrorType</span><span class="token punctuation">.</span>IS_INVALID_STRATEGY_ERROR<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+       <span class="token comment">//TODO: Invalid strategy</span>
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>e<span class="token punctuation">.</span>type <span class="token operator">==</span> <span class="token class-name">FeatherJsErrorType</span><span class="token punctuation">.</span>IS_AUTH_FAILED_ERROR<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">//TODO: Invalid authentication failed for other reason.</span>
+        <span class="token comment">// verbose =&gt; print(e.message);</span>
+      <span class="token punctuation">}</span>
+      <span class="token comment">//TODO: Check for other FeatherJsErrorType</span>
+      <span class="token comment">// =&gt; print(e.type);</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+       <span class="token comment">//TODO: Authentication failed for unkknown reason.</span>
+        <span class="token comment">// why =&gt; print(e.type);</span>
+        <span class="token comment">// why =&gt; print(e.message);</span>
+    <span class="token punctuation">}</span>
+</code></pre></div><h2 id="reauthenticate-on-app-restarted"><a href="#reauthenticate-on-app-restarted" class="header-anchor">#</a> ReAuthenticate on app restarted</h2> <p>Then reAutenticate user, if JWT still validated without request credentials from user on app restart</p> <div class="language-dart extra-class"><pre class="language-dart"><code> <span class="token keyword">try</span> <span class="token punctuation">{</span>
+       bool isReAuthenticated <span class="token operator">=</span> <span class="token keyword">await</span> flutterFeathersjs<span class="token punctuation">.</span><span class="token function">reAuthenticate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+      <span class="token comment">//print(isReAuthenticated); =&gt; true</span>
+
+    <span class="token punctuation">}</span> <span class="token keyword">on</span> <span class="token class-name">FeatherJsError</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>e<span class="token punctuation">.</span>type <span class="token operator">==</span> <span class="token class-name">FeatherJsErrorType</span><span class="token punctuation">.</span>IS_AUTH_FAILED_ERROR<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">//TODO: ReAutentication failed</span>
+        <span class="token comment">// Redirect user to login page</span>
+      <span class="token punctuation">}</span><span class="token keyword">else</span><span class="token punctuation">{</span>
+        <span class="token comment">//TODO: Check for other FeatherJsErrorType</span>
+        <span class="token comment">// why =&gt; print(e.type);</span>
+        <span class="token comment">// why =&gt; print(e.message);</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+       <span class="token comment">//TODO: Authentication failed for unkknown reason.</span>
+        <span class="token comment">// why =&gt; print(e.type);</span>
+        <span class="token comment">// why =&gt; print(e.message);</span>
+    <span class="token punctuation">}</span>
+</code></pre></div><p>Now, let's send request and listen to feathers js event 🎶 💤 🚗</p></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">Last Updated:</span> <span class="time">9/1/2021, 9:00:22 PM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/flutter_feathersjs.dart/guide/installation.html" class="prev">
+        Installation
+      </a></span> <span class="next"><a href="/flutter_feathersjs.dart/guide/socketio-is-default-client.html">
+        Default Client
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/flutter_feathersjs.dart/assets/js/app.4c8c045c.js" defer></script><script src="/flutter_feathersjs.dart/assets/js/2.03c1e6bb.js" defer></script><script src="/flutter_feathersjs.dart/assets/js/11.3dee18f8.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Default Client | FlutterFeatherjs</title>
+    <meta name="generator" content="VuePress 1.9.7">
+    <link rel="icon" href="/flutter_feathersjs.dart/assets/img/logo.png">
+    <meta name="description" content="Communicate with your feathers js server from flutter">
+    <meta name="theme-color" content="#3eaf7c">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    
+    <link rel="preload" href="/flutter_feathersjs.dart/assets/css/0.styles.9d460a33.css" as="style"><link rel="preload" href="/flutter_feathersjs.dart/assets/js/app.4c8c045c.js" as="script"><link rel="preload" href="/flutter_feathersjs.dart/assets/js/2.03c1e6bb.js" as="script"><link rel="preload" href="/flutter_feathersjs.dart/assets/js/16.36c0fa39.js" as="script"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/10.ec7bfd4d.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/11.3dee18f8.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/12.6f58159e.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/13.4bc6ed0b.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/14.e8939e1c.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/15.790ed2a2.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/17.630e316c.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/18.06d76bc6.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/19.3fcca83d.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/3.bbe5046a.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/4.e27a7f7a.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/5.e9f4081f.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/6.c7b54f12.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/7.81b258a5.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/8.344f8a2b.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/9.effed064.js">
+    <link rel="stylesheet" href="/flutter_feathersjs.dart/assets/css/0.styles.9d460a33.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/flutter_feathersjs.dart/" class="home-link router-link-active"><!----> <span class="site-name">FlutterFeatherjs</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/flutter_feathersjs.dart/guide/" class="nav-link router-link-active">
+  Guide
+</a></div><div class="nav-item"><a href="https://github.com/Dahkenangnon/flutter_feathersjs.dart" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://pub.dev/packages/flutter_feathersjs" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Pub.Dev
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/flutter_feathersjs.dart/guide/" class="nav-link router-link-active">
+  Guide
+</a></div><div class="nav-item"><a href="https://github.com/Dahkenangnon/flutter_feathersjs.dart" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://pub.dev/packages/flutter_feathersjs" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Pub.Dev
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>Guide</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/flutter_feathersjs.dart/guide/" aria-current="page" class="sidebar-link">Introduction</a></li><li><a href="/flutter_feathersjs.dart/guide/installation.html" class="sidebar-link">Installation</a></li><li><a href="/flutter_feathersjs.dart/guide/authentication.html" class="sidebar-link">Authentication</a></li><li><a href="/flutter_feathersjs.dart/guide/socketio-is-default-client.html" aria-current="page" class="active sidebar-link">Default Client</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/flutter_feathersjs.dart/guide/socketio-is-default-client.html#find" class="sidebar-link">find</a></li><li class="sidebar-sub-header"><a href="/flutter_feathersjs.dart/guide/socketio-is-default-client.html#get" class="sidebar-link">get</a></li><li class="sidebar-sub-header"><a href="/flutter_feathersjs.dart/guide/socketio-is-default-client.html#create" class="sidebar-link">create</a></li><li class="sidebar-sub-header"><a href="/flutter_feathersjs.dart/guide/socketio-is-default-client.html#update" class="sidebar-link">update</a></li><li class="sidebar-sub-header"><a href="/flutter_feathersjs.dart/guide/socketio-is-default-client.html#patch" class="sidebar-link">patch</a></li><li class="sidebar-sub-header"><a href="/flutter_feathersjs.dart/guide/socketio-is-default-client.html#remove" class="sidebar-link">remove</a></li><li class="sidebar-sub-header"><a href="/flutter_feathersjs.dart/guide/socketio-is-default-client.html#listen" class="sidebar-link">listen  💤</a></li></ul></li><li><a href="/flutter_feathersjs.dart/guide/using-rest.html" class="sidebar-link">Rest Client</a></li><li><a href="/flutter_feathersjs.dart/guide/using-socketio.html" class="sidebar-link">Socketio client</a></li><li><a href="/flutter_feathersjs.dart/guide/how-to-upload-file.html" class="sidebar-link">Uploading file with FlutterFeathersJs</a></li><li><a href="/flutter_feathersjs.dart/guide/listening-event.html" class="sidebar-link">Realtime with FlutterFeatherJs</a></li><li><a href="/flutter_feathersjs.dart/guide/examples.html" class="sidebar-link">Examples</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="default-client"><a href="#default-client" class="header-anchor">#</a> Default Client</h1> <p><strong>Because we love the realtime side of feathers js, by default socketio's methods are available on FlutterFeathersjs.{methodName}</strong></p> <p>You get exactly what feathers server send (<em>Serialization and Deserialization are not supported.</em>) except in the listen method.</p> <p>This client don't support file upload</p> <p>Recommended: Use rest client to upload file</p> <h2 id="find"><a href="#find" class="header-anchor">#</a> find</h2> <p>Retrieves a list of all matching resources from the service</p> <p>All messages</p> <div class="language-dart extra-class"><pre class="language-dart"><code>     <span class="token keyword">try</span> <span class="token punctuation">{</span>
+       <span class="token keyword">var</span> messageResponse <span class="token operator">=</span> <span class="token keyword">await</span> flutterFeathersjs<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span>serviceName<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;message&quot;</span></span><span class="token punctuation">,</span>
+       query<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+       <span class="token comment">// print(messageResponse); =&gt; feathers's find data format</span>
+    <span class="token punctuation">}</span> <span class="token keyword">on</span> <span class="token class-name">FeatherJsError</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+      <span class="token comment">// When error is FeatherJsErrorType</span>
+      <span class="token comment">// if(e.type == FeatherJsErrorType.IS_SERVER_ERROR)</span>
+      <span class="token comment">// Check the error type as above and handle it</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>er<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// Catch  unknown error</span>
+
+    <span class="token punctuation">}</span>
+</code></pre></div><p>message matching certain query</p> <div class="language-dart extra-class"><pre class="language-dart"><code>
+     <span class="token keyword">try</span> <span class="token punctuation">{</span>
+      <span class="token comment">// Find message with query: here with {&quot;_id&quot;: &quot;5f7643f0462f4348970cd32e&quot;}</span>
+ <span class="token keyword">var</span> messageResponse <span class="token operator">=</span> <span class="token keyword">await</span> flutterFeathersjs<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span>serviceName<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;message&quot;</span></span><span class="token punctuation">,</span> query<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token string-literal"><span class="token string">&quot;_id&quot;</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;5f7643f0462f4348970cd32e&quot;</span></span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+       <span class="token comment">// print(messageResponse); =&gt; feathers's find data format</span>
+    <span class="token punctuation">}</span> <span class="token keyword">on</span> <span class="token class-name">FeatherJsError</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+      <span class="token comment">// When error is FeatherJsErrorType</span>
+      <span class="token comment">// if(e.type == FeatherJsErrorType.IS_SERVER_ERROR)</span>
+      <span class="token comment">// Check the error type as above and handle it</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>er<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// Catch  unknown error</span>
+
+    <span class="token punctuation">}</span>
+</code></pre></div><h2 id="get"><a href="#get" class="header-anchor">#</a> get</h2> <p>Retrieve a single resource from the service with an <code>_id</code></p> <div class="language-dart extra-class"><pre class="language-dart"><code>
+
+     <span class="token keyword">try</span> <span class="token punctuation">{</span>
+      <span class="token comment">// Get a single new with it _id</span>
+ <span class="token keyword">var</span> messageResponse <span class="token operator">=</span> <span class="token keyword">await</span> flutterFeathersjs<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span>serviceName<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;message&quot;</span></span><span class="token punctuation">,</span> objectId<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;5f7643f0462f4348970cd32e&quot;</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+       <span class="token comment">// print(messageResponse); =&gt; feathers's get data format</span>
+    <span class="token punctuation">}</span> <span class="token keyword">on</span> <span class="token class-name">FeatherJsError</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+      <span class="token comment">// When error is FeatherJsErrorType</span>
+      <span class="token comment">// if(e.type == FeatherJsErrorType.IS_SERVER_ERROR)</span>
+      <span class="token comment">// Check the error type as above and handle it</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>er<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// Catch  unknown error</span>
+
+    <span class="token punctuation">}</span>
+</code></pre></div><h2 id="create"><a href="#create" class="header-anchor">#</a> create</h2> <p>Create a new resource with data.</p> <div class="language-dart extra-class"><pre class="language-dart"><code>
+
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+
+   <span class="token comment">// Create a message on the server without file upload</span>
+      <span class="token keyword">var</span> messageResponse <span class="token operator">=</span> <span class="token keyword">await</span> flutterFeathersjs<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>
+        serviceName<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;message&quot;</span></span><span class="token punctuation">,</span>
+        data<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token string-literal"><span class="token string">&quot;title&quot;</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;Using FlutterFeathersjs is easy&quot;</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">&quot;content&quot;</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;Yes very easy&quot;</span></span> <span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">&quot;author&quot;</span></span> <span class="token punctuation">:</span><span class="token string-literal"><span class="token string">&quot;5f7h43f0462f4348970cd32e&quot;</span></span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+       <span class="token comment">// print(messageResponse); =&gt; feathers's get data format</span>
+    <span class="token punctuation">}</span> <span class="token keyword">on</span> <span class="token class-name">FeatherJsError</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+      <span class="token comment">// When error is FeatherJsErrorType</span>
+      <span class="token comment">// if(e.type == FeatherJsErrorType.IS_SERVER_ERROR)</span>
+      <span class="token comment">// Check the error type as above and handle it</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>er<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// Catch  unknown error</span>
+
+    <span class="token punctuation">}</span>
+</code></pre></div><h2 id="update"><a href="#update" class="header-anchor">#</a> update</h2> <p>Completely replace a single resource with the <code>_id = objectId</code></p> <div class="language-dart extra-class"><pre class="language-dart"><code>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+
+     <span class="token keyword">var</span> messageResponse <span class="token operator">=</span> <span class="token keyword">await</span> flutterFeathersjs<span class="token punctuation">.</span><span class="token function">update</span><span class="token punctuation">(</span>
+        objectId<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;5f7h43f0462f4t48970cd32e&quot;</span></span><span class="token punctuation">,</span>
+        serviceName<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;message&quot;</span></span><span class="token punctuation">,</span>
+        data<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token string-literal"><span class="token string">&quot;title&quot;</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;Using FlutterFeathersjs is easy&quot;</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">&quot;content&quot;</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;Yes very easy&quot;</span></span> <span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">&quot;author&quot;</span></span> <span class="token punctuation">:</span><span class="token string-literal"><span class="token string">&quot;5f7h43f0462f4348970cd32e&quot;</span></span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+       <span class="token comment">// print(messageResponse); =&gt; feathers's get data format</span>
+    <span class="token punctuation">}</span> <span class="token keyword">on</span> <span class="token class-name">FeatherJsError</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+      <span class="token comment">// When error is FeatherJsErrorType</span>
+      <span class="token comment">// if(e.type == FeatherJsErrorType.IS_SERVER_ERROR)</span>
+      <span class="token comment">// Check the error type as above and handle it</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>er<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// Catch  unknown error</span>
+
+    <span class="token punctuation">}</span>
+</code></pre></div><h2 id="patch"><a href="#patch" class="header-anchor">#</a> patch</h2> <p>Completely replace a single resource with the <code>_id = objectId</code></p> <div class="language-dart extra-class"><pre class="language-dart"><code> <span class="token keyword">try</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">var</span> messageResponse <span class="token operator">=</span> <span class="token keyword">await</span> flutterFeathersjs<span class="token punctuation">.</span><span class="token function">patch</span><span class="token punctuation">(</span>
+        objectId<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;5f7h43f0462f4t48970cd32e&quot;</span></span><span class="token punctuation">,</span>
+        serviceName<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;message&quot;</span></span><span class="token punctuation">,</span>
+        data<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token string-literal"><span class="token string">&quot;title&quot;</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;Using FlutterFeathersjs is easy&quot;</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">&quot;content&quot;</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;Yes very easy&quot;</span></span> <span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">&quot;author&quot;</span></span> <span class="token punctuation">:</span><span class="token string-literal"><span class="token string">&quot;5f7h43f0462f4348970cd32e&quot;</span></span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token comment">// print(messageResponse); =&gt; feathers's get data format</span>
+    <span class="token punctuation">}</span> <span class="token keyword">on</span> <span class="token class-name">FeatherJsError</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+      <span class="token comment">// When error is FeatherJsErrorType</span>
+      <span class="token comment">// if(e.type == FeatherJsErrorType.IS_SERVER_ERROR)</span>
+      <span class="token comment">// Check the error type as above and handle it</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>er<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// Catch  unknown error</span>
+
+    <span class="token punctuation">}</span>
+</code></pre></div><h2 id="remove"><a href="#remove" class="header-anchor">#</a> remove</h2> <p>Remove a single resource with <code>_id = objectId</code>:</p> <div class="language-dart extra-class"><pre class="language-dart"><code><span class="token keyword">try</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> messageResponse <span class="token operator">=</span> <span class="token keyword">await</span> flutterFeathersjs<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span>serviceName<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;message&quot;</span></span><span class="token punctuation">,</span> objectId<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;5f7643f0462f4348970cd32e&quot;</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+       <span class="token comment">// print(messageResponse); =&gt; feathers's remove data format</span>
+    <span class="token punctuation">}</span> <span class="token keyword">on</span> <span class="token class-name">FeatherJsError</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+      <span class="token comment">// When error is FeatherJsErrorType</span>
+      <span class="token comment">// if(e.type == FeatherJsErrorType.IS_SERVER_ERROR)</span>
+      <span class="token comment">// Check the error type as above and handle it</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>er<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// Catch  unknown error</span>
+
+    <span class="token punctuation">}</span>
+</code></pre></div><h2 id="listen"><a href="#listen" class="header-anchor">#</a> listen  💤</h2> <p>For realtime event listening, keep in mind these informations:</p> <ol start="0"><li><code>On updated | patched | created | removed</code> event are all supported;</li> <li>You need a <a href="https://api.flutter.dev/flutter/dart-async/StreamSubscription-class.html" target="_blank" rel="noopener noreferrer">StreamSubscription<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li> <li>You need a state manangment plugin like <a href="https://pub.dev/packages/flutter_bloc" target="_blank" rel="noopener noreferrer">flutter_bloc<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ol> <p>Now assume that we want to listen to <code>On created</code> on <code>message</code> service in realtime</p> <p>Add an event in your <code>message_event.dart</code>:</p> <div class="language-dart extra-class"><pre class="language-dart"><code>
+<span class="token keyword">class</span> <span class="token class-name">FeatherCreatedMessageEvent</span> <span class="token keyword">extends</span> <span class="token class-name">MessageEvent</span> <span class="token punctuation">{</span>
+  <span class="token keyword">final</span> <span class="token class-name">Message</span> message<span class="token punctuation">;</span>
+
+  <span class="token class-name">FeatherCreatedMessageEvent</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token metadata function">@required</span> <span class="token keyword">this</span><span class="token punctuation">.</span>message<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token metadata function">@override</span>
+  <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Object</span><span class="token punctuation">&gt;</span></span> <span class="token keyword">get</span> props <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">[</span>message<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><p>Add a state in your <code>message_state.dart</code>:</p> <div class="language-dart extra-class"><pre class="language-dart"><code><span class="token keyword">class</span> <span class="token class-name">FeatherCreatedMessageState</span> <span class="token keyword">extends</span> <span class="token class-name">MessageState</span> <span class="token punctuation">{</span>
+  <span class="token keyword">final</span> <span class="token class-name">String</span> message<span class="token punctuation">;</span>
+
+  <span class="token class-name">FeatherCreatedMessageState</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token metadata function">@required</span> <span class="token keyword">this</span><span class="token punctuation">.</span>message<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token metadata function">@override</span>
+  <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Object</span><span class="token punctuation">&gt;</span></span> <span class="token keyword">get</span> props <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">[</span>message<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><p>Now listen the event and broadcast it to your widget in your <code>message_bloc.dart</code>:</p> <div class="language-dart extra-class"><pre class="language-dart"><code>
+<span class="token keyword">import</span> <span class="token string-literal"><span class="token string">'dart:async'</span></span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token string-literal"><span class="token string">'package:flutter_feathersjs/src/helper.dart'</span></span><span class="token punctuation">;</span>
+
+<span class="token comment">// Other required import</span>
+
+<span class="token keyword">part</span> <span class="token string-literal"><span class="token string">'message_event.dart'</span></span><span class="token punctuation">;</span>
+<span class="token keyword">part</span> <span class="token string-literal"><span class="token string">'message_state.dart'</span></span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">MessageBloc</span> <span class="token keyword">extends</span> <span class="token class-name">Bloc</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">MessageEvent</span><span class="token punctuation">,</span> <span class="token class-name">MessageState</span><span class="token punctuation">&gt;</span></span> <span class="token punctuation">{</span>
+
+  <span class="token comment">// FlutterFeathersjs</span>
+  <span class="token keyword">final</span> <span class="token class-name">FlutterFeathersjs</span> flutterFeathersjs<span class="token punctuation">;</span>
+
+  <span class="token comment">// StreamSubscription</span>
+  <span class="token class-name">StreamSubscription</span> streamSubscription<span class="token punctuation">;</span>
+
+
+  <span class="token comment">// MessageBloc constructor</span>
+  <span class="token class-name">MessageBloc</span><span class="token punctuation">(</span>
+      <span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>flutterFeathersjs<span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token punctuation">:</span> <span class="token keyword">super</span><span class="token punctuation">(</span><span class="token class-name">MessageInitial</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+    <span class="token comment">// Listen to realtime event</span>
+    streamSubscription <span class="token operator">=</span> flutterFeathersjs
+        <span class="token punctuation">.</span>listen<span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Message</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span>
+            serviceName<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;message&quot;</span></span><span class="token punctuation">,</span>
+            fromJson<span class="token punctuation">:</span> <span class="token class-name">Message</span><span class="token punctuation">.</span>fromMap<span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span>
+
+            <span class="token comment">// onData:</span>
+            <span class="token punctuation">(</span>event<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+        <span class="token comment">// event is FeathersJsEventData&lt;Message&gt;</span>
+        <span class="token comment">// What event is sent by feathers js ?</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span>type <span class="token operator">==</span> <span class="token class-name">FeathersJsEventType</span><span class="token punctuation">.</span>created<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token comment">// Trigger flutter_bloc event</span>
+            <span class="token function">add</span><span class="token punctuation">(</span><span class="token class-name">FeatherCreatedMessageEvent</span><span class="token punctuation">(</span>message<span class="token punctuation">:</span> event<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span>type <span class="token operator">==</span> <span class="token class-name">FeathersJsEventType</span><span class="token punctuation">.</span>removed<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token comment">// </span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>event<span class="token punctuation">.</span>type <span class="token operator">==</span> <span class="token class-name">FeathersJsEventType</span><span class="token punctuation">.</span>patched<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token comment">// ...</span>
+        <span class="token punctuation">}</span>
+      
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+
+     <span class="token comment">// onError:</span>
+    onError<span class="token punctuation">:</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// e is a FeatherJsError</span>
+    <span class="token comment">// You can check what error occured: e.type</span>
+     
+     <span class="token comment">// Add the event to flutter_bloc</span>
+      <span class="token function">add</span><span class="token punctuation">(</span><span class="token class-name">MessageError</span><span class="token punctuation">(</span>message<span class="token punctuation">:</span> e<span class="token punctuation">.</span>error<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token metadata function">@override</span>
+  <span class="token class-name">Stream</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">MessageState</span><span class="token punctuation">&gt;</span></span> <span class="token function">mapEventToState</span><span class="token punctuation">(</span>
+    <span class="token class-name">MessageEvent</span> event<span class="token punctuation">,</span>
+  <span class="token punctuation">)</span> <span class="token keyword">async*</span> <span class="token punctuation">{</span>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+
+        <span class="token comment">// Listen to flutter_bloc event which correspond to our case for realtime </span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>event <span class="token operator">is</span> <span class="token class-name">FeatherCreatedMessageEvent</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        
+        <span class="token comment">// Change the state to allow ui update </span>
+        <span class="token keyword">yield</span> <span class="token class-name">FeatherCreatedMessageState</span><span class="token punctuation">(</span>message<span class="token punctuation">:</span> event<span class="token punctuation">.</span>message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">//yield MessageError(message: &quot;Error&quot;);</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">//This method should be called when a [Bloc] is no longer needed.</span>
+  <span class="token comment">// Just add it, nothing to customize except the streamSubscription var name </span>
+  <span class="token metadata function">@override</span>
+  <span class="token class-name">Future</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token keyword">void</span><span class="token punctuation">&gt;</span></span> <span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    streamSubscription<span class="token punctuation">.</span><span class="token function">cancel</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">Last Updated:</span> <span class="time">9/1/2021, 9:00:22 PM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/flutter_feathersjs.dart/guide/authentication.html" class="prev">
+        Authentication
+      </a></span> <span class="next"><a href="/flutter_feathersjs.dart/guide/using-rest.html">
+        Rest Client
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/flutter_feathersjs.dart/assets/js/app.4c8c045c.js" defer></script><script src="/flutter_feathersjs.dart/assets/js/2.03c1e6bb.js" defer></script><script src="/flutter_feathersjs.dart/assets/js/16.36c0fa39.js" defer></script>
+  </body>
+</html>

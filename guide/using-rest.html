@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Rest Client | FlutterFeatherjs</title>
+    <meta name="generator" content="VuePress 1.9.7">
+    <link rel="icon" href="/flutter_feathersjs.dart/assets/img/logo.png">
+    <meta name="description" content="Communicate with your feathers js server from flutter">
+    <meta name="theme-color" content="#3eaf7c">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    
+    <link rel="preload" href="/flutter_feathersjs.dart/assets/css/0.styles.9d460a33.css" as="style"><link rel="preload" href="/flutter_feathersjs.dart/assets/js/app.4c8c045c.js" as="script"><link rel="preload" href="/flutter_feathersjs.dart/assets/js/2.03c1e6bb.js" as="script"><link rel="preload" href="/flutter_feathersjs.dart/assets/js/17.630e316c.js" as="script"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/10.ec7bfd4d.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/11.3dee18f8.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/12.6f58159e.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/13.4bc6ed0b.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/14.e8939e1c.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/15.790ed2a2.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/16.36c0fa39.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/18.06d76bc6.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/19.3fcca83d.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/3.bbe5046a.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/4.e27a7f7a.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/5.e9f4081f.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/6.c7b54f12.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/7.81b258a5.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/8.344f8a2b.js"><link rel="prefetch" href="/flutter_feathersjs.dart/assets/js/9.effed064.js">
+    <link rel="stylesheet" href="/flutter_feathersjs.dart/assets/css/0.styles.9d460a33.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/flutter_feathersjs.dart/" class="home-link router-link-active"><!----> <span class="site-name">FlutterFeatherjs</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/flutter_feathersjs.dart/guide/" class="nav-link router-link-active">
+  Guide
+</a></div><div class="nav-item"><a href="https://github.com/Dahkenangnon/flutter_feathersjs.dart" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://pub.dev/packages/flutter_feathersjs" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Pub.Dev
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/flutter_feathersjs.dart/guide/" class="nav-link router-link-active">
+  Guide
+</a></div><div class="nav-item"><a href="https://github.com/Dahkenangnon/flutter_feathersjs.dart" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://pub.dev/packages/flutter_feathersjs" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Pub.Dev
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>Guide</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/flutter_feathersjs.dart/guide/" aria-current="page" class="sidebar-link">Introduction</a></li><li><a href="/flutter_feathersjs.dart/guide/installation.html" class="sidebar-link">Installation</a></li><li><a href="/flutter_feathersjs.dart/guide/authentication.html" class="sidebar-link">Authentication</a></li><li><a href="/flutter_feathersjs.dart/guide/socketio-is-default-client.html" class="sidebar-link">Default Client</a></li><li><a href="/flutter_feathersjs.dart/guide/using-rest.html" aria-current="page" class="active sidebar-link">Rest Client</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/flutter_feathersjs.dart/guide/using-rest.html#find" class="sidebar-link">find</a></li><li class="sidebar-sub-header"><a href="/flutter_feathersjs.dart/guide/using-rest.html#get" class="sidebar-link">get</a></li><li class="sidebar-sub-header"><a href="/flutter_feathersjs.dart/guide/using-rest.html#create" class="sidebar-link">create</a></li><li class="sidebar-sub-header"><a href="/flutter_feathersjs.dart/guide/using-rest.html#update" class="sidebar-link">update</a></li><li class="sidebar-sub-header"><a href="/flutter_feathersjs.dart/guide/using-rest.html#patch" class="sidebar-link">patch</a></li><li class="sidebar-sub-header"><a href="/flutter_feathersjs.dart/guide/using-rest.html#remove" class="sidebar-link">remove</a></li></ul></li><li><a href="/flutter_feathersjs.dart/guide/using-socketio.html" class="sidebar-link">Socketio client</a></li><li><a href="/flutter_feathersjs.dart/guide/how-to-upload-file.html" class="sidebar-link">Uploading file with FlutterFeathersJs</a></li><li><a href="/flutter_feathersjs.dart/guide/listening-event.html" class="sidebar-link">Realtime with FlutterFeatherJs</a></li><li><a href="/flutter_feathersjs.dart/guide/examples.html" class="sidebar-link">Examples</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="rest-client"><a href="#rest-client" class="header-anchor">#</a> Rest Client</h1> <p><strong>Feathers Js rest client for rest api call</strong></p> <p>You get exactly what feathers server send (<em>Serialization and Deserialization are not supported.</em>)</p> <h2 id="find"><a href="#find" class="header-anchor">#</a> find</h2> <p>Retrieves a list of all matching ressources from the service</p> <p>All message</p> <div class="language-dart extra-class"><pre class="language-dart"><code>     <span class="token keyword">try</span> <span class="token punctuation">{</span>
+       <span class="token keyword">var</span> messageResponse <span class="token operator">=</span> <span class="token keyword">await</span> flutterFeathersjs<span class="token punctuation">.</span>rest<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span>serviceName<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;message&quot;</span></span><span class="token punctuation">,</span>
+       query<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+       <span class="token comment">// print(messageResponse); =&gt; feathers's find data format</span>
+    <span class="token punctuation">}</span> <span class="token keyword">on</span> <span class="token class-name">FeatherJsError</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+      <span class="token comment">// When error is FeatherJsErrorType</span>
+      <span class="token comment">// if(e.type == FeatherJsErrorType.IS_SERVER_ERROR)</span>
+      <span class="token comment">// Check the error type as above and handle it</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>er<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// Catch  unknown error</span>
+
+    <span class="token punctuation">}</span>
+</code></pre></div><p>message matching certain query</p> <div class="language-dart extra-class"><pre class="language-dart"><code>
+     <span class="token keyword">try</span> <span class="token punctuation">{</span>
+      <span class="token comment">// Find message with query: here with {&quot;_id&quot;: &quot;5f7643f0462f4348970cd32e&quot;}</span>
+ <span class="token keyword">var</span> messageResponse <span class="token operator">=</span> <span class="token keyword">await</span> flutterFeathersjs<span class="token punctuation">.</span>rest<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span>serviceName<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;message&quot;</span></span><span class="token punctuation">,</span> query<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token string-literal"><span class="token string">&quot;_id&quot;</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;5f7643f0462f4348970cd32e&quot;</span></span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+       <span class="token comment">// print(messageResponse); =&gt; feathers's find data format</span>
+    <span class="token punctuation">}</span> <span class="token keyword">on</span> <span class="token class-name">FeatherJsError</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+      <span class="token comment">// When error is FeatherJsErrorType</span>
+      <span class="token comment">// if(e.type == FeatherJsErrorType.IS_SERVER_ERROR)</span>
+      <span class="token comment">// Check the error type as above and handle it</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>er<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// Catch  unknown error</span>
+
+    <span class="token punctuation">}</span>
+</code></pre></div><h2 id="get"><a href="#get" class="header-anchor">#</a> get</h2> <p>Retrieve a single resource from the service with an <code>_id</code></p> <div class="language-dart extra-class"><pre class="language-dart"><code>
+
+     <span class="token keyword">try</span> <span class="token punctuation">{</span>
+      <span class="token comment">// Get a single new with it _id</span>
+ <span class="token keyword">var</span> messageResponse <span class="token operator">=</span> <span class="token keyword">await</span> flutterFeathersjs<span class="token punctuation">.</span>rest<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span>serviceName<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;message&quot;</span></span><span class="token punctuation">,</span> objectId<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;5f7643f0462f4348970cd32e&quot;</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+       <span class="token comment">// print(messageResponse); =&gt; feathers's get data format</span>
+    <span class="token punctuation">}</span> <span class="token keyword">on</span> <span class="token class-name">FeatherJsError</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+      <span class="token comment">// When error is FeatherJsErrorType</span>
+      <span class="token comment">// if(e.type == FeatherJsErrorType.IS_SERVER_ERROR)</span>
+      <span class="token comment">// Check the error type as above and handle it</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>er<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// Catch  unknown error</span>
+
+    <span class="token punctuation">}</span>
+</code></pre></div><h2 id="create"><a href="#create" class="header-anchor">#</a> create</h2> <p>Create a new resource with data.</p> <p>Without files</p> <div class="language-dart extra-class"><pre class="language-dart"><code>
+
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+
+   <span class="token comment">// Create a message on the server without file upload</span>
+      <span class="token keyword">var</span> messageResponse <span class="token operator">=</span> <span class="token keyword">await</span> flutterFeathersjs<span class="token punctuation">.</span>rest<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>
+        serviceName<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;message&quot;</span></span><span class="token punctuation">,</span>
+        data<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token string-literal"><span class="token string">&quot;title&quot;</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;Using FlutterFeathersjs is easy&quot;</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">&quot;content&quot;</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;Yes very easy&quot;</span></span> <span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">&quot;author&quot;</span></span> <span class="token punctuation">:</span><span class="token string-literal"><span class="token string">&quot;5f7h43f0462f4348970cd32e&quot;</span></span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+       <span class="token comment">// print(messageResponse); =&gt; feathers's get data format</span>
+    <span class="token punctuation">}</span> <span class="token keyword">on</span> <span class="token class-name">FeatherJsError</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+      <span class="token comment">// When error is FeatherJsErrorType</span>
+      <span class="token comment">// if(e.type == FeatherJsErrorType.IS_SERVER_ERROR)</span>
+      <span class="token comment">// Check the error type as above and handle it</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>er<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// Catch  unknown error</span>
+
+    <span class="token punctuation">}</span>
+</code></pre></div><p>With files</p> <p>Create a message on the server with file upload
+For this, it is your responsability to configure your feathers js to handle
+file upload, see multer for example</p> <div class="language-dart extra-class"><pre class="language-dart"><code>
+    <span class="token comment">//1.  Afther picking files from devices, ensure you have  a list of File object as:</span>
+    <span class="token keyword">var</span> files <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">{</span> <span class="token string-literal"><span class="token string">'filePath'</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">'/data/shared/image.png'</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">'fileName'</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">'image.png'</span></span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span> <span class="token string-literal"><span class="token string">'filePath'</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">'/data/shared/image.png'</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">'fileName'</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">'image.png'</span></span> <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token comment">//2. Send data with files</span>
+
+
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+
+       <span class="token keyword">var</span> messageResponse <span class="token operator">=</span> <span class="token keyword">await</span> flutterFeathersjs<span class="token punctuation">.</span>rest<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>
+        serviceName<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;message&quot;</span></span><span class="token punctuation">,</span>
+        data<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token string-literal"><span class="token string">&quot;title&quot;</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;Using FlutterFeathersjs is easy even with file upload&quot;</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">&quot;content&quot;</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;Yes very easy&quot;</span></span> <span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">&quot;author&quot;</span></span> <span class="token punctuation">:</span><span class="token string-literal"><span class="token string">&quot;5f7h43f0462f4348970cd32e&quot;</span></span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+        containsFile <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+        fileFieldName <span class="token operator">=</span> <span class="token string-literal"><span class="token string">&quot;files&quot;</span></span><span class="token punctuation">,</span> <span class="token comment">// mongoose field to store the file name</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+       <span class="token comment">// print(messageResponse); =&gt; feathers's get data format</span>
+    <span class="token punctuation">}</span> <span class="token keyword">on</span> <span class="token class-name">FeatherJsError</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+      <span class="token comment">// When error is FeatherJsErrorType</span>
+      <span class="token comment">// if(e.type == FeatherJsErrorType.IS_SERVER_ERROR)</span>
+      <span class="token comment">// Check the error type as above and handle it</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>er<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// Catch  unknown error</span>
+
+    <span class="token punctuation">}</span>
+</code></pre></div><h2 id="update"><a href="#update" class="header-anchor">#</a> update</h2> <p>Completely replace a single resource with the <code>_id = objectId</code></p> <p>Without files
+Update a message on the server without file upload</p> <div class="language-dart extra-class"><pre class="language-dart"><code>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+
+     <span class="token keyword">var</span> messageResponse <span class="token operator">=</span> <span class="token keyword">await</span> flutterFeathersjs<span class="token punctuation">.</span>rest<span class="token punctuation">.</span><span class="token function">update</span><span class="token punctuation">(</span>
+        objectId<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;5f7h43f0462f4t48970cd32e&quot;</span></span><span class="token punctuation">,</span>
+        serviceName<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;message&quot;</span></span><span class="token punctuation">,</span>
+        data<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token string-literal"><span class="token string">&quot;title&quot;</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;Using FlutterFeathersjs is easy&quot;</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">&quot;content&quot;</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;Yes very easy&quot;</span></span> <span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">&quot;author&quot;</span></span> <span class="token punctuation">:</span><span class="token string-literal"><span class="token string">&quot;5f7h43f0462f4348970cd32e&quot;</span></span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+       <span class="token comment">// print(messageResponse); =&gt; feathers's get data format</span>
+    <span class="token punctuation">}</span> <span class="token keyword">on</span> <span class="token class-name">FeatherJsError</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+      <span class="token comment">// When error is FeatherJsErrorType</span>
+      <span class="token comment">// if(e.type == FeatherJsErrorType.IS_SERVER_ERROR)</span>
+      <span class="token comment">// Check the error type as above and handle it</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>er<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// Catch  unknown error</span>
+
+    <span class="token punctuation">}</span>
+</code></pre></div><p>With files</p> <p>Create a message on the server with file upload
+For this, it is your responsability to configure your feathers js to handle
+file upload, see multer</p> <div class="language-dart extra-class"><pre class="language-dart"><code>    <span class="token comment">//1.  Afther picking file from devices, ensure you have  a list of File object as:</span>
+    <span class="token keyword">var</span> files <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">{</span> <span class="token string-literal"><span class="token string">'filePath'</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">'/data/shared/image.png'</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">'fileName'</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">'image.png'</span></span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span> <span class="token string-literal"><span class="token string">'filePath'</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">'/data/shared/image.png'</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">'fileName'</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">'image.png'</span></span> <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+
+          <span class="token keyword">try</span> <span class="token punctuation">{</span>
+
+    <span class="token comment">//2. Send data with file</span>
+    <span class="token keyword">var</span> messageResponse <span class="token operator">=</span> <span class="token keyword">await</span> flutterFeathersjs<span class="token punctuation">.</span>rest<span class="token punctuation">.</span><span class="token function">update</span><span class="token punctuation">(</span>
+        objectId<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;5f7h43f0462f4t48970cd32e&quot;</span></span><span class="token punctuation">,</span>
+        serviceName<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;message&quot;</span></span><span class="token punctuation">,</span>
+        data<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token string-literal"><span class="token string">&quot;title&quot;</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;Using FlutterFeathersjs is easy even with file upload&quot;</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">&quot;content&quot;</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;Yes very easy&quot;</span></span> <span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">&quot;author&quot;</span></span> <span class="token punctuation">:</span><span class="token string-literal"><span class="token string">&quot;5f7h43f0462f4348970cd32e&quot;</span></span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+        containsFile <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+      fileFieldName <span class="token operator">=</span> <span class="token string-literal"><span class="token string">&quot;files&quot;</span></span><span class="token punctuation">,</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+       <span class="token comment">// print(messageResponse); =&gt; feathers's get data format</span>
+    <span class="token punctuation">}</span> <span class="token keyword">on</span> <span class="token class-name">FeatherJsError</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+      <span class="token comment">// When error is FeatherJsErrorType</span>
+      <span class="token comment">// if(e.type == FeatherJsErrorType.IS_SERVER_ERROR)</span>
+      <span class="token comment">// Check the error type as above and handle it</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>er<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// Catch  unknown error</span>
+
+    <span class="token punctuation">}</span>
+</code></pre></div><h2 id="patch"><a href="#patch" class="header-anchor">#</a> patch</h2> <p>Completely replace a single resource with the <code>_id = objectId</code></p> <p>Without files
+Patch a new on the server without file upload</p> <div class="language-dart extra-class"><pre class="language-dart"><code> <span class="token keyword">try</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">var</span> messageResponse <span class="token operator">=</span> <span class="token keyword">await</span> flutterFeathersjs<span class="token punctuation">.</span>rest<span class="token punctuation">.</span><span class="token function">patch</span><span class="token punctuation">(</span>
+        objectId<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;5f7h43f0462f4t48970cd32e&quot;</span></span><span class="token punctuation">,</span>
+        serviceName<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;message&quot;</span></span><span class="token punctuation">,</span>
+        data<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token string-literal"><span class="token string">&quot;title&quot;</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;Using FlutterFeathersjs is easy&quot;</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">&quot;content&quot;</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;Yes very easy&quot;</span></span> <span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">&quot;author&quot;</span></span> <span class="token punctuation">:</span><span class="token string-literal"><span class="token string">&quot;5f7h43f0462f4348970cd32e&quot;</span></span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token comment">// print(messageResponse); =&gt; feathers's get data format</span>
+    <span class="token punctuation">}</span> <span class="token keyword">on</span> <span class="token class-name">FeatherJsError</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+      <span class="token comment">// When error is FeatherJsErrorType</span>
+      <span class="token comment">// if(e.type == FeatherJsErrorType.IS_SERVER_ERROR)</span>
+      <span class="token comment">// Check the error type as above and handle it</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>er<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// Catch  unknown error</span>
+
+    <span class="token punctuation">}</span>
+</code></pre></div><p>With files</p> <div class="language-dart extra-class"><pre class="language-dart"><code>    <span class="token comment">// Patch a message on the server with file upload</span>
+    <span class="token comment">// For this, it is your responsability to configure your feathers js to handle</span>
+    <span class="token comment">// file upload, see multer</span>
+
+    <span class="token comment">//1.  Afther picking file from devices, ensure you have  a list of File object as:</span>
+<span class="token keyword">var</span> files <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">{</span> <span class="token string-literal"><span class="token string">'filePath'</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">'/data/shared/image.png'</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">'fileName'</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">'image.png'</span></span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span> <span class="token string-literal"><span class="token string">'filePath'</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">'/data/shared/image.png'</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">'fileName'</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">'image.png'</span></span> <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+
+ <span class="token keyword">try</span> <span class="token punctuation">{</span>
+
+       <span class="token comment">//2. Send data with file</span>
+    <span class="token keyword">var</span> messageResponse <span class="token operator">=</span> <span class="token keyword">await</span> flutterFeathersjs<span class="token punctuation">.</span>rest<span class="token punctuation">.</span><span class="token function">patch</span><span class="token punctuation">(</span>
+        objectId<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;5f7h43f0462f4t48970cd32e&quot;</span></span><span class="token punctuation">,</span>
+        serviceName<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;message&quot;</span></span><span class="token punctuation">,</span>
+        data<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token string-literal"><span class="token string">&quot;title&quot;</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;Using FlutterFeathersjs is easy even with file upload&quot;</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">&quot;content&quot;</span></span><span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;Yes very easy&quot;</span></span> <span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">&quot;author&quot;</span></span> <span class="token punctuation">:</span><span class="token string-literal"><span class="token string">&quot;5f7h43f0462f4348970cd32e&quot;</span></span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+        containsFile <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+      fileFieldName <span class="token operator">=</span> <span class="token string-literal"><span class="token string">&quot;files&quot;</span></span><span class="token punctuation">,</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token comment">// print(messageResponse); =&gt; feathers's get data format</span>
+    <span class="token punctuation">}</span> <span class="token keyword">on</span> <span class="token class-name">FeatherJsError</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+      <span class="token comment">// When error is FeatherJsErrorType</span>
+      <span class="token comment">// if(e.type == FeatherJsErrorType.IS_SERVER_ERROR)</span>
+      <span class="token comment">// Check the error type as above and handle it</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>er<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// Catch  unknown error</span>
+
+    <span class="token punctuation">}</span>
+
+</code></pre></div><h2 id="remove"><a href="#remove" class="header-anchor">#</a> remove</h2> <p>Remove a single resource with <code>_id = objectId</code>:</p> <div class="language-dart extra-class"><pre class="language-dart"><code><span class="token keyword">try</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> messageResponse <span class="token operator">=</span> <span class="token keyword">await</span> flutterFeathersjs<span class="token punctuation">.</span>rest<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span>serviceName<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;message&quot;</span></span><span class="token punctuation">,</span> objectId<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;5f7643f0462f4348970cd32e&quot;</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+       <span class="token comment">// print(messageResponse); =&gt; feathers's remove data format</span>
+    <span class="token punctuation">}</span> <span class="token keyword">on</span> <span class="token class-name">FeatherJsError</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+      <span class="token comment">// When error is FeatherJsErrorType</span>
+      <span class="token comment">// if(e.type == FeatherJsErrorType.IS_SERVER_ERROR)</span>
+      <span class="token comment">// Check the error type as above and handle it</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>er<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// Catch  unknown error</span>
+
+    <span class="token punctuation">}</span>
+</code></pre></div></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">Last Updated:</span> <span class="time">9/1/2021, 9:00:22 PM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/flutter_feathersjs.dart/guide/socketio-is-default-client.html" class="prev">
+        Default Client
+      </a></span> <span class="next"><a href="/flutter_feathersjs.dart/guide/using-socketio.html">
+        Socketio client
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/flutter_feathersjs.dart/assets/js/app.4c8c045c.js" defer></script><script src="/flutter_feathersjs.dart/assets/js/2.03c1e6bb.js" defer></script><script src="/flutter_feathersjs.dart/assets/js/17.630e316c.js" defer></script>
+  </body>
+</html>
