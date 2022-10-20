@@ -1,8 +1,13 @@
+## 4.1.1-dev
+
+- Downgrade socket_io_client to 1.0.2 to support feathers js socketio client
+- Issue [https://github.com/Dahkenangnon/flutter_feathersjs.dart/issues/45](https://github.com/Dahkenangnon/flutter_feathersjs.dart/issues/45)
+
 ## 4.1.0-dev
 
 - Fix [https://github.com/Dahkenangnon/flutter_feathersjs.dart/issues/28](https://github.com/Dahkenangnon/flutter_feathersjs.dart/issues/28)
 - remove shared_preferences dependency
-- add separate client (socketio & rest) configuration  
+- add separate client (socketio & rest) configuration
 
 ## 4.0.5+1 - Fix README.md's icons
 
