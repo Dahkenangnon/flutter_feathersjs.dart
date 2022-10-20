@@ -1,42 +1,64 @@
 import 'dart:async';
-
 import 'package:flutter/foundation.dart' as Foundation;
 import 'package:flutter_feathersjs/src/config/helper.dart';
+import 'package:flutter_feathersjs/src/config/secure_storage.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:event_bus/event_bus.dart';
 import 'config/constants.dart';
 import 'featherjs_client_base.dart';
-import 'config/secure_storage.dart';
 
-///Socketio client for the realtime communication
+/// @See https://github.com/Dahkenangnon/flutter_feathersjs.dart/issues/28 for the origin of this implementation
+///
+///
+/// [FlutterFeathersjsSocketio] is a standalone socketio client for flutter_feathersjs
+///
+/// Usage: Fully customize your socketio client, use seperate client
+/// and a clean syntax. Customize client means you can set autoConnect, baseUrl, extraHeaders, transports, etc
+///
+/// If the above usage is not your case, you can use  [FlutterFeathersjs] instead
+///
+/// You can use it like this:
+///
+///
+/// ```dart
+/// import 'package:flutter_feathersjs/flutter_feathersjs.dart';
+/// import 'package:socket_io_client/socket_io_client.dart' as IO;
+///
+/// FlutterFeathersjs client = FlutterFeathersjs();
+/// IO.Socket io = IO.io(baseUrl)
+///
+/// client.configure(FlutterFeathersjs.socketioClient(io));
+///
+/// client.service('messages').create({
+///   text: 'A new message'
+/// });
+///
+/// ```
 ///
 /// {@macro response_format}
 ///
-class SocketioClient extends FlutterFeathersjsBase {
+///--------------------------------------------
+class FlutterFeathersjsSocketio extends FlutterFeathersjsBase {
   // Socketio
   late IO.Socket _socket;
+
+  // Current service name
+  String? serviceName;
 
   // Event bus
   EventBus eventBus = EventBus(sync: true);
 
-  //Using singleton
-  static final SocketioClient _socketioClient = SocketioClient._internal();
-
-  factory SocketioClient() {
-    return _socketioClient;
-  }
-
-  SocketioClient._internal();
-
-  /// Initialize the realtime (socketio) connection
-  init({required String baseUrl, Map<String, dynamic>? extraHeaders}) {
-    _socket = IO.io(baseUrl, <String, dynamic>{
-      'transports': ['websocket'],
-      //'extraHeaders': extraHeaders,
-      'autoConnect':
-          true, // Socketio will reconnect automatically when connection is lost
-    });
-    //_socket.connect();
+  FlutterFeathersjsSocketio(this._socket) {
+    // Set headers for socketio authorization
+    // Setting on every request the Bearer Token in the header
+    () async {
+      String? token = await SecureStorage.getAccessToken(client: "socketio");
+      if (token != null) {
+        _socket.io.options["extraHeaders"] = {
+          'Authorization': 'Bearer $token',
+        };
+      }
+    }();
 
     _socket.on('connect', (_) {
       eventBus.fire(Connected());
@@ -79,6 +101,11 @@ class SocketioClient extends FlutterFeathersjsBase {
     }
   }
 
+  FlutterFeathersjsSocketio service(String serviceName) {
+    this.serviceName = serviceName;
+    return this;
+  }
+
   ///
   /// Authenticate the user with realtime connection
   ///
@@ -89,8 +116,67 @@ class SocketioClient extends FlutterFeathersjsBase {
   /// @Warning: You don't need to use this directly in your code,
   /// use instead the global `flutterFeathersjs.authenticate({...})`
   ///
-  Future<dynamic> authWithJWT() async {
-    String? token = await SecureStorage.getAccessToken();
+  Future<dynamic> authenticate(
+      {String strategy = "local",
+      required String? userName,
+      required String? password,
+      String userNameFieldName = "email"}) async {
+    Completer asyncTask = Completer<dynamic>();
+    FeatherJsError? featherJsError;
+
+    _socket.emitWithAck('create', [
+      'authentication',
+      <String, dynamic>{
+        "strategy": strategy,
+        "$userNameFieldName": userName,
+        "password": password
+      }
+    ], ack: (dataResponse) {
+      if (!Foundation.kReleaseMode) {
+        print("Receive response from server on socketio auth");
+        print(dataResponse);
+      }
+
+      //Check whether auth is OK response.data["user"]
+      if (dataResponse is List) {
+        if (!Foundation.kReleaseMode) {
+          print("Authentication process is ok in socketio auth");
+        }
+        //Every emit or on will be authed
+        this._socket.io.options['extraHeaders'] = {
+          'Authorization': "Bearer ${dataResponse[0].data["accessToken"]}"
+        };
+      } else {
+        // On error
+        if (!Foundation.kReleaseMode) {
+          print("Authentication process failed in socket io auth");
+        }
+        featherJsError = new FeatherJsError(
+            type: FeatherJsErrorType.IS_JWT_TOKEN_ERROR, error: dataResponse);
+      }
+      if (featherJsError != null) {
+        asyncTask.completeError(featherJsError!); //Complete with error
+      } else {
+        // Complete with success
+        asyncTask.complete(dataResponse.data["user"]);
+      }
+    });
+
+    return asyncTask.future;
+  }
+
+  ///
+  /// Authenticate the user with realtime connection
+  ///
+  /// @Warning This function must be call afther auth with rest is OK
+  ///
+  /// Otherwise, you cannot be able to use socketio client because it won't be authed on the server
+  ///
+  /// @Warning: You don't need to use this directly in your code,
+  /// use instead the global `flutterFeathersjs.authenticate({...})`
+  ///
+  Future<dynamic> reAuthenticate() async {
+    String? token = await SecureStorage.getAccessToken(client: "socketio");
     Completer asyncTask = Completer<dynamic>();
     FeatherJsError? featherJsError;
     bool isReauthenticate = false;
@@ -140,12 +226,14 @@ class SocketioClient extends FlutterFeathersjsBase {
   ///
   /// Retrieves a list of all matching `query` resources from the service
   ///
-  /// {@macro response_format}
+  /// If no error is occured, you will get exactly feathersjs's data format
+  ///
+  /// Otherwise, an exception of type FeatherJsError will be raised
+  ///
+  /// Use FeatherJsErrorType.{ERROR} to known what happen
   ///
   ///
-  Future<dynamic> find(
-      {required String serviceName,
-      required Map<String, dynamic> query}) async {
+  Future<dynamic> find(Map<String, dynamic> query) async {
     Completer asyncTask = Completer<dynamic>();
     _socket.emitWithAck("find", [serviceName, query], ack: (response) {
       if (response is List) {
@@ -161,10 +249,13 @@ class SocketioClient extends FlutterFeathersjsBase {
   ///
   /// Create new ressource
   ///
-  /// {@macro response_format}
+  /// If no error is occured, you will get exactly feathersjs's data format
   ///
-  Future<dynamic> create(
-      {required String serviceName, required Map<String, dynamic> data}) {
+  /// Otherwise, an exception of type FeatherJsError will be raised
+  ///
+  /// Use FeatherJsErrorType.{ERROR} to known what happen
+  ///
+  Future<dynamic> create(Map<String, dynamic> data) {
     Completer asyncTask = Completer<dynamic>();
 
     _socket.emitWithAck("create", [serviceName, data], ack: (response) {
@@ -182,12 +273,13 @@ class SocketioClient extends FlutterFeathersjsBase {
   /// Update a  ressource
   ///
   ///
-  /// {@macro response_format}
+  /// If no error is occured, you will get exactly feathersjs's data format
   ///
-  Future<dynamic> update(
-      {required String serviceName,
-      required String objectId,
-      required Map<String, dynamic> data}) {
+  /// Otherwise, an exception of type FeatherJsError will be raised
+  ///
+  /// Use FeatherJsErrorType.{ERROR} to known what happen
+  ///
+  Future<dynamic> update(String objectId, Map<String, dynamic> data) {
     Completer asyncTask = Completer<dynamic>();
     _socket.emitWithAck("update", [serviceName, objectId, data],
         ack: (response) {
@@ -203,9 +295,13 @@ class SocketioClient extends FlutterFeathersjsBase {
   /// `EMIT get serviceName`
   ///
   ///
-  /// {@macro response_format}
+  /// If no error is occured, you will get exactly feathersjs's data format
   ///
-  Future<dynamic> get({required String serviceName, required String objectId}) {
+  /// Otherwise, an exception of type FeatherJsError will be raised
+  ///
+  /// Use FeatherJsErrorType.{ERROR} to known what happen
+  ///
+  Future<dynamic> get(String objectId) {
     Completer asyncTask = Completer<dynamic>();
     _socket.emitWithAck("get", [serviceName, objectId], ack: (response) {
       if (response is List) {
@@ -221,13 +317,13 @@ class SocketioClient extends FlutterFeathersjsBase {
   ///
   /// Merge the existing data of a single or multiple resources with the new data
   ///
-  /// {@macro response_format}
+  /// If no error is occured, you will get exactly feathersjs's data format
   ///
+  /// Otherwise, an exception of type FeatherJsError will be raised
   ///
-  Future<dynamic> patch(
-      {required String serviceName,
-      required String objectId,
-      required Map<String, dynamic> data}) {
+  /// Use FeatherJsErrorType.{ERROR} to known what happen
+  ///
+  Future<dynamic> patch(String objectId, Map<String, dynamic> data) {
     Completer asyncTask = Completer<dynamic>();
     _socket.emitWithAck("patch", [serviceName, objectId, data],
         ack: (response) {
@@ -245,10 +341,13 @@ class SocketioClient extends FlutterFeathersjsBase {
   /// Delete a ressource on the server
   ///
   ///
-  /// {@macro response_format}
+  /// If no error is occured, you will get exactly feathersjs's data format
   ///
-  Future<dynamic> remove(
-      {required String serviceName, required String objectId}) {
+  /// Otherwise, an exception of type FeatherJsError will be raised
+  ///
+  /// Use FeatherJsErrorType.{ERROR} to known what happen
+  ///
+  Future<dynamic> remove(String objectId) {
     Completer asyncTask = Completer<dynamic>();
     _socket.emitWithAck("remove", [serviceName, objectId], ack: (response) {
       if (response is List) {
@@ -275,8 +374,7 @@ class SocketioClient extends FlutterFeathersjsBase {
   ///
   ///     Use FeatherJsErrorType.{ERROR} to known what happen
   ///
-  Stream<FeathersJsEventData<T>> listen<T>(
-      {required String serviceName, required Function fromJson}) {
+  Stream<FeathersJsEventData<T>> listen<T>(Function fromJson) {
     /// On updated event
     _socket.on('$serviceName updated', (updatedData) {
       try {

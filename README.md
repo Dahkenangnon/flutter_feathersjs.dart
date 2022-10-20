@@ -1,8 +1,5 @@
-# :bird: flutter_feathersjs :bird
+# :bird: flutter_feathersjs :bird:
 
-[![pub points](https://badges.bar/flutter_feathersjs/pub%20points)](https://pub.dev/packages/flutter_feathersjs/score)
-[![likes](https://badges.bar/flutter_feathersjs/likes)](https://pub.dev/packages/flutter_feathersjs/score)
-[![popularity](https://badges.bar/flutter_feathersjs/popularity)](https://pub.dev/packages/flutter_feathersjs/score)
 [![GitHub Repo stars](https://img.shields.io/github/stars/dahkenangnon/flutter_feathersjs.dart?label=github%20stars)](https://github.com/dahkenangnon/flutter_feathersjs)
 [![pub version](https://img.shields.io/pub/v/flutter_feathersjs)](https://pub.dev/packages/flutter_feathersjs)
 [![GitHub last commit](https://img.shields.io/github/last-commit/dahkenangnon/flutter_feathersjs.dart)](https://github.com/dahkenangnon/flutter_feathersjs)
@@ -36,33 +33,85 @@ import 'package:flutter_feathersjs/flutter_feathersjs.dart';
 
 ```
 
-### 3. Initialize it
+### 3. Initialize it as single instance
 
 ```dart
 
 
-//your  api baseUrl
-const BASE_URL = "https://flutter-feathersjs.herokuapp.com";
+    //your  api baseUrl
+    const BASE_URL = "https://flutter-feathersjs.herokuapp.com";
 
-// Init it globally across your app, maybe with get_it or something like that
-FlutterFeathersjs flutterFeathersjs = FlutterFeathersjs()
-    ..init(baseUrl: BASE_URL);
+    // Init it globally across your app, maybe with get_it or something like that
+    FlutterFeathersjs flutterFeathersjs = FlutterFeathersjs()..init(baseUrl: BASE_URL);
+
+    // Authenticate with email/password
+    var response = await flutterFeathersjs.authenticate(userName: user["email"], password: user["password"]);
+    print(response);
+
+    // ReAuthenticated with token
+    var response = await flutterFeathersjs.reAuthenticate();
+    print(response);
+
+    // Get authenticated user
+    var response = await flutterFeathersjs.user();
+
+```
+
+### 4. Configure and use only socketio or rest client
+
+
+```dart
+
+    // Standalone socket io client
+    FlutterFeathersjs socketIOClient = FlutterFeathersjs();
+
+    // Socket.io client
+     IO.Socket io = IO.io(BASE_URL);
+    socketIOClient.configure(FlutterFeathersjs.socketioClient(io));
+
+    // Auth socketio client 
+
+    var response = await socketIOClient.authenticate(userName: user["email"], password: user["password"]);
+    print(response);
+
+    // ReAuth socketio client
+    var reAuthResponse = await socketIOClient.reAuthenticate();
+    
+    // Create a message using socketio standalone client
+    var ioResponse = await socketIOClient.service('messages').create({"text": 'A new message'});
+
+    // Get the authenticated user 
+    var userResponse = await socketIOClient.user();
+
+```
+
+```dart
+
+    //StandAlone rest client
+    FlutterFeathersjs restClient = FlutterFeathersjs();
+    Dio dio = Dio(BaseOptions(baseUrl: BASE_URL));
+    restClient.configure(FlutterFeathersjs.restClient(dio));
+
+
+    // Authenticate user using rest client
+    var response = await restClient.authenticate( userName: user["email"], password: user["password"]);
+      print(response);
+
+    // Reauthenticate user using rest client
+    var reAuthResponse = await restClient.reAuthenticate();
+
+    // Call service 
+    var restResponse = await restClient.service('messages').create({"text": 'A new message'});
+
+
+    // Get the authenticated user
+    var user = await restClient.user();
+
 
 ```
 
 **You're ready to go: 3, 2, 1 :rocket:** Checkout the [doc](https://dahkenangnon.github.io/flutter_feathersjs.dart/) for more info.
 
-## Notes
-
-**:green_square: This package can be used in prod env from  version** **V3.0.0** and up :rocket:.
-
-**:green_square: This package is tested with feathersjs v4.x**
-
-**:green_square: Great features will be added  soonly ([Learn more here](https://github.com/Dahkenangnon/flutter_feathersjs.dart/issues/19)). These feature will introduce incompatibilities with previous versions.**
-
-:green_square: Null safety supported  from version V4.0.2.
-
-:green_square: See pubspec.yaml for more infos.
 
 ## Documentation
 

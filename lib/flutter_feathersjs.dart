@@ -11,11 +11,11 @@
 /// Demo app's repo at: https://github.com/Dahkenangnon/flutter_feathersjs_demo
 ///
 ///
-///
 /// Happy hacking 🚀
 ///
 ///
 library flutter_feathersjs;
 
-export './src/helper.dart';
+export './src/config/constants.dart' show FeatherJsErrorType;
+export './src/config/helper.dart' show FeatherJsError;
 export './src/featherjs.dart';

@@ -1,19 +1,26 @@
+## 4.1.0-dev
+
+- Fix [https://github.com/Dahkenangnon/flutter_feathersjs.dart/issues/28](https://github.com/Dahkenangnon/flutter_feathersjs.dart/issues/28)
+- remove shared_preferences dependency
+- add separate client (socketio & rest) configuration  
+
+## 4.0.5+1 - Fix README.md's icons
+
 ## 4.0.5 - Update dependencies
 
 ## 4.0.4+4 - Open discussion for next release
 
 ## 4.0.4+3 - Update docs dependencies
 
-## 4.0.4+2 - Flutter format .
+## 4.0.4+2 - Flutter format
 
-## 4.0.4+1 - Add documentation in pubspec.yaml 
+## 4.0.4+1 - Add documentation in pubspec.yaml
+
 ## 4.0.4 - Fix [Authentication Breaking Due to Casting Error on Future](https://github.com/Dahkenangnon/flutter_feathersjs.dart/issues/22)
 
 ## 4.0.3 - Improve documentation
 
-
 ## 4.0.2 - Nullsafety
-
 
 ## 4.0.1-dev.nullsafety - Remove meta from pubspec
 
@@ -24,24 +31,39 @@
 See [the release information](https://github.com/Dahkenangnon/flutter_feathersjs.dart/releases/tag/V3.0.0)
 
 ## 2.0.3-dev
+
 ## 2.0.2-dev
+
 ## 2.0.1-dev
+
 ## 2.0.0-dev
+
 Upgrading to nullsafety
+
 ## 1.0.10
+
 Fix [overwhelming debug's message ouputing in production](https://github.com/Dahkenangnon/flutter_feathersjs.dart/discussions/6#discussion-2051014)
+
 ## 1.0.9
 
 Documentation is now available from: [https://dahkenangnon.github.io/flutter_feathersjs.dart/](https://dahkenangnon.github.io/flutter_feathersjs.dart/)
 
 ## 1.0.8-dev
+
 ## 1.0.7-dev
+
 ## 1.0.6-dev
+
 ## 1.0.5-dev
+
 ## 1.0.4-dev
+
 ## 1.0.3-dev
+
 ## 1.0.2-dev
+
 ## 1.0.1-dev
+
 ## 1.0.0
 
 - Improvment: Documentation of the code
@@ -53,11 +75,10 @@ Documentation is now available from: [https://dahkenangnon.github.io/flutter_fea
 ## 0.0.7
 
 - remove unused comment
-- Add formData handling 
+- Add formData handling
 - Update readme
 
 ## 0.0.6-dev
-
 
 ## 0.0.5-dev
 
@@ -77,5 +98,5 @@ Documentation is now available from: [https://dahkenangnon.github.io/flutter_fea
 ## 0.0.1-dev
 
 - Initial version
-- Not for production use. 
+- Not for production use.
 - It still under dev
