@@ -16,6 +16,10 @@
 
 <br>
 
+## Join the community on Telegram
+    
+[![Join us on Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/flutter_featherjs)
+
 ## Simple to use
 
 ### 1.  Install it
