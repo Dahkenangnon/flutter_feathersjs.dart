@@ -1,6 +1,6 @@
 name: flutter_feathersjs
 description: Communicate with your feathers js  server from flutter app with unbelieved ease and make happy your customers.
-version: 4.0.5
+version: 4.1.0-dev
 homepage: https://github.com/Dahkenangnon/flutter_feathersjs.dart
 repository: https://github.com/Dahkenangnon/flutter_feathersjs.dart
 documentation: https://dahkenangnon.github.io/flutter_feathersjs.dart/
@@ -14,12 +14,16 @@ dependencies:
   flutter:
     sdk: flutter
     
+  # Used for socket connection
   socket_io_client: ^2.0.0
 
+  # Used for http connection
   dio: ^4.0.6
 
-  shared_preferences: ^2.0.15
+  # Used for secure storage on device
+  flutter_secure_storage: ^6.0.0
 
+  # Emit events
   event_bus: ^2.0.0
  
 

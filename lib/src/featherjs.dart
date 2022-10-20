@@ -1,25 +1,47 @@
+import 'package:dio/dio.dart';
+import 'package:flutter_feathersjs/src/config/secure_storage.dart';
 import 'package:flutter_feathersjs/src/rest_client.dart';
 import 'package:flutter_feathersjs/src/scketio_client.dart';
 import 'dart:async';
-import 'package:flutter_feathersjs/src/helper.dart';
+import 'package:flutter_feathersjs/src/config/helper.dart';
+import 'package:flutter_feathersjs/src/standalone_rest_client.dart';
+import 'package:flutter_feathersjs/src/standalone_socketio_client.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'config/constants.dart';
 
-///FlutterFeatherJs allow you to communicate with your feathers js server
+/// [FlutterFeatherJs] allow you to communicate with your feathers js server
 ///
-///Response format: You get exactly what feathers server send when no error occured
+/// {@template response_format}
+/// If no error occured, you will get exactly feathersjs's data format
 ///
-///Uploading file: Use rest client, socketio client cannot upload file
+/// Otherwise, an exception of type FeatherJsError will be raised
 ///
-///--------------------------------------------
+/// Use [FeatherJsErrorType].{ERROR} to known what happen
+/// {@endtemplate}
+///
+/// {@template use_rest_to_upload_file}
+/// Uploading file ?: Use rest client, socketio client cannot upload file
+/// {@endtemplate}
+///
+/// {@template love_realtime}
+/// --------------------------------------------
 /// Because we love the realtime side of
 /// feathers js, by default socketio's methods
-/// can be used on FlutterFeathersjs.{methodName}
-///--------------------------------------------
+/// can be used on [FlutterFeathersjs].{methodName}
+/// --------------------------------------------
+///{@endtemplate}
 class FlutterFeathersjs {
   //RestClient
   late RestClient rest;
 
+  // Rest client for standalone usage
+  late FlutterFeathersjsRest? standaloneRest;
+
   //SocketioClient
   late SocketioClient scketio;
+
+  // Socketio client for standalone usage
+  late FlutterFeathersjsSocketio? standaloneSocketio;
 
   ///Using singleton
   static final FlutterFeathersjs _flutterFeathersjs =
@@ -112,21 +134,13 @@ class FlutterFeathersjs {
     }
   }
 
-  ///--------------------------------------------
-  /// Because we love the realtime side of
-  /// feathers js, by default socketio's methods
-  /// are used on FlutterFeathersjs.{methodName}
-  ///--------------------------------------------
-
+  /// {@macro love_realtime}
+  ///
   /// `EMIT find serviceName`
   ///
   /// Retrieves a list of all matching `query` resources from the service
   ///
-  /// If no error is occured, you will get exactly feathersjs's data format
-  ///
-  /// Otherwise, an exception of type FeatherJsError will be raised
-  ///
-  /// Use FeatherJsErrorType.{ERROR} to known what happen
+  /// {@macro response_format}
   ///
   ///
   Future<dynamic> find(
@@ -139,13 +153,9 @@ class FlutterFeathersjs {
   ///
   /// Create new ressource
   ///
-  /// If no error is occured, you will get exactly feathersjs's data format
+  /// {@macro response_format}
   ///
-  /// Otherwise, an exception of type FeatherJsError will be raised
-  ///
-  /// Use FeatherJsErrorType.{ERROR} to known what happen
-  ///
-  /// @Warning: If uploading file is required, please use FlutterFeathersjs's rest client
+  /// {@macro use_rest_to_upload_file}
   ///
   Future<dynamic> create(
       {required String serviceName, required Map<String, dynamic> data}) {
@@ -157,13 +167,9 @@ class FlutterFeathersjs {
   /// Update a  ressource
   ///
   ///
-  /// If no error is occured, you will get exactly feathersjs's data format
+  /// {@macro response_format}
   ///
-  /// Otherwise, an exception of type FeatherJsError will be raised
-  ///
-  /// Use FeatherJsErrorType.{ERROR} to known what happen
-  ///
-  /// @Warning: If uploading file is required, please use FlutterFeathersjs's rest client
+  /// {@macro use_rest_to_upload_file}
   ///
   Future<dynamic> update(
       {required String serviceName,
@@ -177,11 +183,7 @@ class FlutterFeathersjs {
   /// `EMIT get serviceName`
   ///
   ///
-  /// If no error is occured, you will get exactly feathersjs's data format
-  ///
-  /// Otherwise, an exception of type FeatherJsError will be raised
-  ///
-  /// Use FeatherJsErrorType.{ERROR} to known what happen
+  /// {@macro response_format}
   ///
   Future<dynamic> get({required String serviceName, required String objectId}) {
     return this.scketio.get(serviceName: serviceName, objectId: objectId);
@@ -191,13 +193,9 @@ class FlutterFeathersjs {
   ///
   /// Merge the existing data of a single or multiple resources with the new data
   ///
-  /// If no error is occured, you will get exactly feathersjs's data format
+  /// {@macro response_format}
   ///
-  /// Otherwise, an exception of type FeatherJsError will be raised
-  ///
-  /// Use FeatherJsErrorType.{ERROR} to known what happen
-  ///
-  /// @Warning: If uploading file is required, please use FlutterFeathersjs's rest client
+  /// {@macro use_rest_to_upload_file}
   ///
   Future<dynamic> patch(
       {required String serviceName,
@@ -213,11 +211,7 @@ class FlutterFeathersjs {
   /// Delete a ressource on the server
   ///
   ///
-  /// If no error is occured, you will get exactly feathersjs's data format
-  ///
-  /// Otherwise, an exception of type FeatherJsError will be raised
-  ///
-  /// Use FeatherJsErrorType.{ERROR} to known what happen
+  /// {@macro response_format}
   ///
   Future<dynamic> remove(
       {required String serviceName, required String objectId}) {
@@ -226,7 +220,7 @@ class FlutterFeathersjs {
 
   /// Listen to On [` updated | patched | created | removed `] `serviceName`
   ///
-  /// If no error is occured, you will get FeathersJsEventData<T>  feathersJsEventData
+  /// If no error occured, you will get FeathersJsEventData<T>  feathersJsEventData
   ///
   ///     Then to retrieve the data send by feathers, do: feathersJsEventData.data
   ///
@@ -242,5 +236,77 @@ class FlutterFeathersjs {
   Stream<FeathersJsEventData<T>> listen<T>(
       {required String serviceName, required Function fromJson}) {
     return this.scketio.listen(serviceName: serviceName, fromJson: fromJson);
+  }
+
+  /// Configure a standalone client for feathers js
+  ///
+  /// [client] is the http client or socketio that will be used to communicate with feathers js server
+  ///
+  /// This should be used when you want standalone rest|socketio client
+  ///
+  void configure(dynamic client) {
+    if (client is FlutterFeathersjsSocketio) {
+      this.standaloneSocketio = client;
+    } else if (client is FlutterFeathersjsRest) {
+      this.standaloneRest = client;
+    } else {
+      throw new FeatherJsError(
+          type: FeatherJsErrorType.CONFIGURATION_ERROR,
+          error: "Client is not a valid feathers js client. ");
+    }
+  }
+
+  /// Get the standalone rest client
+  ///
+  /// This should be used when you want standalone rest client
+  ///
+  /// You should configure your [dio] client before passing to this method
+  ///
+  /// Configuring can mean adding interceptors, headers, baseUrl, logging, etc
+  ///
+  ///
+  static restClient(Dio dio) {
+    return FlutterFeathersjsRest(dio);
+  }
+
+  /// Get the standalone socketio client
+  ///
+  /// This should be used when you want standalone socketio client
+  ///
+  /// You should configure your [socketio] client before passing to this method
+  ///
+  /// Configuring can mean adding autoConnect, baseUrl, ExtraHeaders, transport, logging, etc
+  ///
+  ///
+  static socketioClient(IO.Socket io) {
+    return FlutterFeathersjsSocketio(io);
+  }
+
+  ///
+  /// Prepare a client for rest or socketio call.
+  ///
+  /// return [FlutterFeathersjsSocketio] or [FlutterFeathersjsRest], both are
+  /// standalone client
+  ///
+  /// [serviceName] is the name of the service you want to call. Should defined on your server
+  ///
+  service(String serviceName) {
+    /// pass the service to the standalone client and return it
+    if (this.standaloneSocketio != null) {
+      return this.standaloneSocketio!.service(serviceName);
+    } else if (this.standaloneRest != null) {
+      return this.standaloneRest!.service(serviceName);
+    } else {
+      throw new FeatherJsError(
+          type: FeatherJsErrorType.CONFIGURATION_ERROR,
+          error: "Client is not a valid feathers js client. ");
+    }
+  }
+
+  /// Return authenticated user from secure storage
+  ///
+  /// If no user is authenticated, return {}
+  Future<dynamic> user() async {
+    return await SecureStorage.getUser();
   }
 }
