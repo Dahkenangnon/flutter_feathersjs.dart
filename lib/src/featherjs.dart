@@ -143,9 +143,10 @@ class FlutterFeathersjs {
   /// {@macro response_format}
   ///
   ///
-  Future<dynamic> find(
-      {required String serviceName,
-      required Map<String, dynamic> query}) async {
+  Future<dynamic> find({
+    required String serviceName,
+    required Map<String, dynamic> query,
+  }) async {
     return this.scketio.find(serviceName: serviceName, query: query);
   }
 
@@ -157,9 +158,14 @@ class FlutterFeathersjs {
   ///
   /// {@macro use_rest_to_upload_file}
   ///
-  Future<dynamic> create(
-      {required String serviceName, required Map<String, dynamic> data}) {
-    return this.scketio.create(serviceName: serviceName, data: data);
+  Future<dynamic> create({
+    required String serviceName,
+    required Map<String, dynamic> data,
+    Map<String, dynamic> params = const {}
+  }) {
+    return this.scketio.create(
+        serviceName: serviceName, data: data, params: params
+    );
   }
 
   /// `EMIT update serviceName`
@@ -171,13 +177,15 @@ class FlutterFeathersjs {
   ///
   /// {@macro use_rest_to_upload_file}
   ///
-  Future<dynamic> update(
-      {required String serviceName,
-      required String objectId,
-      required Map<String, dynamic> data}) {
-    return this
-        .scketio
-        .update(serviceName: serviceName, objectId: objectId, data: data);
+  Future<dynamic> update({
+    required String serviceName,
+    required String objectId,
+    required Map<String, dynamic> data,
+    Map<String, dynamic> params = const {}
+  }) {
+    return this.scketio.update(
+        serviceName: serviceName, objectId: objectId, data: data, params: params
+    );
   }
 
   /// `EMIT get serviceName`
@@ -185,8 +193,14 @@ class FlutterFeathersjs {
   ///
   /// {@macro response_format}
   ///
-  Future<dynamic> get({required String serviceName, required String objectId}) {
-    return this.scketio.get(serviceName: serviceName, objectId: objectId);
+  Future<dynamic> get({
+    required String serviceName,
+    required String objectId,
+    Map<String, dynamic> params = const {}
+  }) {
+    return this.scketio.get(
+        serviceName: serviceName, objectId: objectId, params: params
+    );
   }
 
   /// `EMIT patch serviceName`
@@ -197,13 +211,15 @@ class FlutterFeathersjs {
   ///
   /// {@macro use_rest_to_upload_file}
   ///
-  Future<dynamic> patch(
-      {required String serviceName,
-      required String objectId,
-      required Map<String, dynamic> data}) {
-    return this
-        .scketio
-        .patch(serviceName: serviceName, objectId: objectId, data: data);
+  Future<dynamic> patch({
+    required String serviceName,
+    required String objectId,
+    required Map<String, dynamic> data,
+    Map<String, dynamic> params = const {}
+  }) {
+    return this.scketio.patch(
+        serviceName: serviceName, objectId: objectId, data: data, params: params
+    );
   }
 
   /// `EMIT remove serviceName`
@@ -213,9 +229,14 @@ class FlutterFeathersjs {
   ///
   /// {@macro response_format}
   ///
-  Future<dynamic> remove(
-      {required String serviceName, required String objectId}) {
-    return this.scketio.remove(serviceName: serviceName, objectId: objectId);
+  Future<dynamic> remove({
+    required String serviceName,
+    required String objectId,
+    Map<String, dynamic> params = const {}
+  }) {
+    return this.scketio.remove(
+        serviceName: serviceName, objectId: objectId, params: params
+    );
   }
 
   /// Listen to On [` updated | patched | created | removed `] `serviceName`
