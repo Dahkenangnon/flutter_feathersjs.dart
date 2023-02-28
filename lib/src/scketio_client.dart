@@ -82,7 +82,7 @@ class SocketioClient extends FlutterFeathersjsBase {
   ///
   /// Authenticate the user with realtime connection
   ///
-  /// @Warning This function must be call afther auth with rest is OK
+  /// @Warning This function must be call after auth with rest is OK
   ///
   /// Otherwise, you cannot be able to use socketio client because it won't be authed on the server
   ///
@@ -143,9 +143,10 @@ class SocketioClient extends FlutterFeathersjsBase {
   /// {@macro response_format}
   ///
   ///
-  Future<dynamic> find(
-      {required String serviceName,
-      required Map<String, dynamic> query}) async {
+  Future<dynamic> find({
+    required String serviceName,
+    required Map<String, dynamic> query
+  }) async {
     Completer asyncTask = Completer<dynamic>();
     _socket.emitWithAck("find", [serviceName, query], ack: (response) {
       if (response is List) {
@@ -159,15 +160,18 @@ class SocketioClient extends FlutterFeathersjsBase {
 
   /// `EMIT create serviceName`
   ///
-  /// Create new ressource
+  /// Create new resource
   ///
   /// {@macro response_format}
   ///
-  Future<dynamic> create(
-      {required String serviceName, required Map<String, dynamic> data}) {
+  Future<dynamic> create({
+    required String serviceName,
+    required Map<String, dynamic> data,
+    required Map<String, dynamic> params
+  }) {
     Completer asyncTask = Completer<dynamic>();
 
-    _socket.emitWithAck("create", [serviceName, data], ack: (response) {
+    _socket.emitWithAck("create", [serviceName, data, params], ack: (response) {
       if (response is List) {
         asyncTask.complete(response[1]);
       } else {
@@ -179,7 +183,7 @@ class SocketioClient extends FlutterFeathersjsBase {
 
   /// `EMIT update serviceName`
   ///
-  /// Update a  ressource
+  /// Update a  resource
   ///
   ///
   /// {@macro response_format}
@@ -187,9 +191,10 @@ class SocketioClient extends FlutterFeathersjsBase {
   Future<dynamic> update(
       {required String serviceName,
       required String objectId,
-      required Map<String, dynamic> data}) {
+      required Map<String, dynamic> data,
+      required Map<String, dynamic> params}) {
     Completer asyncTask = Completer<dynamic>();
-    _socket.emitWithAck("update", [serviceName, objectId, data],
+    _socket.emitWithAck("update", [serviceName, objectId, data, params],
         ack: (response) {
       if (response is List) {
         asyncTask.complete(response[1]);
@@ -205,9 +210,9 @@ class SocketioClient extends FlutterFeathersjsBase {
   ///
   /// {@macro response_format}
   ///
-  Future<dynamic> get({required String serviceName, required String objectId}) {
+  Future<dynamic> get({required String serviceName, required String objectId, required Map<String, dynamic> params}) {
     Completer asyncTask = Completer<dynamic>();
-    _socket.emitWithAck("get", [serviceName, objectId], ack: (response) {
+    _socket.emitWithAck("get", [serviceName, objectId, params], ack: (response) {
       if (response is List) {
         asyncTask.complete(response[1]);
       } else {
@@ -227,9 +232,10 @@ class SocketioClient extends FlutterFeathersjsBase {
   Future<dynamic> patch(
       {required String serviceName,
       required String objectId,
-      required Map<String, dynamic> data}) {
+      required Map<String, dynamic> data,
+      required Map<String, dynamic> params}) {
     Completer asyncTask = Completer<dynamic>();
-    _socket.emitWithAck("patch", [serviceName, objectId, data],
+    _socket.emitWithAck("patch", [serviceName, objectId, data, params],
         ack: (response) {
       if (response is List) {
         asyncTask.complete(response[1]);
@@ -242,15 +248,15 @@ class SocketioClient extends FlutterFeathersjsBase {
 
   /// `EMIT remove serviceName`
   ///
-  /// Delete a ressource on the server
+  /// Delete a resource on the server
   ///
   ///
   /// {@macro response_format}
   ///
   Future<dynamic> remove(
-      {required String serviceName, required String objectId}) {
+      {required String serviceName, required String objectId, required Map<String, dynamic> params}) {
     Completer asyncTask = Completer<dynamic>();
-    _socket.emitWithAck("remove", [serviceName, objectId], ack: (response) {
+    _socket.emitWithAck("remove", [serviceName, objectId, params], ack: (response) {
       if (response is List) {
         asyncTask.complete(response[1]);
       } else {
@@ -262,7 +268,7 @@ class SocketioClient extends FlutterFeathersjsBase {
 
   /// Listen to On [` updated | patched | created | removed `] `serviceName`
   ///
-  /// If no error is occured, you will get FeathersJsEventData<T>  feathersJsEventData
+  /// If no error is occurred, you will get FeathersJsEventData<T>  feathersJsEventData
   ///
   ///     Then to retrieve the data send by feathers, do: feathersJsEventData.data
   ///
@@ -277,6 +283,18 @@ class SocketioClient extends FlutterFeathersjsBase {
   ///
   Stream<FeathersJsEventData<T>> listen<T>(
       {required String serviceName, required Function fromJson}) {
+    /// On created event
+    _socket.on('$serviceName created', (createdData) {
+      try {
+        T? object = fromJson(createdData);
+        eventBus.fire(FeathersJsEventData<T>(
+            data: object, type: FeathersJsEventType.created));
+      } catch (e) {
+        eventBus.fire(new FeatherJsError(
+            type: FeatherJsErrorType.IS_DESERIALIZATION_ERROR, error: e));
+      }
+    });
+
     /// On updated event
     _socket.on('$serviceName updated', (updatedData) {
       try {
@@ -312,18 +330,13 @@ class SocketioClient extends FlutterFeathersjsBase {
             type: FeatherJsErrorType.IS_DESERIALIZATION_ERROR, error: e));
       }
     });
-
-    /// On created event
-    _socket.on('$serviceName created', (createdData) {
-      try {
-        T? object = fromJson(createdData);
-        eventBus.fire(FeathersJsEventData<T>(
-            data: object, type: FeathersJsEventType.created));
-      } catch (e) {
-        eventBus.fire(new FeatherJsError(
-            type: FeatherJsErrorType.IS_DESERIALIZATION_ERROR, error: e));
-      }
-    });
     return eventBus.on<FeathersJsEventData<T>>();
+  }
+
+  void reset({required String serviceName}) {
+    _socket.off('$serviceName created');
+    _socket.off('$serviceName updated');
+    _socket.off('$serviceName patched');
+    _socket.off('$serviceName removed');
   }
 }
