@@ -1,5 +1,16 @@
 # :bird: flutter_feathersjs :bird:
 
+
+ :rocket:  **We're are working on the next release of this Project: 🎯 Version 5.0.0*
+
+
+👏 I use "We" becauase @AurelAgbodoyetin joined me to maintain and make great again this package.
+
+See our roadmap here: https://github.com/Dahkenangnon/flutter_feathersjs.dart/issues/52
+
+------------------
+
+
 [![GitHub Repo stars](https://img.shields.io/github/stars/dahkenangnon/flutter_feathersjs.dart?label=github%20stars)](https://github.com/dahkenangnon/flutter_feathersjs)
 [![pub version](https://img.shields.io/pub/v/flutter_feathersjs)](https://pub.dev/packages/flutter_feathersjs)
 [![GitHub last commit](https://img.shields.io/github/last-commit/dahkenangnon/flutter_feathersjs.dart)](https://github.com/dahkenangnon/flutter_feathersjs)
