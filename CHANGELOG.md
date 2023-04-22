@@ -5,6 +5,8 @@
 - Add feathersjs like syntax: https://github.com/Dahkenangnon/flutter_feathersjs.dart/issues/28
 - Improve the package and prepare for next major version 5.0.0 (see: https://github.com/Dahkenangnon/flutter_feathersjs.dart/issues/52)
 - Add new HomePage for the project: https://feathersjs.dah-kenangnon.com/ (under hacking)
+- Old doc is no longer available: https://dahkenangnon.github.io/flutter_feathersjs.dart/
+
 ## 4.1.1-dev
 
 - Downgrade socket_io_client to 1.0.2 to support feathers js socketio client
