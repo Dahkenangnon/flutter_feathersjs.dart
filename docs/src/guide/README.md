@@ -1,5 +1,9 @@
 # Introduction
 
+**This doc is not updated**
+
+**Please, refer to the project readme**
+
 <p align="center">
  <img width="460" alt="FlutterFeathersJs Icon" height="300" src="https://dahkenangnon.github.io/flutter_feathersjs.dart/assets/img/logo.png">
  <br>
@@ -52,8 +56,6 @@ In this documentation, we are using the demo api and app for illustration. See a
 
 ## Demo
 
-Feathers demo api repo here: [On Github](https://github.com/Dahkenangnon/flutter_feathersjs.dart)
+Feathers demo api repo here: [On Github](https://github.com/Dahkenangnon/feathers-demos)
 
-Feathers demo api site: [On heroku](https://flutter-feathersjs.herokuapp.com/)
-
-Flutter demo app: [On Github](https://github.com/Dahkenangnon/flutter_feathersjs_demo_app)
+Flutter demo app: [On Github](https://github.com/AurelAgbodoyetin/feathersjs_demo_app)

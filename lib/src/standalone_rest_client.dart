@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart' as Foundation;
-import 'package:flutter_feathersjs/src/config/secure_storage.dart';
 import 'config/constants.dart';
+import 'config/storage.dart';
 import 'featherjs_client_base.dart';
 import 'config/helper.dart';
 
@@ -48,12 +48,14 @@ import 'config/helper.dart';
 ///
 ///
 ///--------------------------------------------
-class FlutterFeathersjsRest extends FlutterFeathersjsBase {
+class FlutterFeathersjsRest extends FlutterFeathersjsClient {
   ///Dio as http client
   late Dio dio;
 
   /// Current service name
   String? serviceName;
+
+  var jsonStorage = JsonStorage();
 
   FlutterFeathersjsRest(this.dio) {
     // configure dio interceptor to include jwt token in header for auth purpose
@@ -62,7 +64,7 @@ class FlutterFeathersjsRest extends FlutterFeathersjsBase {
         .interceptors
         .add(InterceptorsWrapper(onRequest: (options, handler) async {
           // Setting on every request the Bearer Token in the header
-          var oldToken = await SecureStorage.getAccessToken(client: "rest");
+          var oldToken = await jsonStorage.getAccessToken(client: "rest");
 
           // This is necessary to send on every request the Bearer token to be authenticated
           this.dio.options.headers["Authorization"] = "Bearer $oldToken";
@@ -98,7 +100,7 @@ class FlutterFeathersjsRest extends FlutterFeathersjsBase {
     bool isReauthenticate = false;
 
     //Getting the early stored rest access token and send the request by using it
-    var oldToken = await SecureStorage.getAccessToken(client: "rest");
+    var oldToken = await jsonStorage.getAccessToken(client: "rest");
 
     ///If an oldToken exist really, try to chect if it is still validated
     this.dio.options.headers["Authorization"] = "Bearer $oldToken";
@@ -185,7 +187,7 @@ class FlutterFeathersjsRest extends FlutterFeathersjsBase {
 
       if (response.data['accessToken'] != null) {
         // Case when the world is perfect: no error
-        await SecureStorage.saveAccessToken(response.data['accessToken'],
+        await jsonStorage.saveAccessToken(response.data['accessToken'],
             client: "rest");
       } else {
         featherJsError = new FeatherJsError(

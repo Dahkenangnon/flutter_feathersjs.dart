@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_feathersjs/src/config/secure_storage.dart';
 import 'package:flutter_feathersjs/src/rest_client.dart';
 import 'package:flutter_feathersjs/src/scketio_client.dart';
 import 'dart:async';
@@ -8,6 +7,7 @@ import 'package:flutter_feathersjs/src/standalone_rest_client.dart';
 import 'package:flutter_feathersjs/src/standalone_socketio_client.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'config/constants.dart';
+import 'config/storage.dart';
 
 /// [FlutterFeatherJs] allow you to communicate with your feathers js server
 ///
@@ -43,6 +43,9 @@ class FlutterFeathersjs {
   // Socketio client for standalone usage
   late FlutterFeathersjsSocketio? standaloneSocketio;
 
+  // current configured client
+  late String client;
+
   ///Using singleton
   static final FlutterFeathersjs _flutterFeathersjs =
       FlutterFeathersjs._internal();
@@ -72,6 +75,21 @@ class FlutterFeathersjs {
       required String? userName,
       required String? password,
       String userNameFieldName = "email"}) async {
+    if (this.client == 'rest') {
+      return await standaloneRest!.authenticate(
+          strategy: strategy,
+          userName: userName,
+          userNameFieldName: userNameFieldName,
+          password: password);
+    } else if (this.client == 'socketio') {
+      return await standaloneSocketio!.authenticate(
+          strategy: strategy,
+          userName: userName,
+          userNameFieldName: userNameFieldName,
+          password: password);
+    }
+
+    // If no client is set, use the default one
     try {
       //Auth with rest to refresh or create new accessToken
       var restAuthResponse = await rest.authenticate(
@@ -107,6 +125,13 @@ class FlutterFeathersjs {
   ///
   ///___________________________________________________________________
   Future<dynamic> reAuthenticate() async {
+    if (this.client == 'rest') {
+      return await standaloneRest!.reAuthenticate();
+    } else if (this.client == 'socketio') {
+      return await standaloneSocketio!.reAuthenticate();
+    }
+
+    // If no client is set, use the default one
     try {
       //Auth with rest to refresh or create accessToken
       bool isRestAuthenticated = await rest.reAuthenticate();
@@ -158,14 +183,13 @@ class FlutterFeathersjs {
   ///
   /// {@macro use_rest_to_upload_file}
   ///
-  Future<dynamic> create({
-    required String serviceName,
-    required Map<String, dynamic> data,
-    Map<String, dynamic> params = const {}
-  }) {
-    return this.scketio.create(
-        serviceName: serviceName, data: data, params: params
-    );
+  Future<dynamic> create(
+      {required String serviceName,
+      required Map<String, dynamic> data,
+      Map<String, dynamic> params = const {}}) {
+    return this
+        .scketio
+        .create(serviceName: serviceName, data: data, params: params);
   }
 
   /// `EMIT update serviceName`
@@ -177,15 +201,16 @@ class FlutterFeathersjs {
   ///
   /// {@macro use_rest_to_upload_file}
   ///
-  Future<dynamic> update({
-    required String serviceName,
-    required String objectId,
-    required Map<String, dynamic> data,
-    Map<String, dynamic> params = const {}
-  }) {
+  Future<dynamic> update(
+      {required String serviceName,
+      required String objectId,
+      required Map<String, dynamic> data,
+      Map<String, dynamic> params = const {}}) {
     return this.scketio.update(
-        serviceName: serviceName, objectId: objectId, data: data, params: params
-    );
+        serviceName: serviceName,
+        objectId: objectId,
+        data: data,
+        params: params);
   }
 
   /// `EMIT get serviceName`
@@ -193,14 +218,13 @@ class FlutterFeathersjs {
   ///
   /// {@macro response_format}
   ///
-  Future<dynamic> get({
-    required String serviceName,
-    required String objectId,
-    Map<String, dynamic> params = const {}
-  }) {
-    return this.scketio.get(
-        serviceName: serviceName, objectId: objectId, params: params
-    );
+  Future<dynamic> get(
+      {required String serviceName,
+      required String objectId,
+      Map<String, dynamic> params = const {}}) {
+    return this
+        .scketio
+        .get(serviceName: serviceName, objectId: objectId, params: params);
   }
 
   /// `EMIT patch serviceName`
@@ -211,15 +235,16 @@ class FlutterFeathersjs {
   ///
   /// {@macro use_rest_to_upload_file}
   ///
-  Future<dynamic> patch({
-    required String serviceName,
-    required String objectId,
-    required Map<String, dynamic> data,
-    Map<String, dynamic> params = const {}
-  }) {
+  Future<dynamic> patch(
+      {required String serviceName,
+      required String objectId,
+      required Map<String, dynamic> data,
+      Map<String, dynamic> params = const {}}) {
     return this.scketio.patch(
-        serviceName: serviceName, objectId: objectId, data: data, params: params
-    );
+        serviceName: serviceName,
+        objectId: objectId,
+        data: data,
+        params: params);
   }
 
   /// `EMIT remove serviceName`
@@ -229,14 +254,13 @@ class FlutterFeathersjs {
   ///
   /// {@macro response_format}
   ///
-  Future<dynamic> remove({
-    required String serviceName,
-    required String objectId,
-    Map<String, dynamic> params = const {}
-  }) {
-    return this.scketio.remove(
-        serviceName: serviceName, objectId: objectId, params: params
-    );
+  Future<dynamic> remove(
+      {required String serviceName,
+      required String objectId,
+      Map<String, dynamic> params = const {}}) {
+    return this
+        .scketio
+        .remove(serviceName: serviceName, objectId: objectId, params: params);
   }
 
   /// Listen to On [` updated | patched | created | removed `] `serviceName`
@@ -254,7 +278,7 @@ class FlutterFeathersjs {
   ///
   ///     Use FeatherJsErrorType.{ERROR} to known what happen
   ///
-  Stream<FeathersJsEventData<T>> listen<T>(
+  Stream<FeathersJsEventData<T>> socketListen<T>(
       {required String serviceName, required Function fromJson}) {
     return this.scketio.listen(serviceName: serviceName, fromJson: fromJson);
   }
@@ -268,8 +292,10 @@ class FlutterFeathersjs {
   void configure(dynamic client) {
     if (client is FlutterFeathersjsSocketio) {
       this.standaloneSocketio = client;
+      this.client = "socketio";
     } else if (client is FlutterFeathersjsRest) {
       this.standaloneRest = client;
+      this.client = "rest";
     } else {
       throw new FeatherJsError(
           type: FeatherJsErrorType.CONFIGURATION_ERROR,
@@ -313,14 +339,14 @@ class FlutterFeathersjs {
   ///
   service(String serviceName) {
     /// pass the service to the standalone client and return it
-    if (this.standaloneSocketio != null) {
-      return this.standaloneSocketio!.service(serviceName);
-    } else if (this.standaloneRest != null) {
+    if (this.client == "rest") {
       return this.standaloneRest!.service(serviceName);
+    } else if (this.client == "socketio") {
+      return this.standaloneSocketio!.service(serviceName);
     } else {
       throw new FeatherJsError(
           type: FeatherJsErrorType.CONFIGURATION_ERROR,
-          error: "Client is not a valid feathers js client. ");
+          error: "You have to configure a client before calling this method. ");
     }
   }
 
@@ -328,6 +354,32 @@ class FlutterFeathersjs {
   ///
   /// If no user is authenticated, return {}
   Future<dynamic> user() async {
-    return await SecureStorage.getUser();
+    /// JsonBridge
+    var jsonStorage = JsonStorage();
+    return await jsonStorage.getUser();
+  }
+
+   /// Listen to On [` updated | patched | created | removed `] `serviceName`
+  ///
+  /// If no error is occured, you will get FeathersJsEventData<T>  feathersJsEventData
+  ///
+  ///     Then to retrieve the data send by feathers, do: feathersJsEventData.data
+  ///
+  ///     Event type send by feathers: feathersJsEventData.type
+  ///
+  /// Note: T is class that represent what feather js will send. You have to define it in your code
+  ///
+  ///
+  /// Otherwise, an exception of type FeatherJsError will be raised that can be caught on the stream
+  ///
+  ///     Use FeatherJsErrorType.{ERROR} to known what happen
+  ///
+  Stream<FeathersJsEventData<T>> listen<T>(Function fromJson) {
+    if (this.client == 'socketio') {
+      return this.standaloneSocketio!.listen(fromJson);
+    }
+    throw new FeatherJsError(
+        type: FeatherJsErrorType.CONFIGURATION_ERROR,
+        error: "Event listening is only available for socketio client.");
   }
 }

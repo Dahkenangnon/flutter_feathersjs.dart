@@ -50,7 +50,7 @@ import 'package:flutter_feathersjs/flutter_feathersjs.dart';
 
 
     //your  api baseUrl
-    const BASE_URL = "https://flutter-feathersjs.herokuapp.com";
+    const BASE_URL = "https://your-feathersjs-server.com";
 
     // Init it globally across your app, maybe with get_it or something like that
     FlutterFeathersjs flutterFeathersjs = FlutterFeathersjs()..init(baseUrl: BASE_URL);
