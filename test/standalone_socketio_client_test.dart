@@ -1,11 +1,7 @@
 // ignore_for_file: avoid_init_to_null
-
-import 'dart:math';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_feathersjs/flutter_feathersjs.dart';
 import 'fixtures.dart';
-import 'package:dio/dio.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 void main() async {
