@@ -1,12 +1,13 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart' as Foundation;
 
 import 'config/constants.dart';
+import 'config/storage.dart';
 import 'featherjs_client_base.dart';
 import 'config/helper.dart';
-import 'config/secure_storage.dart';
 
 ///Feathers Js rest client for rest api call
 ///
@@ -15,6 +16,7 @@ import 'config/secure_storage.dart';
 class RestClient extends FlutterFeathersjsBase {
   ///Dio as http client
   late Dio dio;
+  var jsonStorage = JsonStorage();
 
   //Using singleton to ensure we use the same instance of it accross our app
   static final RestClient _restClient = RestClient._internal();
@@ -37,7 +39,7 @@ class RestClient extends FlutterFeathersjsBase {
         .interceptors
         .add(InterceptorsWrapper(onRequest: (options, handler) async {
           // Setting on every request the Bearer Token in the header
-          var oldToken = await SecureStorage.getAccessToken();
+          var oldToken = await jsonStorage.getAccessToken();
 
           // This is necessary to send on every request the Bearer token to be authenticated
           this.dio.options.headers["Authorization"] = "Bearer $oldToken";
@@ -69,7 +71,7 @@ class RestClient extends FlutterFeathersjsBase {
     bool isReauthenticate = false;
 
     //Getting the early stored rest access token and send the request by using it
-    var oldToken = await SecureStorage.getAccessToken();
+    var oldToken = await jsonStorage.getAccessToken();
 
     ///If an oldToken exist really, try to chect if it is still validated
     this.dio.options.headers["Authorization"] = "Bearer $oldToken";
@@ -159,7 +161,7 @@ class RestClient extends FlutterFeathersjsBase {
 
       if (response.data['accessToken'] != null) {
         // Case when the world is perfect: no error
-        SecureStorage.saveAccessToken(response.data['accessToken'],
+        jsonStorage.saveAccessToken(response.data['accessToken'],
             client: "rest");
       } else {
         featherJsError = new FeatherJsError(

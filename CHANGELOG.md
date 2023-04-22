@@ -1,3 +1,10 @@
+## 4.1.2
+- New demo app https://github.com/AurelAgbodoyetin/feathersjs_demo_app
+- Remove flutter_secure_storage from deps
+- Use now https://pub.dev/packages/json_bridge for token storage, only for test. Please stored tokens yourself with anything with security in mind
+- Add feathersjs like syntax: https://github.com/Dahkenangnon/flutter_feathersjs.dart/issues/28
+- Improve the package and prepare for next major version 5.0.0 (see: https://github.com/Dahkenangnon/flutter_feathersjs.dart/issues/52)
+- Add new HomePage for the project: https://feathersjs.dah-kenangnon.com/ (under hacking)
 ## 4.1.1-dev
 
 - Downgrade socket_io_client to 1.0.2 to support feathers js socketio client

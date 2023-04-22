@@ -5,8 +5,8 @@ import 'package:flutter_feathersjs/src/config/helper.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:event_bus/event_bus.dart';
 import 'config/constants.dart';
+import 'config/storage.dart';
 import 'featherjs_client_base.dart';
-import 'config/secure_storage.dart';
 
 ///Socketio client for the realtime communication
 ///
@@ -18,6 +18,8 @@ class SocketioClient extends FlutterFeathersjsBase {
 
   // Event bus
   EventBus eventBus = EventBus(sync: true);
+
+  var jsonStorage = JsonStorage();
 
   //Using singleton
   static final SocketioClient _socketioClient = SocketioClient._internal();
@@ -90,7 +92,7 @@ class SocketioClient extends FlutterFeathersjsBase {
   /// use instead the global `flutterFeathersjs.authenticate({...})`
   ///
   Future<dynamic> authWithJWT() async {
-    String? token = await SecureStorage.getAccessToken();
+    String? token = await jsonStorage.getAccessToken();
     Completer asyncTask = Completer<dynamic>();
     FeatherJsError? featherJsError;
     bool isReauthenticate = false;

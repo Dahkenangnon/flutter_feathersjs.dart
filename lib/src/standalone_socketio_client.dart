@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart' as Foundation;
 import 'package:flutter_feathersjs/src/config/helper.dart';
-import 'package:flutter_feathersjs/src/config/secure_storage.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:event_bus/event_bus.dart';
 import 'config/constants.dart';
+import 'config/storage.dart';
 import 'featherjs_client_base.dart';
 
 /// @See https://github.com/Dahkenangnon/flutter_feathersjs.dart/issues/28 for the origin of this implementation
@@ -38,7 +38,7 @@ import 'featherjs_client_base.dart';
 /// {@macro response_format}
 ///
 ///--------------------------------------------
-class FlutterFeathersjsSocketio extends FlutterFeathersjsBase {
+class FlutterFeathersjsSocketio extends FlutterFeathersjsClient {
   // Socketio
   late IO.Socket _socket;
 
@@ -48,11 +48,13 @@ class FlutterFeathersjsSocketio extends FlutterFeathersjsBase {
   // Event bus
   EventBus eventBus = EventBus(sync: true);
 
+  var jsonStorage = JsonStorage();
+
   FlutterFeathersjsSocketio(this._socket) {
     // Set headers for socketio authorization
     // Setting on every request the Bearer Token in the header
     () async {
-      String? token = await SecureStorage.getAccessToken(client: "socketio");
+      String? token = await jsonStorage.getAccessToken(client: "socketio");
       if (token != null) {
         _socket.io.options["extraHeaders"] = {
           'Authorization': 'Bearer $token',
@@ -144,7 +146,7 @@ class FlutterFeathersjsSocketio extends FlutterFeathersjsBase {
         }
         //Every emit or on will be authed
         this._socket.io.options['extraHeaders'] = {
-          'Authorization': "Bearer ${dataResponse[0].data["accessToken"]}"
+          'Authorization': "Bearer ${dataResponse[1]["accessToken"]}"
         };
       } else {
         // On error
@@ -158,7 +160,7 @@ class FlutterFeathersjsSocketio extends FlutterFeathersjsBase {
         asyncTask.completeError(featherJsError!); //Complete with error
       } else {
         // Complete with success
-        asyncTask.complete(dataResponse.data["user"]);
+        asyncTask.complete(dataResponse[1]["user"]);
       }
     });
 
@@ -176,7 +178,7 @@ class FlutterFeathersjsSocketio extends FlutterFeathersjsBase {
   /// use instead the global `flutterFeathersjs.authenticate({...})`
   ///
   Future<dynamic> reAuthenticate() async {
-    String? token = await SecureStorage.getAccessToken(client: "socketio");
+    String? token = await jsonStorage.getAccessToken(client: "socketio");
     Completer asyncTask = Completer<dynamic>();
     FeatherJsError? featherJsError;
     bool isReauthenticate = false;
