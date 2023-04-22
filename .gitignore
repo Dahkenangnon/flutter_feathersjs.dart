@@ -26,7 +26,6 @@
 .flutter-plugins
 .flutter-plugins-dependencies
 .packages
-test/config.json
 .pub-cache/
 .pub/
 build/
