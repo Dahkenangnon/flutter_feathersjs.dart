@@ -12,7 +12,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  socket_io_client: ^2.0.1
+  socket_io_client: ^1.0.2
   dio: ^5.1.1
   json_bridge: ^0.0.4
   event_bus: ^2.0.0
