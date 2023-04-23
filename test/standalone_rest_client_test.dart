@@ -98,4 +98,11 @@ void main() async {
 
     expect(response["data"][0]["text"], equals(messages[2]["text"]));
   });
+
+  // find message
+  test(' \n Find all message using rest standalone \n ', () async {
+    var response = await client.service('message').find(null);
+
+    expect(response["total"], greaterThan(2));
+  });
 }

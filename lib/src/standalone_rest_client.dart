@@ -236,7 +236,7 @@ class FlutterFeathersjsRest extends FlutterFeathersjsClient {
   ///
   /// {@macro response_format}
   ///
-  Future<dynamic> find(Map<String, dynamic> query) async {
+  Future<dynamic> find(Map<String, dynamic>? query) async {
     try {
       var response =
           await this.dio.get("/$serviceName", queryParameters: query);
