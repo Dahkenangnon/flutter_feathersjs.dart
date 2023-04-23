@@ -1,3 +1,6 @@
+## 4.1.4
+- formating code
+- update socket.io client to latest version
 ## 4.1.3
 - Use application directory for token storage
 - Export the JsonBridge class so that you can use it to store data yourself
