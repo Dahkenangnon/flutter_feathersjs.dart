@@ -16,7 +16,7 @@
 ///
 library flutter_feathersjs;
 
-export './src/config/constants.dart' show FeatherJsErrorType;
-export './src/config/helper.dart' show FeatherJsError;
-export './src/config/storage.dart' show JsonStorage;
+export './src/config/constants.dart';
+export './src/config/helper.dart';
+export './src/config/storage.dart';
 export './src/featherjs.dart';
