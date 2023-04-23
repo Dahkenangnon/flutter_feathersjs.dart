@@ -235,7 +235,7 @@ class FlutterFeathersjsSocketio extends FlutterFeathersjsClient {
   /// Use FeatherJsErrorType.{ERROR} to known what happen
   ///
   ///
-  Future<dynamic> find(Map<String, dynamic> query) async {
+  Future<dynamic> find(Map<String, dynamic>? query) async {
     Completer asyncTask = Completer<dynamic>();
     _socket.emitWithAck("find", [serviceName, query], ack: (response) {
       if (response is List) {
