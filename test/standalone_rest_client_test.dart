@@ -32,7 +32,7 @@ void main() async {
         strategy: "local",
         userName: user["email"],
         password: user["password"]);
-    
+
     expect(response["email"], equals(user['email']));
   });
 
@@ -43,7 +43,7 @@ void main() async {
     var response =
         await client.service('message').create({"text": messages[0]["text"]});
     idToDelete = response['_id'];
-   
+
     expect(response["text"], equals(messages[0]["text"]));
   });
 
@@ -52,9 +52,9 @@ void main() async {
   test(' \n Create a message[for update] using rest standalone  \n ', () async {
     var response =
         await client.service('message').create({"text": messages[1]["text"]});
-    
+
     idToUpdate = response['_id'];
-   
+
     expect(response["text"], equals(messages[1]["text"]));
   });
 
@@ -81,7 +81,7 @@ void main() async {
     var response = await client
         .service('message')
         .patch(idToUpdate, {"text": "${messages[1]["text"]} updated"});
-   
+
     expect(response["text"], equals("${messages[1]["text"]} updated"));
   });
 

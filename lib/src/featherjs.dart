@@ -359,7 +359,7 @@ class FlutterFeathersjs {
     return await jsonStorage.getUser();
   }
 
-   /// Listen to On [` updated | patched | created | removed `] `serviceName`
+  /// Listen to On [` updated | patched | created | removed `] `serviceName`
   ///
   /// If no error is occured, you will get FeathersJsEventData<T>  feathersJsEventData
   ///

@@ -11,4 +11,3 @@ var authDemo =
 
 //your  api "m2e@gmail.com"
 const BASE_URL = "http://localhost:9055";
-

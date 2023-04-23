@@ -17,7 +17,6 @@
 
 //   FlutterFeathersjs client = FlutterFeathersjs();
 
-  
 //   //2.1. Socket.io client
 //   IO.Socket io = IO.io(BASE_URL,
 //    {
@@ -30,10 +29,7 @@
 //    }
 //   );
 
-
 //   client.configure(FlutterFeathersjs.socketioClient(io));
-
-
 
 //   /// ----------- Authentication -------------
 //   test(' \n ### Authenticate user using default client \n ', () async {
@@ -42,7 +38,7 @@
 //         strategy: "local",
 //         userName: user["email"],
 //         password: user["password"]);
-    
+
 //     expect(response["email"], equals(user['email']));
 //   });
 
@@ -53,7 +49,7 @@
 //     var response =
 //         await client.service('message').create({"text": messages[0]["text"]});
 //     idToDelete = response['_id'];
-   
+
 //     expect(response["text"], equals(messages[0]["text"]));
 //   });
 
@@ -62,9 +58,9 @@
 //   test(' \n Create a message[for update] using rest standalone  \n ', () async {
 //     var response =
 //         await client.service('message').create({"text": messages[1]["text"]});
-    
+
 //     idToUpdate = response['_id'];
-   
+
 //     expect(response["text"], equals(messages[1]["text"]));
 //   });
 
@@ -91,7 +87,7 @@
 //     var response = await client
 //         .service('message')
 //         .patch(idToUpdate, {"text": "${messages[1]["text"]} updated"});
-   
+
 //     expect(response["text"], equals("${messages[1]["text"]} updated"));
 //   });
 
@@ -109,5 +105,4 @@
 //     expect(response["data"][0]["text"], equals(messages[2]["text"]));
 //   });
 // }
-void main() async {
-}
+void main() async {}

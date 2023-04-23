@@ -145,10 +145,9 @@ class SocketioClient extends FlutterFeathersjsBase {
   /// {@macro response_format}
   ///
   ///
-  Future<dynamic> find({
-    required String serviceName,
-    required Map<String, dynamic> query
-  }) async {
+  Future<dynamic> find(
+      {required String serviceName,
+      required Map<String, dynamic> query}) async {
     Completer asyncTask = Completer<dynamic>();
     _socket.emitWithAck("find", [serviceName, query], ack: (response) {
       if (response is List) {
@@ -166,11 +165,10 @@ class SocketioClient extends FlutterFeathersjsBase {
   ///
   /// {@macro response_format}
   ///
-  Future<dynamic> create({
-    required String serviceName,
-    required Map<String, dynamic> data,
-    required Map<String, dynamic> params
-  }) {
+  Future<dynamic> create(
+      {required String serviceName,
+      required Map<String, dynamic> data,
+      required Map<String, dynamic> params}) {
     Completer asyncTask = Completer<dynamic>();
 
     _socket.emitWithAck("create", [serviceName, data, params], ack: (response) {
@@ -212,9 +210,13 @@ class SocketioClient extends FlutterFeathersjsBase {
   ///
   /// {@macro response_format}
   ///
-  Future<dynamic> get({required String serviceName, required String objectId, required Map<String, dynamic> params}) {
+  Future<dynamic> get(
+      {required String serviceName,
+      required String objectId,
+      required Map<String, dynamic> params}) {
     Completer asyncTask = Completer<dynamic>();
-    _socket.emitWithAck("get", [serviceName, objectId, params], ack: (response) {
+    _socket.emitWithAck("get", [serviceName, objectId, params],
+        ack: (response) {
       if (response is List) {
         asyncTask.complete(response[1]);
       } else {
@@ -256,9 +258,12 @@ class SocketioClient extends FlutterFeathersjsBase {
   /// {@macro response_format}
   ///
   Future<dynamic> remove(
-      {required String serviceName, required String objectId, required Map<String, dynamic> params}) {
+      {required String serviceName,
+      required String objectId,
+      required Map<String, dynamic> params}) {
     Completer asyncTask = Completer<dynamic>();
-    _socket.emitWithAck("remove", [serviceName, objectId, params], ack: (response) {
+    _socket.emitWithAck("remove", [serviceName, objectId, params],
+        ack: (response) {
       if (response is List) {
         asyncTask.complete(response[1]);
       } else {
