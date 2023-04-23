@@ -1,3 +1,7 @@
+## 4.1.3
+- Use application directory for token storage
+- Export the JsonBridge class so that you can use it to store data yourself
+- Update Dio dep to latest version
 ## 4.1.2
 - New demo app https://github.com/AurelAgbodoyetin/feathersjs_demo_app
 - Remove flutter_secure_storage from deps

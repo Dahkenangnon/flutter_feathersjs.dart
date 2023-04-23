@@ -102,5 +102,8 @@ enum FeatherJsErrorType {
   IS_CANNOT_SEND_REQUEST,
 
   /// Standalone feathers js client configuration error
-  CONFIGURATION_ERROR
+  CONFIGURATION_ERROR,
+
+  /// Dart error
+  IS_DART_ERROR
 }
