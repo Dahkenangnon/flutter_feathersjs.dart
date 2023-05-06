@@ -3,9 +3,6 @@
 
  :rocket:  **We're are working on the next release of this Project: 🎯 Version 5.0.0*
 
-
-👏 I use "We" becauase https://github.com/AurelAgbodoyetin joined me to maintain and make great again this package.
-
 See our roadmap here: https://github.com/Dahkenangnon/flutter_feathersjs.dart/issues/52
 
 ------------------
