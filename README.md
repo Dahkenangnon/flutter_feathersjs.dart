@@ -13,14 +13,13 @@ See our roadmap here: https://github.com/Dahkenangnon/flutter_feathersjs.dart/is
 [![GitHub last commit](https://img.shields.io/github/last-commit/dahkenangnon/flutter_feathersjs.dart)](https://github.com/dahkenangnon/flutter_feathersjs)
 
 <p align="center">
- <img width="460" alt="FlutterFeathersJs Icon" height="300" src="https://dahkenangnon.github.io/flutter_feathersjs.dart/assets/img/logo.png">
  <br>
  Communicate with your feathers js  server from flutter app with unbelieved ease and make happy your customers.
  <br><br><br>
-
+`Feathers js is a node framework for real-time applications and REST APIs.`
 </p>
 
-`Infos: Feathers js is a node framework for real-time applications and REST APIs.`
+
 
 <br>
 
@@ -118,12 +117,7 @@ import 'package:flutter_feathersjs/flutter_feathersjs.dart';
 
 ```
 
-**You're ready to go: 3, 2, 1 :rocket:** Checkout the [doc](https://dahkenangnon.github.io/flutter_feathersjs.dart/) for more info.
-
-
-## Documentation
-
-Check it out at: [https://dahkenangnon.github.io/flutter_feathersjs.dart/](https://dahkenangnon.github.io/flutter_feathersjs.dart/)
+**You're ready to go: 3, 2, 1 :rocket:** 
 
 ## Support
 
