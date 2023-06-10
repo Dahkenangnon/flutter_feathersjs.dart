@@ -1,6 +1,6 @@
 name: flutter_feathersjs
 description: Real-Time Flutter Apps, Powered by FeathersJS.
-version: 4.1.6
+version: 4.1.5
 homepage: https://github.com/Dahkenangnon/flutter_feathersjs.dart
 repository: https://github.com/Dahkenangnon/flutter_feathersjs.dart
 documentation: https://feathersjs.dah-kenangnon.com/
@@ -8,7 +8,7 @@ issue_tracker: https://github.com/Dahkenangnon/flutter_feathersjs.dart/issues
 
 
 environment:
-  sdk: '>=2.12.1 <3.0.0'
+  sdk: '>=2.12.1 <4.0.0'
 dependencies:
   flutter:
     sdk: flutter
