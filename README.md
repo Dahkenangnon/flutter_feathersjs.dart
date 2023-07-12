@@ -23,6 +23,18 @@
 
 FlutterFeathersJs is a Flutter package designed to simplify the development of real-time applications using the FeathersJS Node framework. It provides an intuitive API and seamless integration between Flutter and FeathersJS, empowering developers to build powerful and responsive real-time applications with ease.
 
+## Buy me a cup of water 🥤
+Since 2019, I'm using [Hostinger](https://hostinger.fr?REFERRALCODE=1JUSTIN39) for hosting and I really appreciate their customer service and high service quality:
+You too can try their: 
+- [VPS](https://hostinger.fr?REFERRALCODE=1JUSTIN39)
+- [Cloud Hosting](https://hostinger.fr?REFERRALCODE=1JUSTIN39)
+- [Web App Hostinger](https://hostinger.fr?REFERRALCODE=1JUSTIN39)
+- or [Pro Email Hostinger](https://hostinger.fr?REFERRALCODE=1JUSTIN39)
+
+[![Try Hostinger Now](https://github.com/Dahkenangnon/flutter_feathersjs.dart/assets/57219141/8508c405-6dfb-4d86-86b4-16b931d79f63)](https://hostinger.fr?REFERRALCODE=1JUSTIN39)
+
+_By clicking one of these link(https://hostinger.fr?REFERRALCODE=1JUSTIN39 with the referal code: **1JUSTIN39**)  to purchase a service, I will gain a small commission. Be kind, thank._
+
 ## Features
 
 - **Effortless Integration**: Seamlessly connect your Flutter frontend with your FeathersJS backend using FlutterFeathersJs's simple and straightforward API.
