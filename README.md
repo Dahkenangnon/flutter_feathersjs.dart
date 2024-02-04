@@ -1,25 +1,47 @@
 <div align="center">
 <h1>FlutterFeathersJs</h1>
- <br> 
-
-![FlutterFeathersJs](doc/ff-663x181.png)
-
  <br> <br>
->
-> `The road to the feathersjs headquarters https://feathersjs.com/`
->
->
- <br> <br>
+
+`The road to the feathersjs headquarters https://feathersjs.com/`
+
+<div>
+  <a href="https://github.com/dahkenangnon/flutter_feathersjs" target="_blank">
+    <img src="https://img.shields.io/github/stars/dahkenangnon/flutter_feathersjs.dart?label=github%20stars" alt="GitHub Repo stars">
+  </a>
+
+  <a href="https://pub.dev/packages/flutter_feathersjs" target="_blank">
+    <img src="https://img.shields.io/pub/v/flutter_feathersjs" alt="pub version">
+  </a>
+
+  <a href="https://github.com/dahkenangnon/flutter_feathersjs" target="_blank">
+    <img src="https://img.shields.io/github/last-commit/dahkenangnon/flutter_feathersjs.dart" alt="GitHub last commit">
+  </a>
+
+  <a href="./LICENSE" target="_blank">
+    <img src="https://img.shields.io/github/license/dahkenangnon/flutter_feathersjs.dart" alt="GitHub license">
+  </a>
 </div>
 
+</div>
+
+<hr>
+<p align="center">
+<a href="https://github.com/Dahkenangnon/Dahkenangnon/blob/main/MyCommitPolicy.md"><span style="color:green; font-family: 'Bebas Neue'; font-size: 2em;">One Commit/Week-Month <sup style="color:white;  font-size: 0.4em;">Supported</sup></span></a>
+</p>
+<hr>
 
 
-[![GitHub Repo stars](https://img.shields.io/github/stars/dahkenangnon/flutter_feathersjs.dart?label=github%20stars)](https://github.com/dahkenangnon/flutter_feathersjs)
-[![pub version](https://img.shields.io/pub/v/flutter_feathersjs)](https://pub.dev/packages/flutter_feathersjs)
-[![GitHub last commit](https://img.shields.io/github/last-commit/dahkenangnon/flutter_feathersjs.dart)](https://github.com/dahkenangnon/flutter_feathersjs)
-[![GitHub license](https://img.shields.io/github/license/dahkenangnon/flutter_feathersjs.dart)](./LICENSE)
+> [!IMPORTANT]
+>
+> We are committed to actively maintaining this project with at least one commit per week or month. Check out our [Commit Policy](https://github.com/Dahkenangnon/Dahkenangnon/blob/main/MyCommitPolicy.md) for more details. We believe this project is production-ready, and we encourage you to adopt it without hesitation.
+>
 
-
+> [!TIP]
+>
+> Before adopting this project, we recommend reading our [Open Source Project Guidelines](https://github.com/Dahkenangnon/Dahkenangnon/blob/main/MyCommitPolicy.md). If you want to stay informed about updates to this project, send a simple "Hello" to oss@dah-kenangnon.com to subscribe to our notifications.
+>
+> For any discussions or questions, join us on our Telegram channel: https://t.me/oss_dah_kenangnon
+____
 
 FlutterFeathersJs is a Flutter package designed to simplify the development of real-time applications using the FeathersJS Node framework. It provides an intuitive API and seamless integration between Flutter and FeathersJS, empowering developers to build powerful and responsive real-time applications with ease.
 
