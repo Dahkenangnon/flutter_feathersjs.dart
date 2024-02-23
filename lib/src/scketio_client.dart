@@ -116,7 +116,7 @@ class SocketioClient extends FlutterFeathersjsBase {
         }
         isReauthenticate = true;
         //Every emit or on will be authed
-        this._socket.io.options['extraHeaders'] = {
+        this._socket.io.options!['extraHeaders'] = {
           'Authorization': "Bearer $token"
         };
       } else {
