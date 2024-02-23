@@ -56,7 +56,7 @@ class FlutterFeathersjsSocketio extends FlutterFeathersjsClient {
     () async {
       String? token = await jsonStorage.getAccessToken(client: "socketio");
       if (token != null) {
-        _socket.io.options["extraHeaders"] = {
+        _socket.io.options!["extraHeaders"] = {
           'Authorization': 'Bearer $token',
         };
       }
@@ -145,7 +145,7 @@ class FlutterFeathersjsSocketio extends FlutterFeathersjsClient {
           print("Authentication process is ok in socketio auth");
         }
         //Every emit or on will be authed
-        this._socket.io.options['extraHeaders'] = {
+        this._socket.io.options!['extraHeaders'] = {
           'Authorization': "Bearer ${dataResponse[1]["accessToken"]}"
         };
       } else {
@@ -202,7 +202,7 @@ class FlutterFeathersjsSocketio extends FlutterFeathersjsClient {
         }
         isReauthenticate = true;
         //Every emit or on will be authed
-        this._socket.io.options['extraHeaders'] = {
+        this._socket.io.options!['extraHeaders'] = {
           'Authorization': "Bearer $token"
         };
       } else {
