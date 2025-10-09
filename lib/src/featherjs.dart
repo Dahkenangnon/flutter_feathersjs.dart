@@ -44,7 +44,7 @@ class FlutterFeathersjs {
   late FlutterFeathersjsSocketio? standaloneSocketio;
 
   // current configured client
-  late String client;
+  String client = "";
 
   ///Using singleton
   static final FlutterFeathersjs _flutterFeathersjs =
