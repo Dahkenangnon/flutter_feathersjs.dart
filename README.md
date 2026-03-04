@@ -1,6 +1,12 @@
 <div align="center">
 <h1>FlutterFeathersJs</h1>
- <br> <br>
+ <br> 
+
+ ##  ⚠️  Archive Notice
+
+This project is no longer actively maintained. Due to sustained resource constraints, long-term support cannot be guaranteed. Contributors and maintainers interested in assuming stewardship are encouraged to contact the original author.
+ 
+ <br>
 
 `The road to the feathersjs headquarters https://feathersjs.com/`
 
